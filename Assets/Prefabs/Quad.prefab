@@ -185,3 +185,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movement_controller: {fileID: 9092523643317770879}
   conector_root: {fileID: 2948971425516097662}
+  renderer: {fileID: 1500828232667554775}
+  conected_mat: {fileID: 2100000, guid: 1d455c1be9b4ebd438fbdea43d68093c, type: 2}
+  disconected_mat: {fileID: 2100000, guid: d1fdfb63729161b4d89601064072f674, type: 2}

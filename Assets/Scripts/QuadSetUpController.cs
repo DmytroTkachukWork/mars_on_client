@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-public class QuadSetUpController : MonoBehaviour
+public class QuadSetUpController : MonoBehaviourBase
 {
   #region Public Fields
   public Transform spawn_root = null;
@@ -10,7 +10,6 @@ public class QuadSetUpController : MonoBehaviour
   #region Private Fields
   private ConectorController spawned_conector = null;
   private int type_int = 0;
-  private SpawnManager spawn_manager = null;
   #endregion
 
 
@@ -40,13 +39,10 @@ public class QuadSetUpController : MonoBehaviour
     if ( spawned_conector != null )
       Destroy( spawned_conector.gameObject );
 
-    if ( spawn_manager == null )
-      spawn_manager = FindObjectOfType<SpawnManager>();
-
     if ( type_int >= 6 )
       type_int = 0;
 
-    spawned_conector = spawn_manager.spawnConector( spawn_root, (QuadConectionType)type_int );
+    spawned_conector = spawnManager.spawnConector( spawn_root, (QuadConectionType)type_int );
   }
   #endregion
 }

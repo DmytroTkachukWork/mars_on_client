@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 
-public class HexagonController : MonoBehaviour
+public class HexagonController : MonoBehaviourBase
 {
   #region Serialized Fields
   #endregion

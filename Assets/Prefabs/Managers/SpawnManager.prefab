@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680edbaef0435fc4bb2ac216e01ac6a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  screen_ui: {fileID: 0}
+  screen_3d: {fileID: 0}
   quad_prefab: {fileID: 5148621998747044336, guid: ae9f3b218cb597047b5fa9a4532b3784, type: 3}
   conector_prefabs:
   - {fileID: 2090682681928290002, guid: c1e29fd3b3d58394e864b5e56a00e726, type: 3}
@@ -53,3 +55,5 @@ MonoBehaviour:
   - {fileID: 2090682681928290002, guid: 8577fb7078644534b80485ddd7168405, type: 3}
   - {fileID: 2090682681928290002, guid: a67f170f5123d574b88f36b680fb6446, type: 3}
   quad_setup_prefab: {fileID: 5280260177459953955, guid: 9cf15b0a5d2ed8942ad760fc4b22de6b, type: 3}
+  screen_main_ui: {fileID: 3686711228738388, guid: 6d715893a1dfc4b46a94cd4063d803c7, type: 3}
+  screen_levels_ui: {fileID: 438251574226702944, guid: bcb4e99cb8eb57a439f08d2081221c9c, type: 3}

@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class QuadContentController : MonoBehaviour
+public class QuadContentController : MonoBehaviourBase
 {
   #region Serialized Fields
   [SerializeField] private QuadMovementController movement_controller = null;

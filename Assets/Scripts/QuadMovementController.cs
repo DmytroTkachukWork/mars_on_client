@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 
-public class QuadMovementController : MonoBehaviour
+public class QuadMovementController : MonoBehaviourBase
 {
   #region Serialized Fields
   #endregion

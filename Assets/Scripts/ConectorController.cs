@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConectorController : MonoBehaviour
+public class ConectorController : MonoBehaviourBase
 {
   #region Serialized Fields
   [SerializeField] private QuadConectionType conection_type = QuadConectionType.NONE;

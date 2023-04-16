@@ -57,3 +57,7 @@ MonoBehaviour:
   quad_setup_prefab: {fileID: 5280260177459953955, guid: 9cf15b0a5d2ed8942ad760fc4b22de6b, type: 3}
   screen_main_ui: {fileID: 3686711228738388, guid: 6d715893a1dfc4b46a94cd4063d803c7, type: 3}
   screen_levels_ui: {fileID: 438251574226702944, guid: bcb4e99cb8eb57a439f08d2081221c9c, type: 3}
+  screen_level_ui: {fileID: 4474804752419511675, guid: 5164fc53391971844a338195b460839a, type: 3}
+  screen_win_ui: {fileID: 1030586960811523614, guid: 6b2dc71f94e575a4da4dc76643a19c81, type: 3}
+  screen_level_3d: {fileID: 8046438305560946861, guid: 5f5933d1ee35aee489eee56887f2a5ca, type: 3}
+  screen_main_3d: {fileID: 2138785832199395244, guid: 0e9482799db1d9e4b8b1956c4d2cbb11, type: 3}

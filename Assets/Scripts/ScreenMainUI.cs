@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ScreenMainUI : MonoBehaviourBase
+public class ScreenMainUI : MonoBehaviourPoolable
 {
   #region Serialized Fields
   [SerializeField] private ButtonBase levels_button = null;
@@ -24,9 +24,9 @@ public class ScreenMainUI : MonoBehaviourBase
 
   public void deinit()
   {
-    this.gameObject.SetActive( false );
     levels_button.deinit();
     levels_button.onClick -= onLevelsClick;
+    onDespawn();
   }
   #endregion
 

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScreenLevelUI : MonoBehaviourBase
+public class ScreenLevelUI : MonoBehaviourPoolable
 {
   #region Serialized Fields
   [SerializeField] private ButtonBase exit_button = null;
@@ -17,8 +17,14 @@ public class ScreenLevelUI : MonoBehaviourBase
 
   public void deinit()
   {
-    this.gameObject.SetActive( false );
     exit_button.onClick -= onExit;
+  }
+
+  public override void onDespawn()
+  {
+    base.onDespawn();
+
+    deinit();
   }
   #endregion
 
@@ -27,8 +33,9 @@ public class ScreenLevelUI : MonoBehaviourBase
   {
     Debug.LogError( "onExit" );
     deinit();
+    spawnManager.despawnScreenLevel3D();
+    spawnManager.spawnScreenMain3D();
     spawnManager.spawnScreenMainUI().init();
-    spawnManager.spawnScreenLevel3D().deinit();
   }
   #endregion 
 }

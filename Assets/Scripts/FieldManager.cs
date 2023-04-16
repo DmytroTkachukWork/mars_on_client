@@ -72,6 +72,21 @@ public class FieldManager : MonoBehaviourBase
     bool win = false;
     moveNext( level_quad_matrix.input_point_dir, level_quad_matrix.input_point.x, level_quad_matrix.input_point.y );
 
+    Debug.LogError( "Our victory is " + win );
+    if ( !win )
+      return;
+
+    foreach( QuadContentController quad in quad_matrix )
+    {
+      quad.deinit();
+    }
+
+    spawnManager.spawnScreenWinUI().init( () =>
+      { 
+        spawnManager.despawnScreenLevelUI();
+        spawnManager.despawnScreenLevel3D();
+      } );
+
     void moveNext( int inner_dir, int x, int y )
     {
       checked_quads.Add( quad_matrix[x, y] );
@@ -81,6 +96,9 @@ public class FieldManager : MonoBehaviourBase
 
       for ( int i = 0; i < 4; i++ )
       {
+        if ( win )
+          return;
+
         if ( inner_dir == i )
           continue;
 
@@ -90,8 +108,9 @@ public class FieldManager : MonoBehaviourBase
         Vector2Int next_quad_coord = getNextPosV(i);
         next_quad_coord.x += x; 
         next_quad_coord.y += y; 
+        Debug.LogError( "Next coord is " + next_quad_coord );
 
-        if ( level_quad_matrix.output_point.x == x+1 && level_quad_matrix.output_point.y == y+1 && i == level_quad_matrix.output_point_dir )//win
+        if ( level_quad_matrix.output_point.x == x && level_quad_matrix.output_point.y == y && i == level_quad_matrix.output_point_dir )//win
         {
           win = true;
           return;

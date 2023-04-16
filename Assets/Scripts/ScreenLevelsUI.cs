@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ScreenLevelsUI : MonoBehaviourBase
+public class ScreenLevelsUI : MonoBehaviourPoolable
 {
   #region Serialized Fields
   [SerializeField] private ButtonBase[] level_buttons = null;
@@ -23,13 +23,13 @@ public class ScreenLevelsUI : MonoBehaviourBase
 
   public void deinit()
   {
-    this.gameObject.SetActive( false );
     exit_button.onClick -= onExit;
     foreach ( ButtonBase level in level_buttons )
     {
       level.onClickInt -= onLevelClick;
       level.deinit();
     }
+    onDespawn();
   }
   #endregion
 
@@ -37,6 +37,7 @@ public class ScreenLevelsUI : MonoBehaviourBase
   private void onLevelClick( int value )
   {
     Debug.LogError( "onLevelClick" );
+    spawnManager.despawnScreenMain3D();
     spawnManager.spawnScreenLevel3D().init( value );
     spawnManager.spawnScreenLevelUI().init();
     deinit();
@@ -47,6 +48,7 @@ public class ScreenLevelsUI : MonoBehaviourBase
     Debug.LogError( "onExit" );
     deinit();
     spawnManager.spawnScreenMainUI().init();
+    spawnManager.spawnScreenMain3D();
   }
   #endregion 
 }

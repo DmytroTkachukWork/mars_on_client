@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 using System.Linq;
 
 
@@ -13,14 +14,19 @@ public class SpawnManager : MonoBehaviour
   [SerializeField] private ScreenMainUI screen_main_ui = null;
   [SerializeField] private ScreenLevelsUI screen_levels_ui = null;
   [SerializeField] private ScreenLevelUI screen_level_ui = null;
+  [SerializeField] private ScreenWinUI screen_win_ui = null;
   [SerializeField] private ScreenLevel3D screen_level_3d = null;
+  [SerializeField] private ScreenMain3D screen_main_3d = null;
   #endregion
 
   #region Private Fields
-  private ScreenMainUI inst_screen_main_ui = null;
-  private ScreenLevelsUI inst_screen_levels_ui = null;
-  private ScreenLevelUI inst_screen_level_ui = null;
-  private ScreenLevel3D inst_screen_level_3d = null;
+
+  private SinglePool<ScreenMainUI> screen_main_ui_pool = new SinglePool<ScreenMainUI>();
+  private SinglePool<ScreenLevelsUI> screen_levels_ui_pool = new SinglePool<ScreenLevelsUI>();
+  private SinglePool<ScreenLevelUI> screen_level_ui_pool = new SinglePool<ScreenLevelUI>();
+  private SinglePool<ScreenWinUI> screen_win_ui_pool = new SinglePool<ScreenWinUI>();
+  private SinglePool<ScreenLevel3D> screen_level_3d_pool = new SinglePool<ScreenLevel3D>();
+  private SinglePool<ScreenMain3D> screen_main_3d_pool = new SinglePool<ScreenMain3D>();
   #endregion
 
 
@@ -43,34 +49,116 @@ public class SpawnManager : MonoBehaviour
 
   public ScreenMainUI spawnScreenMainUI()
   {
-    if ( inst_screen_main_ui == null )
-      inst_screen_main_ui = Instantiate( screen_main_ui, screen_ui );
-
-    return inst_screen_main_ui;
+    return screen_main_ui_pool.spawn( screen_main_ui, screen_ui );
   }
 
   public ScreenLevelsUI spawnScreenLevelsUI()
   {
-    if ( inst_screen_levels_ui == null )
-      inst_screen_levels_ui = Instantiate( screen_levels_ui, screen_ui );
-
-    return inst_screen_levels_ui;
+    return screen_levels_ui_pool.spawn( screen_levels_ui, screen_ui );
   }
 
   public ScreenLevelUI spawnScreenLevelUI()
   {
-    if ( inst_screen_level_ui == null )
-      inst_screen_level_ui = Instantiate( screen_level_ui, screen_ui );
+    return screen_level_ui_pool.spawn( screen_level_ui, screen_ui );
+  }
 
-    return inst_screen_level_ui;
+  public ScreenWinUI spawnScreenWinUI()
+  {
+    return screen_win_ui_pool.spawn( screen_win_ui, screen_ui );
   }
 
   public ScreenLevel3D spawnScreenLevel3D()
   {
-    if ( inst_screen_level_3d == null )
-      inst_screen_level_3d = Instantiate( screen_level_3d, screen_3d );
+    return screen_level_3d_pool.spawn( screen_level_3d, screen_3d );
+  }
 
-    return inst_screen_level_3d;
+  public ScreenMain3D spawnScreenMain3D()
+  {
+    return screen_main_3d_pool.spawn( screen_main_3d, screen_3d );
+  }
+
+  public void despawnScreenMainUI()
+  {
+    screen_main_ui_pool.despawn();
+  }
+
+  public void despawnScreenLevelsUI()
+  {
+    screen_levels_ui_pool.despawn();
+  }
+
+  public void despawnScreenLevelUI()
+  {
+    screen_level_ui_pool.despawn();
+  }
+
+  public void despawnScreenWinUI()
+  {
+    screen_win_ui_pool.despawn();
+  }
+
+  public void despawnScreenLevel3D()
+  {
+    screen_level_3d_pool.despawn();
+  }
+
+  public void despawnScreenMain3D()
+  {
+    screen_main_3d_pool.despawn();
   }
   #endregion
+}
+
+public class SinglePool<T> where T : MonoBehaviourPoolable
+{
+  T instance = null;
+
+  public T spawn( T prefab, Vector3 position, Quaternion rotation, Transform parent_transform )
+  {
+    if ( instance == null )
+      instance = MonoBehaviour.Instantiate( prefab, position, rotation, parent_transform );
+
+    instance.onSpawn();
+
+    return instance;
+  }
+
+  public T spawn( T prefab, Transform parent_transform )
+  {
+    if ( instance == null )
+      instance = MonoBehaviour.Instantiate( prefab, parent_transform );
+
+    instance.onSpawn();
+
+    return instance;
+  }
+
+  public void despawn()
+  {
+    instance.onDespawn();
+  }
+}
+
+public class MultiPool<T> where T : MonoBehaviourPoolable
+{
+  private List<T> instances = new List<T>();
+
+  public T spawn( T prefab, Vector3 position, Quaternion rotation, Transform parent_transform )
+  {
+    T instance = instances.First( x => x.isAvailuableToSpawn() );
+
+    if ( instance != null )
+      return instance;
+
+    instance = MonoBehaviour.Instantiate( prefab, parent_transform );
+    instances.Add( instance );
+    instance.onSpawn();
+    return instance;
+  }
+
+  public void despawnAll()
+  {
+    foreach( T instance in instances )
+      instance.onDespawn();
+  }
 }

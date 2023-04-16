@@ -14,6 +14,7 @@ public class ScreenGeneralManager : MonoBehaviourBase
   {
     Debug.LogError( "init UI" );
     spawnManager.spawnScreenMainUI().init();
+    spawnManager.spawnScreenMain3D();
   }
   #endregion
 }

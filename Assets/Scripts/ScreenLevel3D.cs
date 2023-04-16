@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScreenLevel3D : MonoBehaviourBase
+public class ScreenLevel3D : MonoBehaviourPoolable
 {
   #region Serialized Fields
   [SerializeField] private FieldManager field_manager = null;
@@ -22,7 +22,13 @@ public class ScreenLevel3D : MonoBehaviourBase
   public void deinit()
   {
     field_manager.deinit();
-    this.gameObject.SetActive( false );
+  }
+
+  public override void onDespawn()
+  {
+    base.onDespawn();
+
+    deinit();
   }
   #endregion
 }

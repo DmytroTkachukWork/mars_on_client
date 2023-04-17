@@ -1,13 +1,12 @@
 using System;
-using System.Threading.Tasks;
 using UnityEngine;
 
-public class QuadContentController : MonoBehaviourBase
+public class QuadContentController : MonoBehaviourPoolable
 {
   #region Serialized Fields
   [SerializeField] private QuadMovementController movement_controller = null;
   [SerializeField] private Transform conector_root = null;
-  [SerializeField] private MeshRenderer renderer = null;
+  [SerializeField] private MeshRenderer mesh_renderer = null;
   [SerializeField] private Material conected_mat = null;
   [SerializeField] private Material disconected_mat = null;
   #endregion
@@ -28,19 +27,30 @@ public class QuadContentController : MonoBehaviourBase
   public void init( float angle, QuadConectionType conection_type )
   {
     quad_state.angle = angle;
+    updateState( angle );
     quad_state.conection_type = conection_type;
     quad_state.conection_matrix = quad_state.getMatrix( conection_type );
+    movement_controller.init();
     movement_controller.onRotate += updateState;
+    paintConected( false );
   }
 
   public void deinit()
   {
+    movement_controller.deinit();
     movement_controller.onRotate -= updateState;
   }
 
   public void paintConected( bool state )
   {
-    renderer.material = state ? conected_mat : disconected_mat;
+    mesh_renderer.material = state ? conected_mat : disconected_mat;
+  }
+
+  public override void onDespawn()
+  {
+    base.onDespawn();
+
+    deinit();
   }
   #endregion
 

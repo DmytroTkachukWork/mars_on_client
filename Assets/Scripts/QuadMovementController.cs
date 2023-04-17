@@ -6,6 +6,7 @@ using UnityEngine;
 public class QuadMovementController : MonoBehaviourBase
 {
   #region Serialized Fields
+  [SerializeField] private ClickableBase3D clickable_basease = null;
   #endregion
 
   #region Private Fields
@@ -26,12 +27,23 @@ public class QuadMovementController : MonoBehaviourBase
   #endregion
 
 
-  #region Private Methods
-  private void OnMouseDown()
+  #region Public Methods
+  public void init()
   {
-    rotateOverTime();
+    target_rotation = 0.0f;
+    rotation_time_left = 0.0f;
+    scaling_time_left = 0.0f;
+    clickable_basease.onClick += rotateOverTime;
   }
 
+  public void deinit()
+  {
+    forcestopRotation();
+    clickable_basease.onClick -= rotateOverTime;
+  }
+  #endregion
+
+  #region Private Methods
   private async void rotateOverTime()
   {
     rotation_time_left = ROTATION_TIME;
@@ -66,7 +78,6 @@ public class QuadMovementController : MonoBehaviourBase
 
   private void forcestopRotation()
   {
-    rotation_task.Dispose();
     rotation_task = Task.CompletedTask;
     transform.rotation = Quaternion.Euler( 0.0f, target_rotation, 0.0f );
     cached_scale = Vector3.one;

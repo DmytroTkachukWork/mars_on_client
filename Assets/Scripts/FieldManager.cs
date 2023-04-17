@@ -32,26 +32,35 @@ public class FieldManager : MonoBehaviourBase
         quad_matrix[i, j] = spawnManager.spawnQuad( cached_position, transform );
         QuadConectionType type = (QuadConectionType)level_quad_matrix.quad_conection_types[level_quad_matrix.matrix_size.y * i + j];
         quad_matrix[i, j].init( 0.0f, type );
-        conectors.Add( spawnManager.spawnConector( quad_matrix[i, j].conectorRoot, type ) );
+        spawnManager.spawnConector( quad_matrix[i, j].conectorRoot ).init( type );
         quad_matrix[i, j].onRotate += waitAndCkeck;
       }
     }
+
+    cached_position.x = transform.position.x + QUAD_DISTANCE * level_quad_matrix.input_point.x;
+    cached_position.z = transform.position.z + QUAD_DISTANCE * level_quad_matrix.input_point.y;
+    cached_position.x += QUAD_DISTANCE * getNextPosV( inverse4( level_quad_matrix.input_point_dir ) ).x;
+    cached_position.z += QUAD_DISTANCE * getNextPosV( inverse4( level_quad_matrix.input_point_dir ) ).y;
+    float rotation = 90.0f * level_quad_matrix.input_point_dir;
+
+    spawnManager.spawnStartFinishPoint( cached_position, Quaternion.Euler( 0.0f, rotation, 0.0f ), transform );
+
+    cached_position.x = transform.position.x + QUAD_DISTANCE * level_quad_matrix.output_point.x;
+    cached_position.z = transform.position.x + QUAD_DISTANCE * level_quad_matrix.output_point.y;
+    cached_position.x -= QUAD_DISTANCE * getNextPosV( inverse4( level_quad_matrix.output_point_dir ) ).x;
+    cached_position.z -= QUAD_DISTANCE * getNextPosV( inverse4( level_quad_matrix.output_point_dir ) ).y;
+    rotation = 90.0f * inverse4( level_quad_matrix.output_point_dir );
+
+    spawnManager.spawnStartFinishPoint( cached_position, Quaternion.Euler( 0.0f, rotation, 0.0f ), transform );
   }
 
   public void deinit()
   {
     check_awaiter.stop();
 
-    foreach( ConectorController conector in conectors )
-      Destroy( conector.gameObject );
-
-    conectors.Clear();
-
-    foreach( QuadContentController quad in quad_matrix )
-    {
-      quad.deinit();
-      Destroy( quad.gameObject );
-    }
+    spawnManager.despawnAllConectors();
+    spawnManager.despawnAllQuads();
+    spawnManager.despawnAllStartFinishPoints();
   }
   #endregion
 
@@ -130,9 +139,6 @@ public class FieldManager : MonoBehaviourBase
           quad_matrix[next_quad_coord.x, next_quad_coord.y].paintConected( true );
           moveNext( i, next_quad_coord.x, next_quad_coord.y );
         }
-
-        if ( win )
-          return;
       }
     }
   }

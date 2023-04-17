@@ -49,6 +49,13 @@ MonoBehaviour:
   field_manager: {fileID: 7145503862718372052}
   location_3d: {fileID: 7145503862576539258}
   level_matrixes:
+  - {fileID: 11400000, guid: 12ccdecff2c0bd54aba69359faf9ebcc, type: 2}
+  - {fileID: 11400000, guid: c1bc90f4ab77ff642a1c2731362cd8c2, type: 2}
+  - {fileID: 11400000, guid: d2713223aa52ed741871ddfb5e26a36e, type: 2}
+  - {fileID: 11400000, guid: 67d1e44a3f018b54ea3b4aaf723baf92, type: 2}
+  - {fileID: 11400000, guid: 5ad4553856216994aac3f447518b2b26, type: 2}
+  - {fileID: 11400000, guid: 47128ecc15f6b864abc858912f91fc0a, type: 2}
+  - {fileID: 11400000, guid: 7f942bbd5806cf5489547171152eac2d, type: 2}
   - {fileID: 11400000, guid: aa64884e888b71648b43ee5ec574c2de, type: 2}
   - {fileID: 11400000, guid: 9ce9151a3a056f4448e9c92eb7ef970e, type: 2}
   - {fileID: 11400000, guid: 9972d0d4da4f3ba41b0a0edd908c0a19, type: 2}
@@ -101,6 +108,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 8369669010041298823}
     m_Modifications:
     - target: {fileID: 8193405860521014494, guid: 70b950d76896cce4fb8bc225daf88075, type: 3}
@@ -152,6 +160,9 @@ PrefabInstance:
       value: Location
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70b950d76896cce4fb8bc225daf88075, type: 3}
 --- !u!1 &7145503862576539258 stripped
 GameObject:

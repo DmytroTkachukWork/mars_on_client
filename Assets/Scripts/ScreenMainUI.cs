@@ -26,7 +26,13 @@ public class ScreenMainUI : MonoBehaviourPoolable
   {
     levels_button.deinit();
     levels_button.onClick -= onLevelsClick;
-    onDespawn();
+  }
+
+  public override void onDespawn()
+  {
+    base.onDespawn();
+
+    deinit();
   }
   #endregion
 
@@ -34,8 +40,11 @@ public class ScreenMainUI : MonoBehaviourPoolable
   private void onLevelsClick()
   {
     Debug.LogError( "onLevelsClick" );
-    deinit();
-    spawnManager.spawnScreenLevelsUI().init();
+    spawnManager.despawnScreenMain3D();
+    spawnManager.despawnScreenMainUI();
+
+    spawnManager.spawnScreenLevels3D();
+    spawnManager.spawnScreenLevelsUI();
   }
   #endregion
 }

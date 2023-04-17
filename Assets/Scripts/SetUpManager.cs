@@ -28,7 +28,7 @@ public class SetUpManager : MonoBehaviour
         
         quad_matrix[i, j] = spawn_manager.spawnQuadSetUp( cached_position );
         quad_matrix[i, j].init( level_quad_matrix.quad_conection_types.Length > 0 
-        ? level_quad_matrix.quad_conection_types[level_quad_matrix.matrix_size.x * i + j]
+        ? level_quad_matrix.quad_conection_types[level_quad_matrix.matrix_size.y * i + j]
         : UnityEngine.Random.Range( 0, 6 ) );
       }
     }

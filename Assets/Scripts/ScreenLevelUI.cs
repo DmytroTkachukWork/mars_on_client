@@ -20,6 +20,13 @@ public class ScreenLevelUI : MonoBehaviourPoolable
     exit_button.onClick -= onExit;
   }
 
+  public override void onSpawn()
+  {
+    base.onSpawn();
+
+    init();
+  }
+
   public override void onDespawn()
   {
     base.onDespawn();
@@ -34,8 +41,8 @@ public class ScreenLevelUI : MonoBehaviourPoolable
     Debug.LogError( "onExit" );
     deinit();
     spawnManager.despawnScreenLevel3D();
-    spawnManager.spawnScreenMain3D();
-    spawnManager.spawnScreenMainUI().init();
+    spawnManager.spawnScreenLevels3D();
+    spawnManager.spawnScreenLevelsUI();
   }
   #endregion 
 }

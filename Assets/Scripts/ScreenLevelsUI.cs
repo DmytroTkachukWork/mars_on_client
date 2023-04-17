@@ -3,7 +3,6 @@ using UnityEngine;
 public class ScreenLevelsUI : MonoBehaviourPoolable
 {
   #region Serialized Fields
-  [SerializeField] private ButtonBase[] level_buttons = null;
   [SerializeField] private ButtonBase exit_button = null;
   #endregion
 
@@ -11,25 +10,25 @@ public class ScreenLevelsUI : MonoBehaviourPoolable
   #region Public Methods
   public void init()
   {
-    Debug.LogError( "init ScreenLevelsUI" );
-    this.gameObject.SetActive( true );
     exit_button.onClick += onExit;
-    foreach ( ButtonBase level in level_buttons )
-    {
-      level.init();
-      level.onClickInt += onLevelClick;
-    }
   }
 
   public void deinit()
   {
     exit_button.onClick -= onExit;
-    foreach ( ButtonBase level in level_buttons )
-    {
-      level.onClickInt -= onLevelClick;
-      level.deinit();
-    }
-    onDespawn();
+  }
+
+  public override void onSpawn()
+  {
+    base.onSpawn();
+
+    init();
+  }
+  public override void onDespawn()
+  {
+    base.onDespawn();
+
+    deinit();
   }
   #endregion
 
@@ -37,16 +36,17 @@ public class ScreenLevelsUI : MonoBehaviourPoolable
   private void onLevelClick( int value )
   {
     Debug.LogError( "onLevelClick" );
-    spawnManager.despawnScreenMain3D();
+    spawnManager.despawnScreenLevels3D();
+    spawnManager.despawnScreenLevelsUI();
     spawnManager.spawnScreenLevel3D().init( value );
     spawnManager.spawnScreenLevelUI().init();
-    deinit();
   }
 
   private void onExit()
   {
     Debug.LogError( "onExit" );
-    deinit();
+    spawnManager.despawnScreenLevels3D();
+    spawnManager.despawnScreenLevelsUI();
     spawnManager.spawnScreenMainUI().init();
     spawnManager.spawnScreenMain3D();
   }

@@ -37,12 +37,13 @@ public class QuadSetUpController : MonoBehaviourBase
   private void spawnConector()
   {
     if ( spawned_conector != null )
-      Destroy( spawned_conector.gameObject );
+      spawned_conector.onDespawn();
 
     if ( type_int >= 6 )
       type_int = 0;
 
-    spawned_conector = spawnManager.spawnConector( spawn_root, (QuadConectionType)type_int );
+    spawned_conector = spawnManager.spawnConector( spawn_root );
+    spawned_conector.init( (QuadConectionType)type_int );
   }
   #endregion
 }

@@ -24,13 +24,13 @@ public class QuadContentController : MonoBehaviourPoolable
 
 
   #region Public Methods
-  public void init( float angle, QuadConectionType conection_type )
+  public void init( int angle, QuadConectionType conection_type )
   {
     quad_state.angle = angle;
-    updateState( angle );
+    updateStateLocal( angle );
     quad_state.conection_type = conection_type;
     quad_state.conection_matrix = quad_state.getMatrix( conection_type );
-    movement_controller.init();
+    movement_controller.init( 90.0f * angle );
     movement_controller.onRotate += updateState;
     paintConected( false );
   }
@@ -55,6 +55,14 @@ public class QuadContentController : MonoBehaviourPoolable
   #endregion
 
   #region Private Methods
+  private void updateStateLocal( int angle )
+  {
+    quad_state.conection_matrix = quad_state.rotateQuadByAngleInt( quad_state.conection_matrix, angle );
+    quad_state.angle = 90.0f * angle;
+    movement_controller.transform.rotation = Quaternion.Euler( 0.0f, 90.0f * angle, 0.0f );
+    Debug.Log( $"{this.gameObject.name}" );
+  }
+
   private void updateState( float angle )
   {
     quad_state.conection_matrix = quad_state.rotateQuadByAngle( quad_state.conection_matrix, angle );
@@ -63,16 +71,6 @@ public class QuadContentController : MonoBehaviourPoolable
     Debug.Log( $"{this.gameObject.name}" );
   }
   #endregion
-}
-
-public enum QuadConectionType
-{
-  NONE = 0,        // no conections
-  LONG = 1,        // conects 2 oposit sides
-  CORNER = 2,      // conects 2 nearby sides
-  LONG_CORNER = 3, // conects 2 oposit sides and 1 nearby side
-  TWO_CORNERS = 4, // conects 2 nearby sides twice with no conection in the middle
-  CRIST = 5        // conects all sides
 }
 
 public class QuadState
@@ -106,6 +104,7 @@ public class QuadState
   public int[] rotateQuadByAngle( int[] matrix, float angle )
   {
     angle = Mathf.Round(angle - this.angle);
+    Debug.LogError( "angle is " + angle );
     int count = (int)(angle / 90.0f);
     if ( count < 0 )
       count += 4;
@@ -116,6 +115,14 @@ public class QuadState
     return matrix;
   }
 
+  public int[] rotateQuadByAngleInt( int[] matrix, int angle )
+  {
+    Debug.LogError( "angle is " + angle );
+    for(int i = 0; i < angle; i++)
+      rotateQuad( matrix );
+
+    return matrix;
+  }
 
   public int[] rotateQuad( int[] matrix )
   {

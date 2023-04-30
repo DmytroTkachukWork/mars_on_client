@@ -39,8 +39,8 @@ public class ScreenLevelUI : MonoBehaviourPoolable
   private void onExit()
   {
     Debug.LogError( "onExit" );
-    deinit();
     spawnManager.despawnScreenLevel3D();
+    spawnManager.despawnScreenLevelUI();
     spawnManager.spawnScreenLevels3D();
     spawnManager.spawnScreenLevelsUI();
   }

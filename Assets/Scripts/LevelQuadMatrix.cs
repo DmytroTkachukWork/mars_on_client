@@ -7,6 +7,7 @@ using UnityEngine;
 public class LevelQuadMatrix : ScriptableObject
 {
   [SerializeField] public int[] quad_conection_types = null;
+  [SerializeField] public int[] quad_conection_rotates = null;
   [SerializeField] public Vector2Int matrix_size = Vector2Int.zero;
   [SerializeField] public Vector2Int input_point = Vector2Int.zero;
   [SerializeField] public int input_point_dir = 0;

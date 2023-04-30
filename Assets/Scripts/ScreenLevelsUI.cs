@@ -39,7 +39,6 @@ public class ScreenLevelsUI : MonoBehaviourPoolable
     spawnManager.despawnScreenLevels3D();
     spawnManager.despawnScreenLevelsUI();
     spawnManager.spawnScreenLevel3D().init( value );
-    spawnManager.spawnScreenLevelUI().init();
   }
 
   private void onExit()

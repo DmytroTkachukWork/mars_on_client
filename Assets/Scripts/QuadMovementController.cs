@@ -28,9 +28,9 @@ public class QuadMovementController : MonoBehaviourBase
 
 
   #region Public Methods
-  public void init()
+  public void init( float start_angle )
   {
-    target_rotation = 0.0f;
+    target_rotation = start_angle;
     rotation_time_left = 0.0f;
     scaling_time_left = 0.0f;
     clickable_basease.onClick += rotateOverTime;

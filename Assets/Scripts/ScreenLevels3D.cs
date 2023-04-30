@@ -44,10 +44,10 @@ public class ScreenLevels3D : MonoBehaviourPoolable
   #region Private Methods
   private void startLevel( int level_number )
   {
-    spawnManager.despawnScreenLevelsUI();
-    spawnManager.despawnScreenLevels3D();
     spawnManager.spawnScreenLevel3D().init( level_number );
     spawnManager.spawnScreenLevelUI();
+    spawnManager.despawnScreenLevelsUI();
+    spawnManager.despawnScreenLevels3D();
   }
   #endregion
 }

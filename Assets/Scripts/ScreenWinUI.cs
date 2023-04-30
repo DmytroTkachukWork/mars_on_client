@@ -5,12 +5,12 @@ public class ScreenWinUI : MonoBehaviourPoolable
 {
   #region Serilized Fields
   [SerializeField] private CanvasGroup canvas_group = null;
-  [SerializeField] private float fade_time = 0.5f;
+  [SerializeField] private float fade_time = 5.5f;
   [SerializeField] private ButtonBase full_button = null;
   #endregion
 
   #region Private Fields
-  private Tweener tweener = new Tweener();
+  private MyTask my_task = null;
   #endregion
 
   
@@ -18,13 +18,13 @@ public class ScreenWinUI : MonoBehaviourPoolable
   public void init( Action callback )
   {
     full_button.onClick += onDespawn;
-    tweener.tween( ( value ) => canvas_group.alpha = value, 0.0f, 1.0f, fade_time, callback );
+    my_task = TweenerStatic.tween( ( value ) => canvas_group.alpha = value, 0.0f, 1.0f, fade_time, callback );
   }
 
   public void deinit()
   {
-    full_button.onClick -= deinit;
-    tweener.stop();
+    full_button.onClick -= onDespawn;
+    my_task?.stop();
     spawnManager.despawnScreenLevel3D();
     spawnManager.despawnScreenLevelUI();
     spawnManager.spawnScreenLevelsUI();

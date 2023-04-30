@@ -11,8 +11,7 @@ public class FieldManager : MonoBehaviourBase
   private float QUAD_DISTANCE = 1.15f;
   private Vector3 cached_position = Vector3.zero;
   private QuadContentController[,] quad_matrix = null;
-  private List<ConectorController> conectors = new List<ConectorController>();
-  private Awaiter check_awaiter = new Awaiter();
+  private MyTask awaiter = null;
   private float check_delay = 0.5f;
   #endregion
 
@@ -31,8 +30,10 @@ public class FieldManager : MonoBehaviourBase
         
         quad_matrix[i, j] = spawnManager.spawnQuad( cached_position, transform );
         QuadConectionType type = (QuadConectionType)level_quad_matrix.quad_conection_types[level_quad_matrix.matrix_size.y * i + j];
-        quad_matrix[i, j].init( 0.0f, type );
+        int angle = level_quad_matrix.quad_conection_rotates[level_quad_matrix.matrix_size.y * i + j];
+        Debug.LogError( "S angle is " + angle );
         spawnManager.spawnConector( quad_matrix[i, j].conectorRoot ).init( type );
+        quad_matrix[i, j].init( angle, type );
         quad_matrix[i, j].onRotate += waitAndCkeck;
       }
     }
@@ -56,7 +57,7 @@ public class FieldManager : MonoBehaviourBase
 
   public void deinit()
   {
-    check_awaiter.stop();
+    awaiter?.stop();
 
     spawnManager.despawnAllConectors();
     spawnManager.despawnAllQuads();
@@ -67,7 +68,8 @@ public class FieldManager : MonoBehaviourBase
   #region Private Methods
   private void waitAndCkeck()
   {
-    check_awaiter.waitAndDo( checkForWin, check_delay );
+    awaiter?.stop();
+    awaiter = TweenerStatic.waitAndDo( checkForWin, check_delay );
   }
 
   private void checkForWin()

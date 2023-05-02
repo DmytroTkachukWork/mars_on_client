@@ -31,6 +31,7 @@ public class QuadMovementController : MonoBehaviourBase
   public void init( float start_angle )
   {
     target_rotation = start_angle;
+    transform.rotation = Quaternion.Euler( 0.0f, target_rotation, 0.0f );
     rotation_time_left = 0.0f;
     scaling_time_left = 0.0f;
     clickable_basease.onClick += rotateOverTime;
@@ -72,7 +73,7 @@ public class QuadMovementController : MonoBehaviourBase
         scaling_time_left -= Time.deltaTime;
         await Task.Yield();
       }
-      onRotate.Invoke( transform.rotation.eulerAngles.y );
+      onRotate.Invoke( target_rotation );
     }
   }
 

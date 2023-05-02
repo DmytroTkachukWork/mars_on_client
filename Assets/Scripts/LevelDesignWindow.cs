@@ -1,80 +1,151 @@
-using System;
+using System.Collections.Generic;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
 public class LevelDesignWindow : EditorWindow
 {
-  private LevelQuadMatrix matrix = null;
+  private UnityEngine.Object matrix = null;
   private LevelQuadMatrix matrix_local = new LevelQuadMatrix();
-  private bool is_rotating = false;
+  private int x_matrix = 0;
+  private int y_matrix = 0;
+  private EditModeType edit_mode_type = EditModeType.TYPE;
+  private string[] edit_types = { "TYPE", "ROTATE", "STARTER", "FINISHER", "PLAYABLE", "NONPLAYABLE" };
+
   [MenuItem( "Assets/LevelDesignWindow", false, 2 )]
   private static void init()
   {
     LevelDesignWindow window = CreateInstance<LevelDesignWindow>();
-    window.minSize = new Vector2( 305, 210 );
+    window.minSize = new Vector2( 500, 500 );
 
     window.Show();
+  }
+
+  private void OnEnable()
+  {
+    edit_mode_type = EditModeType.TYPE;
+    edit_types = new string[]{ "TYPE", "ROTATE", "STARTER", "FINISHER", "PLAYABLE", "NONPLAYABLE" };
+    matrix_local = new LevelQuadMatrix();
   }
 
   private void OnGUI()
   {
     //scriptable obj field
-    LevelQuadMatrix matrix_cached = matrix;
-    matrix = (LevelQuadMatrix)EditorGUILayout.ObjectField( matrix, typeof( LevelQuadMatrix ), true );
-    if ( matrix == null )
-      return;
+    x_matrix = EditorGUILayout.DelayedIntField("X", x_matrix);
+    y_matrix = EditorGUILayout.DelayedIntField("Y", y_matrix);
 
-    if ( matrix_cached != matrix )
-      matrix_local = matrix;
+    var cached_matrix = matrix;
+    matrix = (UnityEngine.Object)EditorGUILayout.ObjectField( matrix, typeof( UnityEngine.Object ), true );
+    if ( matrix != cached_matrix )
+    {
+      string asset_path = AssetDatabase.GetAssetPath( matrix );
+      if ( !string.IsNullOrEmpty( asset_path ) )
+        matrix_local = JsonUtility.FromJson<LevelQuadMatrix>( File.ReadAllText( asset_path ) );
+    }
+
+    if ( GUILayout.Button( "Load", GUILayout.Width( 80 ) ) )
+    {
+      matrix_local = JsonUtility.FromJson<LevelQuadMatrix>( File.ReadAllText( EditorUtility.OpenFilePanel( "Load level", Application.dataPath, "json" ) ) );
+    }
 
     //save button
     GUILayout.BeginHorizontal();
     if ( GUILayout.Button( "Save", GUILayout.Width( 80 ) ) )
-      matrix = matrix_local;
+    {
+      AssetDatabase.SaveAssets();
+      matrix_local.starter_positions = getAllByType( QuadRoleType.STARTER ).ToArray();
+      Debug.LogError( getAllByType( QuadRoleType.STARTER ).Count );
+      matrix_local.finisher_positions = getAllByType( QuadRoleType.FINISHER ).ToArray();
+      Debug.LogError( getAllByType( QuadRoleType.FINISHER ).Count );
+      File.WriteAllText( EditorUtility.SaveFilePanel( "Save level", Application.dataPath, "Level_0", "json"), JsonUtility.ToJson( matrix_local, true ) );
+    }
 
-    if ( GUILayout.Button( "Rotate " + is_rotating, GUILayout.Width( 80 ) ) )
-      is_rotating = !is_rotating;
+    if ( GUILayout.Button( "Create ", GUILayout.Width( 80 ) ) )
+    {
+      matrix_local = new LevelQuadMatrix();
+      matrix_local.matrix_size = new Vector2Int( x_matrix, y_matrix );
+      matrix_local.quad_entities = new QuadEntity[x_matrix * y_matrix];
+    }
+
+    edit_mode_type = (EditModeType)EditorGUI.Popup( new Rect( 200, 70, 90, 25 ), (int)edit_mode_type, edit_types );
 
     GUILayout.EndHorizontal();
 
-    //matrix
-    int length = matrix_local.matrix_size.x * matrix_local.matrix_size.y;
-    if ( matrix_local.quad_conection_types == null || matrix_local.quad_conection_types.Length != length )
-      matrix_local.quad_conection_types = new int[length];
-
-    if ( matrix_local.quad_conection_rotates == null || matrix_local.quad_conection_rotates.Length != length )
-      matrix_local.quad_conection_rotates = new int[length];
+    if ( matrix_local == null || matrix_local.quad_entities == null)
+      return;
 
     GUILayout.BeginVertical();
-    for( int i = matrix_local.matrix_size.y - 1; i >= 0; i-- )
+
+    for( int i = 0; i < matrix_local.matrix_size.x; i++ )
     {
       GUILayout.BeginHorizontal();
-      for( int j = 0; j < matrix_local.matrix_size.x; j++ )
+      for( int j = 0; j < matrix_local.matrix_size.y; j++ )
       {
-        int type_int = matrix_local.quad_conection_types[matrix_local.matrix_size.y * j + i];
-        int angle = matrix_local.quad_conection_rotates [matrix_local.matrix_size.y * j + i];
-        if ( GUILayout.Button( getSymbol( type_int, angle ), GUILayout.Width( 20 ), GUILayout.Height( 20 ) ) )
+        int index = matrix_local.matrix_size.y * i + j;
+        if ( matrix_local.quad_entities[index] == null )
+          matrix_local.quad_entities[index] = new QuadEntity();
+
+        int type_int = (int)matrix_local.quad_entities[index].connection_type;
+        int angle = (int)(matrix_local.quad_entities[index].start_rotation / 90);
+
+        string button_str = getSymbol( type_int, angle );
+        button_str += matrix_local.quad_entities[index].role_type == QuadRoleType.STARTER ? "s" : "";
+        button_str += matrix_local.quad_entities[index].role_type == QuadRoleType.FINISHER ? "f" : "";
+        button_str += matrix_local.quad_entities[index].role_type == QuadRoleType.PLAYABLE ? "p" : "";
+
+        if ( GUILayout.Button( button_str, GUILayout.Width( 40 ), GUILayout.Height( 40 ) ) )
         {
-          if ( is_rotating )
+          if ( edit_mode_type == EditModeType.TYPE )
+          {
+            type_int++;
+            if ( type_int >= 7 )
+              type_int = 0;
+
+            matrix_local.quad_entities[index].connection_type = (QuadConectionType)type_int;
+          }
+
+          if ( edit_mode_type == EditModeType.ROTATE )
           {
             angle++;
             if ( angle >= 4 )
               angle = 0;
-          }
-          else
-          {
-            type_int++;
-            if ( type_int >= 6 )
-              type_int = 0;
+
+            matrix_local.quad_entities[index].start_rotation = 90.0f * angle;
           }
 
-          matrix_local.quad_conection_types  [matrix_local.matrix_size.y * j + i] = type_int;
-          matrix_local.quad_conection_rotates[matrix_local.matrix_size.y * j + i] = angle;
+          if ( edit_mode_type == EditModeType.STARTER )
+            matrix_local.quad_entities[index].role_type = QuadRoleType.STARTER;
+
+          if ( edit_mode_type == EditModeType.FINISHER )
+            matrix_local.quad_entities[index].role_type = QuadRoleType.FINISHER;
+
+          if ( edit_mode_type == EditModeType.PLAYABLE )
+            matrix_local.quad_entities[index].role_type = QuadRoleType.PLAYABLE;
+
+          if ( edit_mode_type == EditModeType.NONPLAYABLE )
+            matrix_local.quad_entities[index].role_type = QuadRoleType.NONE;
         }
       }
       GUILayout.EndHorizontal();
     }
     GUILayout.EndVertical();
+  }
+
+  private List<Vector2Int> getAllByType( QuadRoleType role_type )
+  {
+    List<Vector2Int> list = new List<Vector2Int>();
+    for( int i = 0; i < matrix_local.matrix_size.x; i++ )
+    {
+      for( int j = 0; j < matrix_local.matrix_size.y; j++ )
+      {
+        int index = matrix_local.matrix_size.y * i + j;
+        if ( matrix_local.quad_entities[index].role_type != role_type )
+          continue;
+
+        list.Add( new Vector2Int( i, j ) );
+      }
+    }
+    return list;
   }
 
   private string getSymbol( int value, int angle )
@@ -88,6 +159,7 @@ public class LevelDesignWindow : EditorWindow
       case 3: return "┴";
       case 4: return "╗";
       case 5: return "┼";
+      case 6: return "^";
       default: return "";
       }
     }
@@ -101,6 +173,7 @@ public class LevelDesignWindow : EditorWindow
       case 3: return "├";
       case 4: return "╝";
       case 5: return "┼";
+      case 6: return ">";
       default: return "";
       }
     }
@@ -114,6 +187,7 @@ public class LevelDesignWindow : EditorWindow
       case 3: return "┬";
       case 4: return "╚";
       case 5: return "┼";
+      case 6: return "v";
       default: return "";
       }
     }
@@ -127,10 +201,21 @@ public class LevelDesignWindow : EditorWindow
       case 3: return "┤";
       case 4: return "╔";
       case 5: return "┼";
+      case 6: return "<";
       default: return "";
       }
     }
 
     return "";
   }
+}
+
+public enum EditModeType
+{
+  TYPE = 0,
+  ROTATE = 1,
+  STARTER = 2,
+  FINISHER = 3,
+  PLAYABLE = 4,
+  NONPLAYABLE = 5
 }

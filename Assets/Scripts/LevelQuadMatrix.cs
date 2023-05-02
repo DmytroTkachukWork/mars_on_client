@@ -1,21 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 
-[CreateAssetMenu( fileName = "LevelQuadMatrix", menuName = "ScriptableObjects/LevelQuadMatrix", order = 1 )]
-public class LevelQuadMatrix : ScriptableObject
+[Serializable]
+public class LevelQuadMatrix
 {
-  [SerializeField] public int[] quad_conection_types = null;
-  [SerializeField] public int[] quad_conection_rotates = null;
+  [SerializeField] public QuadEntity[] quad_entities = null;
   [SerializeField] public Vector2Int matrix_size = Vector2Int.zero;
-  [SerializeField] public Vector2Int input_point = Vector2Int.zero;
-  [SerializeField] public int input_point_dir = 0;
-  [SerializeField] public Vector2Int output_point = Vector2Int.zero;
-  [SerializeField] public int output_point_dir = 0;
-
-  public void setUpMatrix( int[] matrix )
-  {
-    quad_conection_types = matrix;
-  }
+  [SerializeField] public Vector2Int[] starter_positions = null;
+  [SerializeField] public Vector2Int[] finisher_positions = null;
 }

@@ -25,34 +25,30 @@ public class FieldManager : MonoBehaviourBase
     {
       for ( int j = 0; j < level_quad_matrix.matrix_size.y; j++ )
       {
-        cached_position.x = transform.position.x + QUAD_DISTANCE * i;
-        cached_position.z = transform.position.z + QUAD_DISTANCE * j;
+        int index = level_quad_matrix.matrix_size.y * i + j;
+
+        if ( level_quad_matrix.quad_entities[index].role_type == QuadRoleType.NONE )
+          continue;
+
+        cached_position.x = transform.position.x + QUAD_DISTANCE * j;
+        cached_position.z = transform.position.z - QUAD_DISTANCE * i;
+
+        QuadConectionType type = level_quad_matrix.quad_entities[index].connection_type;
+        float angle = level_quad_matrix.quad_entities[index].start_rotation;
+
+        if ( level_quad_matrix.quad_entities[index].role_type != QuadRoleType.PLAYABLE )
+        {
+          quad_matrix[i, j] = (QuadContentController)spawnManager.spawnStartFinishPoint( cached_position, Quaternion.Euler( 0.0f, angle, 0.0f ), transform );
+          quad_matrix[i,j].init( level_quad_matrix.quad_entities[index] );
+          continue;
+        }
         
         quad_matrix[i, j] = spawnManager.spawnQuad( cached_position, transform );
-        QuadConectionType type = (QuadConectionType)level_quad_matrix.quad_conection_types[level_quad_matrix.matrix_size.y * i + j];
-        int angle = level_quad_matrix.quad_conection_rotates[level_quad_matrix.matrix_size.y * i + j];
-        Debug.LogError( "S angle is " + angle );
         spawnManager.spawnConector( quad_matrix[i, j].conectorRoot ).init( type );
-        quad_matrix[i, j].init( angle, type );
+        quad_matrix[i, j].init( level_quad_matrix.quad_entities[index] );
         quad_matrix[i, j].onRotate += waitAndCkeck;
       }
     }
-
-    cached_position.x = transform.position.x + QUAD_DISTANCE * level_quad_matrix.input_point.x;
-    cached_position.z = transform.position.z + QUAD_DISTANCE * level_quad_matrix.input_point.y;
-    cached_position.x += QUAD_DISTANCE * getNextPosV( inverse4( level_quad_matrix.input_point_dir ) ).x;
-    cached_position.z += QUAD_DISTANCE * getNextPosV( inverse4( level_quad_matrix.input_point_dir ) ).y;
-    float rotation = 90.0f * level_quad_matrix.input_point_dir;
-
-    spawnManager.spawnStartFinishPoint( cached_position, Quaternion.Euler( 0.0f, rotation, 0.0f ), transform );
-
-    cached_position.x = transform.position.x + QUAD_DISTANCE * level_quad_matrix.output_point.x;
-    cached_position.z = transform.position.x + QUAD_DISTANCE * level_quad_matrix.output_point.y;
-    cached_position.x -= QUAD_DISTANCE * getNextPosV( inverse4( level_quad_matrix.output_point_dir ) ).x;
-    cached_position.z -= QUAD_DISTANCE * getNextPosV( inverse4( level_quad_matrix.output_point_dir ) ).y;
-    rotation = 90.0f * inverse4( level_quad_matrix.output_point_dir );
-
-    spawnManager.spawnStartFinishPoint( cached_position, Quaternion.Euler( 0.0f, rotation, 0.0f ), transform );
   }
 
   public void deinit()
@@ -72,25 +68,28 @@ public class FieldManager : MonoBehaviourBase
     awaiter = TweenerStatic.waitAndDo( checkForWin, check_delay );
   }
 
+
   private void checkForWin()
   {
-    List<QuadContentController> checked_quads = new List<QuadContentController>();
+    HashSet<QuadContentController> checked_quads = new HashSet<QuadContentController>();
 
     foreach( QuadContentController quad in quad_matrix )
-      quad.paintConected( false );
+      quad?.paintConected( false );
 
-    quad_matrix[0, 0].paintConected( true );
     bool win = false;
-    moveNext( level_quad_matrix.input_point_dir, level_quad_matrix.input_point.x, level_quad_matrix.input_point.y );
 
-    Debug.LogError( "Our victory is " + win );
+    Vector2Int starter_pos = level_quad_matrix.starter_positions[0];
+    QuadEntity starter = level_quad_matrix.quad_entities[level_quad_matrix.matrix_size.y * starter_pos.x + starter_pos.y];
+
+    int dir = starter.getFirstConection();
+
+    moveNext( dir, starter_pos.x, starter_pos.y );
+
     if ( !win )
       return;
 
     foreach( QuadContentController quad in quad_matrix )
-    {
-      quad.deinit();
-    }
+      quad?.deinit();
 
     spawnManager.spawnScreenWinUI().init( () =>
       { 
@@ -100,47 +99,37 @@ public class FieldManager : MonoBehaviourBase
 
     void moveNext( int inner_dir, int x, int y )
     {
-      checked_quads.Add( quad_matrix[x, y] );
+      if ( x < 0 || y < 0 ||  x >= level_quad_matrix.matrix_size.x || y >= level_quad_matrix.matrix_size.y ) // is inside of array
+        return;
+
+      QuadContentController curent_quad = quad_matrix[x, y];
+      QuadEntity curent_quad_entity = level_quad_matrix.quad_entities[level_quad_matrix.matrix_size.y * x + y];
+
+      if ( curent_quad_entity.role_type == QuadRoleType.NONE )
+        return;
+
+      if ( !checked_quads.Add( curent_quad ) && curent_quad_entity.connection_type != QuadConectionType.TWO_CORNERS ) // wasnt pessed previuslly
+        return;
+
+      if ( !curent_quad_entity.canBeAccessedFrom( inner_dir ) && curent_quad_entity.role_type != QuadRoleType.STARTER ) // is it reacheable
+        return;
+
       inner_dir = inverse4( inner_dir );
-      int[] cur_conections = quad_matrix[x, y].conectionMatrix;
+
+      List<int> next_dirs = curent_quad_entity.getNextConections( inner_dir );
+
       quad_matrix[x, y].paintConected( true );
 
-      for ( int i = 0; i < 4; i++ )
+      if ( curent_quad_entity.role_type ==QuadRoleType.FINISHER ) // check for win
       {
-        if ( win )
-          return;
+        win = true;
+        return;
+      }
 
-        if ( inner_dir == i )
-          continue;
-
-        if ( cur_conections[i] != cur_conections[inner_dir] )
-          continue;
-
-        Vector2Int next_quad_coord = getNextPosV(i);
-        next_quad_coord.x += x; 
-        next_quad_coord.y += y; 
-        Debug.LogError( "Next coord is " + next_quad_coord );
-
-        if ( level_quad_matrix.output_point.x == x && level_quad_matrix.output_point.y == y && i == level_quad_matrix.output_point_dir )//win
-        {
-          win = true;
-          return;
-        }
-
-        if ( next_quad_coord.x < 0 || next_quad_coord.x >= level_quad_matrix.matrix_size.x
-          || next_quad_coord.y < 0 || next_quad_coord.y >= level_quad_matrix.matrix_size.y )
-          continue;
-
-        if ( checked_quads.Contains( quad_matrix[next_quad_coord.x, next_quad_coord.y] )
-            && !quad_matrix[next_quad_coord.x, next_quad_coord.y].isTwoCornersType )
-          continue;
-
-        
-        if ( quad_matrix[next_quad_coord.x, next_quad_coord.y].conectionMatrix[inverse4(i)] != 0 )
-        {
-          quad_matrix[next_quad_coord.x, next_quad_coord.y].paintConected( true );
-          moveNext( i, next_quad_coord.x, next_quad_coord.y );
-        }
+      foreach( int dir in next_dirs )
+      {
+        Vector2Int vector_dir = getNextPosV( dir );
+        moveNext( dir, vector_dir.x + x, vector_dir.y + y );
       }
     }
   }
@@ -148,10 +137,10 @@ public class FieldManager : MonoBehaviourBase
   private Vector2Int getNextPosV( int dir )
   {
     Vector2Int[] dirs = new Vector2Int[4]{ 
-        new Vector2Int(0, 1)
+        new Vector2Int(-1, 0)
+      , new Vector2Int(0, 1)
       , new Vector2Int(1, 0)
       , new Vector2Int(0, -1)
-      , new Vector2Int(-1, 0)
       };
     return dirs[dir];
   }

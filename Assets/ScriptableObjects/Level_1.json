@@ -1,0 +1,104 @@
+{
+    "quad_entities": [
+        {
+            "connection_type": 0,
+            "role_type": 0,
+            "recource_type": 0,
+            "start_rotation": 0.0,
+            "curent_rotation": 0.0
+        },
+        {
+            "connection_type": 3,
+            "role_type": 1,
+            "recource_type": 0,
+            "start_rotation": 0.0,
+            "curent_rotation": 0.0
+        },
+        {
+            "connection_type": 0,
+            "role_type": 0,
+            "recource_type": 0,
+            "start_rotation": 0.0,
+            "curent_rotation": 0.0
+        },
+        {
+            "connection_type": 2,
+            "role_type": 1,
+            "recource_type": 0,
+            "start_rotation": 0.0,
+            "curent_rotation": 0.0
+        },
+        {
+            "connection_type": 1,
+            "role_type": 1,
+            "recource_type": 0,
+            "start_rotation": 0.0,
+            "curent_rotation": 0.0
+        },
+        {
+            "connection_type": 6,
+            "role_type": 3,
+            "recource_type": 0,
+            "start_rotation": 270.0,
+            "curent_rotation": 0.0
+        },
+        {
+            "connection_type": 1,
+            "role_type": 1,
+            "recource_type": 0,
+            "start_rotation": 0.0,
+            "curent_rotation": 0.0
+        },
+        {
+            "connection_type": 2,
+            "role_type": 1,
+            "recource_type": 0,
+            "start_rotation": 0.0,
+            "curent_rotation": 0.0
+        },
+        {
+            "connection_type": 0,
+            "role_type": 0,
+            "recource_type": 0,
+            "start_rotation": 0.0,
+            "curent_rotation": 0.0
+        },
+        {
+            "connection_type": 6,
+            "role_type": 2,
+            "recource_type": 0,
+            "start_rotation": 0.0,
+            "curent_rotation": 0.0
+        },
+        {
+            "connection_type": 0,
+            "role_type": 0,
+            "recource_type": 0,
+            "start_rotation": 0.0,
+            "curent_rotation": 0.0
+        },
+        {
+            "connection_type": 0,
+            "role_type": 0,
+            "recource_type": 0,
+            "start_rotation": 0.0,
+            "curent_rotation": 0.0
+        }
+    ],
+    "matrix_size": {
+        "x": 4,
+        "y": 3
+    },
+    "starter_positions": [
+        {
+            "x": 3,
+            "y": 0
+        }
+    ],
+    "finisher_positions": [
+        {
+            "x": 1,
+            "y": 2
+        }
+    ]
+}

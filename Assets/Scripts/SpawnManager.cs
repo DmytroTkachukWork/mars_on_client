@@ -10,7 +10,6 @@ public class SpawnManager : MonoBehaviour
   [SerializeField] private Transform screen_3d = null;
   [SerializeField] private QuadContentController quad_prefab = null;
   [SerializeField] private ConectorController conector_prefab = null;
-  [SerializeField] private QuadSetUpController quad_setup_prefab = null;
   [SerializeField] private ScreenMainUI screen_main_ui = null;
   [SerializeField] private ScreenLevelsUI screen_levels_ui = null;
   [SerializeField] private ScreenLevelUI screen_level_ui = null;
@@ -46,11 +45,6 @@ public class SpawnManager : MonoBehaviour
   public StartFinishPoint spawnStartFinishPoint( Vector3 position, Quaternion rotation, Transform parent_transform )
   {
     return start_finish_points_pool.spawn( start_finish_point, position, rotation, parent_transform );
-  }
-
-  public QuadSetUpController spawnQuadSetUp( Vector3 position )
-  {
-    return Instantiate( quad_setup_prefab, position, Quaternion.identity );
   }
 
   public ConectorController spawnConector( Transform root_transform )

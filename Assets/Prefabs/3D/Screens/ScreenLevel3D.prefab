@@ -49,10 +49,11 @@ MonoBehaviour:
   field_manager: {fileID: 7145503862718372052}
   location_3d: {fileID: 7145503862576539258}
   level_matrixes:
-  - {fileID: 4900000, guid: 170f717a5fe58ab46a1f13531e714df2, type: 3}
-  - {fileID: 4900000, guid: 2ed580add148c7c479c88f264311ebeb, type: 3}
-  - {fileID: 4900000, guid: 8aea1e5f7f6916b4786b5afb640f417f, type: 3}
-  - {fileID: 4900000, guid: 4f51a7ebe83b5df40acc3fed77a50300, type: 3}
+  - {fileID: 11400000, guid: b12a7373b221f7e4bb9028c966c781be, type: 2}
+  - {fileID: 11400000, guid: 2ed81802b4bfa3a4b93e959336406b64, type: 2}
+  - {fileID: 11400000, guid: 0d0f3042c70ff8941b0f9d4c3747e808, type: 2}
+  - {fileID: 11400000, guid: 074532bdfcf8fe54e80790bd637df97f, type: 2}
+  level_matrixes_path: []
 --- !u!1 &7145503862718372042
 GameObject:
   m_ObjectHideFlags: 0

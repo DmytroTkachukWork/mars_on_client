@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 
 public class QuadContentController : MonoBehaviourPoolable
@@ -7,8 +8,7 @@ public class QuadContentController : MonoBehaviourPoolable
   [SerializeField] private QuadMovementController movement_controller = null;
   [SerializeField] private Transform conector_root = null;
   [SerializeField] private MeshRenderer mesh_renderer = null;
-  [SerializeField] private Material conected_mat = null;
-  [SerializeField] private Material disconected_mat = null;
+  [SerializeField] private RecoutceMatPair[] recoutce_mat_pairs = null;
   #endregion
 
   #region Public Fields
@@ -23,21 +23,32 @@ public class QuadContentController : MonoBehaviourPoolable
   {
     this.quad_entity = quad_entity;
     quad_entity.curent_rotation = quad_entity.start_rotation;
+    transform.rotation = Quaternion.Euler( 0.0f, quad_entity.start_rotation, 0.0f );
+    quad_entity.curent_rotation = quad_entity.start_rotation;
+    paintConected( QuadResourceType.NONE, true );
+
+    if ( movement_controller == null )
+      return;
 
     movement_controller.init( quad_entity.start_rotation );
     movement_controller.onRotate += updateState;
-    paintConected( false );
   }
 
   public virtual void deinit()
   {
+    if ( movement_controller == null )
+      return;
+
     movement_controller.deinit();
     movement_controller.onRotate -= updateState;
   }
 
-  public virtual void paintConected( bool state )
+  public virtual void paintConected( QuadResourceType resource_type = QuadResourceType.NONE, bool force = false )
   {
-    mesh_renderer.material = state ? conected_mat : disconected_mat;
+    if ( quad_entity.role_type != QuadRoleType.PLAYABLE && !force )
+      return;
+
+    mesh_renderer.material = recoutce_mat_pairs.FirstOrDefault( x => x.resource_type == resource_type ).material;
   }
 
   public override void onDespawn()
@@ -55,4 +66,11 @@ public class QuadContentController : MonoBehaviourPoolable
     onRotate.Invoke();
   }
   #endregion
+}
+
+[Serializable]
+public class RecoutceMatPair
+{
+  [SerializeField] public QuadResourceType resource_type = QuadResourceType.NONE;
+  [SerializeField] public Material         material      = null;
 }

@@ -12,10 +12,68 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 316300f36bbf0e545814e01ae55414c6, type: 3}
   m_Name: LevelQuadMatrix_1
   m_EditorClassIdentifier: 
-  quad_conection_types: 02000000020000000300000002000000040000000200000003000000020000000500000005000000
-  quad_conection_rotates: 000000000000000000000000000000000000000000000000000000000000000000000000
+  quad_entities:
+  - connection_type: 2
+    role_type: 1
+    recource_type: 0
+    start_rotation: 180
+    curent_rotation: 0
+    matrix_x: 0
+    matrix_y: 0
+  - connection_type: 1
+    role_type: 1
+    recource_type: 0
+    start_rotation: 90
+    curent_rotation: 0
+    matrix_x: 0
+    matrix_y: 0
+  - connection_type: 6
+    role_type: 3
+    recource_type: 0
+    start_rotation: 270
+    curent_rotation: 0
+    matrix_x: 0
+    matrix_y: 0
+  - connection_type: 2
+    role_type: 1
+    recource_type: 0
+    start_rotation: 90
+    curent_rotation: 0
+    matrix_x: 0
+    matrix_y: 0
+  - connection_type: 1
+    role_type: 1
+    recource_type: 0
+    start_rotation: 0
+    curent_rotation: 0
+    matrix_x: 0
+    matrix_y: 0
+  - connection_type: 2
+    role_type: 1
+    recource_type: 0
+    start_rotation: 270
+    curent_rotation: 0
+    matrix_x: 0
+    matrix_y: 0
+  - connection_type: 6
+    role_type: 2
+    recource_type: 0
+    start_rotation: 90
+    curent_rotation: 0
+    matrix_x: 0
+    matrix_y: 0
+  - connection_type: 1
+    role_type: 1
+    recource_type: 0
+    start_rotation: 90
+    curent_rotation: 0
+    matrix_x: 0
+    matrix_y: 0
+  - connection_type: 2
+    role_type: 1
+    recource_type: 0
+    start_rotation: 90
+    curent_rotation: 0
+    matrix_x: 0
+    matrix_y: 0
   matrix_size: {x: 3, y: 3}
-  input_point: {x: 1, y: 0}
-  input_point_dir: 0
-  output_point: {x: 1, y: 2}
-  output_point_dir: 0

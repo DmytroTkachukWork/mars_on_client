@@ -47,8 +47,9 @@ MonoBehaviour:
   screen_ui: {fileID: 0}
   screen_3d: {fileID: 0}
   quad_prefab: {fileID: 5148621998747044336, guid: ae9f3b218cb597047b5fa9a4532b3784, type: 3}
+  start_point: {fileID: 6584436764095314171, guid: 784212eea132fe843b00975935c759b0, type: 3}
+  finish_point: {fileID: 6584436764095314171, guid: f03f3aed03d91d04d9beda09224607e7, type: 3}
   conector_prefab: {fileID: 2090682681928290002, guid: 8577fb7078644534b80485ddd7168405, type: 3}
-  quad_setup_prefab: {fileID: 5280260177459953955, guid: 9cf15b0a5d2ed8942ad760fc4b22de6b, type: 3}
   screen_main_ui: {fileID: 3686711228738388, guid: 6d715893a1dfc4b46a94cd4063d803c7, type: 3}
   screen_levels_ui: {fileID: 438251574226702944, guid: bcb4e99cb8eb57a439f08d2081221c9c, type: 3}
   screen_level_ui: {fileID: 4474804752419511675, guid: 5164fc53391971844a338195b460839a, type: 3}
@@ -56,4 +57,3 @@ MonoBehaviour:
   screen_level_3d: {fileID: 8046438305560946861, guid: 5f5933d1ee35aee489eee56887f2a5ca, type: 3}
   screen_main_3d: {fileID: 2138785832199395244, guid: 0e9482799db1d9e4b8b1956c4d2cbb11, type: 3}
   screen_levels_3d: {fileID: 7538933702045671217, guid: d1855894d638ed34a98d2d65fa9384d1, type: 3}
-  start_finish_point: {fileID: 6584436764095314171, guid: 784212eea132fe843b00975935c759b0, type: 3}

@@ -9,6 +9,8 @@ public class SpawnManager : MonoBehaviour
   [SerializeField] private Transform screen_ui = null;
   [SerializeField] private Transform screen_3d = null;
   [SerializeField] private QuadContentController quad_prefab = null;
+  [SerializeField] private QuadContentController start_point = null;
+  [SerializeField] private QuadContentController finish_point = null;
   [SerializeField] private ConectorController conector_prefab = null;
   [SerializeField] private ScreenMainUI screen_main_ui = null;
   [SerializeField] private ScreenLevelsUI screen_levels_ui = null;
@@ -17,7 +19,6 @@ public class SpawnManager : MonoBehaviour
   [SerializeField] private ScreenLevel3D screen_level_3d = null;
   [SerializeField] private ScreenMain3D screen_main_3d = null;
   [SerializeField] private ScreenLevels3D screen_levels_3d = null;
-  [SerializeField] private StartFinishPoint start_finish_point = null;
   #endregion
 
   #region Private Fields
@@ -32,19 +33,21 @@ public class SpawnManager : MonoBehaviour
 
   private MultiPool<QuadContentController> quads_pool = new MultiPool<QuadContentController>();
   private MultiPool<ConectorController> conectors_pool = new MultiPool<ConectorController>();
-  private MultiPool<StartFinishPoint> start_finish_points_pool = new MultiPool<StartFinishPoint>();
+  private MultiPool<QuadContentController> start_points_pool = new MultiPool<QuadContentController>();
+  private MultiPool<QuadContentController> finish_points_pool = new MultiPool<QuadContentController>();
   #endregion
 
 
   #region Public Methods
-  public QuadContentController spawnQuad( Vector3 position, Transform parent_transform )
+  public QuadContentController spawnQuad( Vector3 position, Transform parent_transform, QuadRoleType role_type )
   {
-    return quads_pool.spawn( quad_prefab, position, Quaternion.identity, parent_transform );
-  }
-
-  public StartFinishPoint spawnStartFinishPoint( Vector3 position, Quaternion rotation, Transform parent_transform )
-  {
-    return start_finish_points_pool.spawn( start_finish_point, position, rotation, parent_transform );
+    switch( role_type )
+    {
+    case QuadRoleType.PLAYABLE: return quads_pool.spawn( quad_prefab, position, Quaternion.identity, parent_transform );
+    case QuadRoleType.STARTER:  return start_points_pool.spawn( start_point, position, Quaternion.identity, parent_transform );
+    case QuadRoleType.FINISHER: return finish_points_pool.spawn( finish_point, position, Quaternion.identity, parent_transform );
+    }
+    return null;
   }
 
   public ConectorController spawnConector( Transform root_transform )
@@ -125,11 +128,8 @@ public class SpawnManager : MonoBehaviour
   public void despawnAllQuads()
   {
     quads_pool.despawnAll();
-  }
-
-  public void despawnAllStartFinishPoints()
-  {
-    start_finish_points_pool.despawnAll();
+    start_points_pool.despawnAll();
+    finish_points_pool.despawnAll();
   }
 
   public void despawnAllConectors()
@@ -181,6 +181,9 @@ public class MultiPool<T> where T : MonoBehaviourPoolable
     {
       Debug.LogError( "Spawned from pool" );
       instance.transform.SetParent( parent_transform );
+      instance.transform.localPosition = Vector3.zero;
+      instance.transform.localRotation = Quaternion.identity;
+      instance.transform.localScale = Vector3.one;
       instance.onSpawn();
       return instance;
     }

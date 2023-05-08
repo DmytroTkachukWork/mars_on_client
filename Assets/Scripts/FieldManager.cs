@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class FieldManager : MonoBehaviourBase
@@ -33,18 +34,15 @@ public class FieldManager : MonoBehaviourBase
         cached_position.x = transform.position.x + QUAD_DISTANCE * j;
         cached_position.z = transform.position.z - QUAD_DISTANCE * i;
 
+        QuadRoleType role_type = level_quad_matrix.quad_entities[index].role_type;
         QuadConectionType type = level_quad_matrix.quad_entities[index].connection_type;
-        float angle = level_quad_matrix.quad_entities[index].start_rotation;
-
-        if ( level_quad_matrix.quad_entities[index].role_type != QuadRoleType.PLAYABLE )
-        {
-          quad_matrix[i, j] = (QuadContentController)spawnManager.spawnStartFinishPoint( cached_position, Quaternion.Euler( 0.0f, angle, 0.0f ), transform );
-          quad_matrix[i,j].init( level_quad_matrix.quad_entities[index] );
-          continue;
-        }
         
-        quad_matrix[i, j] = spawnManager.spawnQuad( cached_position, transform );
+        quad_matrix[i, j] = spawnManager.spawnQuad( cached_position, transform, role_type );
         spawnManager.spawnConector( quad_matrix[i, j].conectorRoot ).init( type );
+
+        level_quad_matrix.quad_entities[index].matrix_x = i;
+        level_quad_matrix.quad_entities[index].matrix_y = j;
+
         quad_matrix[i, j].init( level_quad_matrix.quad_entities[index] );
         quad_matrix[i, j].onRotate += waitAndCkeck;
       }
@@ -57,7 +55,6 @@ public class FieldManager : MonoBehaviourBase
 
     spawnManager.despawnAllConectors();
     spawnManager.despawnAllQuads();
-    spawnManager.despawnAllStartFinishPoints();
   }
   #endregion
 
@@ -74,18 +71,31 @@ public class FieldManager : MonoBehaviourBase
     HashSet<QuadContentController> checked_quads = new HashSet<QuadContentController>();
 
     foreach( QuadContentController quad in quad_matrix )
-      quad?.paintConected( false );
+      quad?.paintConected();
 
     bool win = false;
+    List<bool> wins = new List<bool>();
 
-    Vector2Int starter_pos = level_quad_matrix.starter_positions[0];
-    QuadEntity starter = level_quad_matrix.quad_entities[level_quad_matrix.matrix_size.y * starter_pos.x + starter_pos.y];
+    IEnumerable<QuadEntity> starters = level_quad_matrix.quad_entities.Where( x => x.role_type == QuadRoleType.STARTER );
+    IEnumerable<QuadEntity> finishers = level_quad_matrix.quad_entities.Where( x => x.role_type == QuadRoleType.FINISHER );
+    Debug.Log( $"starters count is {starters.Count()}" );
 
-    int dir = starter.getFirstConection();
+    foreach( QuadEntity starter in starters )
+    {
+      QuadResourceType starter_resource = starter.recource_type;
+      Debug.Log( $"starter_resource is {starter_resource}" );
+      List<int> dirs = starter.getNextConections( 5 );
+      Debug.Log( $"dirs count is {dirs.Count}" );
+      foreach( int dir in dirs )
+      {
+        win = false;
+        moveNext( dir, starter.matrix_x, starter.matrix_y, starter_resource );
+        Debug.Log( $"Does we win? {win}" );
+        wins.Add( win );
+      }
+    }
 
-    moveNext( dir, starter_pos.x, starter_pos.y );
-
-    if ( !win )
+    if ( wins.Any( x => x == false ) )
       return;
 
     foreach( QuadContentController quad in quad_matrix )
@@ -97,39 +107,52 @@ public class FieldManager : MonoBehaviourBase
         spawnManager.despawnScreenLevel3D();
       } );
 
-    void moveNext( int inner_dir, int x, int y )
+    void moveNext( int inner_dir, int x, int y, QuadResourceType resource_type )
     {
       if ( x < 0 || y < 0 ||  x >= level_quad_matrix.matrix_size.x || y >= level_quad_matrix.matrix_size.y ) // is inside of array
         return;
 
       QuadContentController curent_quad = quad_matrix[x, y];
       QuadEntity curent_quad_entity = level_quad_matrix.quad_entities[level_quad_matrix.matrix_size.y * x + y];
+      Debug.LogError( $"pointer is on {x} {y}" );
 
       if ( curent_quad_entity.role_type == QuadRoleType.NONE )
         return;
 
-      if ( !checked_quads.Add( curent_quad ) && curent_quad_entity.connection_type != QuadConectionType.TWO_CORNERS ) // wasnt pessed previuslly
+      if ( curent_quad_entity.role_type == QuadRoleType.STARTER )
+      {
+        Vector2Int vector_dir = getNextPosV( inner_dir );
+        moveNext( inner_dir, vector_dir.x + x, vector_dir.y + y, resource_type );
         return;
+      }
+
+      if ( !checked_quads.Add( curent_quad ) && curent_quad_entity.connection_type != QuadConectionType.TWO_CORNERS && curent_quad_entity.role_type == QuadRoleType.PLAYABLE ) // wasnt pessed previuslly
+      {
+        if ( curent_quad_entity.recource_type != resource_type )
+          return;
+      }
 
       if ( !curent_quad_entity.canBeAccessedFrom( inner_dir ) && curent_quad_entity.role_type != QuadRoleType.STARTER ) // is it reacheable
         return;
 
-      inner_dir = inverse4( inner_dir );
-
-      List<int> next_dirs = curent_quad_entity.getNextConections( inner_dir );
-
-      quad_matrix[x, y].paintConected( true );
-
-      if ( curent_quad_entity.role_type ==QuadRoleType.FINISHER ) // check for win
+      if ( curent_quad_entity.role_type == QuadRoleType.FINISHER && resource_type == curent_quad_entity.recource_type ) // check for win
       {
         win = true;
         return;
       }
 
+      curent_quad_entity.recource_type = resource_type;
+
+      inner_dir = inverse4( inner_dir );
+
+      List<int> next_dirs = curent_quad_entity.getNextConections( inner_dir );
+
+      quad_matrix[x, y].paintConected( resource_type );
+
       foreach( int dir in next_dirs )
       {
         Vector2Int vector_dir = getNextPosV( dir );
-        moveNext( dir, vector_dir.x + x, vector_dir.y + y );
+        moveNext( dir, vector_dir.x + x, vector_dir.y + y, resource_type );
       }
     }
   }

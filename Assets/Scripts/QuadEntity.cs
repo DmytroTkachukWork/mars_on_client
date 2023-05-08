@@ -15,6 +15,8 @@ public class QuadEntity
 
   #region Public Fields
   public float curent_rotation = 0.0f;
+  public int matrix_x = 0;
+  public int matrix_y = 0;
   #endregion
 
 
@@ -23,9 +25,7 @@ public class QuadEntity
   {
     int input_dir = MatrixHelper.inverse4( dir );
     int[] matrix = MatrixHelper.getMatrix( connection_type );
-    Debug.LogError( $"{matrix[0]} {matrix[1]} {matrix[2]} {matrix[3]}" );
     matrix = MatrixHelper.rotateQuadByAngle( matrix, curent_rotation );
-    Debug.LogError( $"{matrix[0]} {matrix[1]} {matrix[2]} {matrix[3]}" );
     return matrix[input_dir] != 0;
   }
 
@@ -38,6 +38,12 @@ public class QuadEntity
     {
       if ( i == dir || conection_matrix[i] == 0 )
         continue;
+
+      if ( dir > 4 )
+      {
+        next_dirs.Add( i );
+        continue;
+      }
 
       if ( conection_matrix[i] != conection_matrix[dir] && role_type != QuadRoleType.STARTER )//0
         continue;

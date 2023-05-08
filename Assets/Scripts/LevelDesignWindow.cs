@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class LevelDesignWindow : EditorWindow
 {
-  private UnityEngine.Object matrix = null;
-  private LevelQuadMatrix matrix_local = new LevelQuadMatrix();
+  private LevelQuadMatrix matrix = null;
+  private LevelQuadMatrix matrix_local = null;
   private int x_matrix = 0;
   private int y_matrix = 0;
   private EditModeType edit_mode_type = EditModeType.TYPE;
-  private string[] edit_types = { "TYPE", "ROTATE", "STARTER", "FINISHER", "PLAYABLE", "NONPLAYABLE" };
+  private string[] edit_types = { "TYPE", "ROTATE", "ROLE", "RECOURCE" };
 
   [MenuItem( "Assets/LevelDesignWindow", false, 2 )]
   private static void init()
@@ -24,8 +24,8 @@ public class LevelDesignWindow : EditorWindow
   private void OnEnable()
   {
     edit_mode_type = EditModeType.TYPE;
-    edit_types = new string[]{ "TYPE", "ROTATE", "STARTER", "FINISHER", "PLAYABLE", "NONPLAYABLE" };
-    matrix_local = new LevelQuadMatrix();
+    edit_types = new string[]{ "TYPE", "ROTATE", "ROLE", "RECOURCE" };
+    matrix_local = (LevelQuadMatrix)ScriptableObject.CreateInstance(typeof( LevelQuadMatrix ));
   }
 
   private void OnGUI()
@@ -34,35 +34,41 @@ public class LevelDesignWindow : EditorWindow
     x_matrix = EditorGUILayout.DelayedIntField("X", x_matrix);
     y_matrix = EditorGUILayout.DelayedIntField("Y", y_matrix);
 
-    var cached_matrix = matrix;
-    matrix = (UnityEngine.Object)EditorGUILayout.ObjectField( matrix, typeof( UnityEngine.Object ), true );
-    if ( matrix != cached_matrix )
-    {
-      string asset_path = AssetDatabase.GetAssetPath( matrix );
-      if ( !string.IsNullOrEmpty( asset_path ) )
-        matrix_local = JsonUtility.FromJson<LevelQuadMatrix>( File.ReadAllText( asset_path ) );
-    }
+    matrix = (LevelQuadMatrix)EditorGUILayout.ObjectField( matrix, typeof( LevelQuadMatrix ), true );
 
     if ( GUILayout.Button( "Load", GUILayout.Width( 80 ) ) )
     {
-      matrix_local = JsonUtility.FromJson<LevelQuadMatrix>( File.ReadAllText( EditorUtility.OpenFilePanel( "Load level", Application.dataPath, "json" ) ) );
+      matrix_local.matrix_size = matrix.matrix_size;
+      matrix_local.quad_entities = new QuadEntity[matrix.matrix_size.x * matrix.matrix_size.y];
+      matrix.quad_entities.CopyTo( matrix_local.quad_entities, 0 );
     }
 
     //save button
     GUILayout.BeginHorizontal();
     if ( GUILayout.Button( "Save", GUILayout.Width( 80 ) ) )
     {
+      if ( matrix == null )
+      {
+        AssetDatabase.CreateAsset(matrix_local, "Assets/Level_0.asset");
+        AssetDatabase.SaveAssets();
+        GUILayout.EndHorizontal();
+        return;
+      }
+
+      matrix.SetDirty();
+      matrix.matrix_size = matrix_local.matrix_size;
+
+      matrix.quad_entities = new QuadEntity[matrix_local.quad_entities.Length];
+
+      Debug.LogError( $"{matrix.quad_entities.Length} {matrix_local.quad_entities.Length}" );
+      matrix_local.quad_entities.CopyTo( matrix.quad_entities, 0 );
+      AssetDatabase.SaveAssetIfDirty( matrix_local );
       AssetDatabase.SaveAssets();
-      matrix_local.starter_positions = getAllByType( QuadRoleType.STARTER ).ToArray();
-      Debug.LogError( getAllByType( QuadRoleType.STARTER ).Count );
-      matrix_local.finisher_positions = getAllByType( QuadRoleType.FINISHER ).ToArray();
-      Debug.LogError( getAllByType( QuadRoleType.FINISHER ).Count );
-      File.WriteAllText( EditorUtility.SaveFilePanel( "Save level", Application.dataPath, "Level_0", "json"), JsonUtility.ToJson( matrix_local, true ) );
     }
 
     if ( GUILayout.Button( "Create ", GUILayout.Width( 80 ) ) )
     {
-      matrix_local = new LevelQuadMatrix();
+      matrix_local = (LevelQuadMatrix)ScriptableObject.CreateInstance(typeof( LevelQuadMatrix ));
       matrix_local.matrix_size = new Vector2Int( x_matrix, y_matrix );
       matrix_local.quad_entities = new QuadEntity[x_matrix * y_matrix];
     }
@@ -87,48 +93,56 @@ public class LevelDesignWindow : EditorWindow
 
         int type_int = (int)matrix_local.quad_entities[index].connection_type;
         int angle = (int)(matrix_local.quad_entities[index].start_rotation / 90);
+        int role = (int)matrix_local.quad_entities[index].role_type;
+        int recource = (int)matrix_local.quad_entities[index].recource_type;
 
         string button_str = getSymbol( type_int, angle );
         button_str += matrix_local.quad_entities[index].role_type == QuadRoleType.STARTER ? "s" : "";
         button_str += matrix_local.quad_entities[index].role_type == QuadRoleType.FINISHER ? "f" : "";
         button_str += matrix_local.quad_entities[index].role_type == QuadRoleType.PLAYABLE ? "p" : "";
 
+        button_str += matrix_local.quad_entities[index].recource_type == QuadResourceType.WATER ? "w" : "";
+        button_str += matrix_local.quad_entities[index].recource_type == QuadResourceType.AIR ? "a" : "";
+
         if ( GUILayout.Button( button_str, GUILayout.Width( 40 ), GUILayout.Height( 40 ) ) )
         {
           if ( edit_mode_type == EditModeType.TYPE )
           {
-            type_int++;
-            if ( type_int >= 7 )
-              type_int = 0;
-
+            type_int = getCycled( type_int, 7 );
             matrix_local.quad_entities[index].connection_type = (QuadConectionType)type_int;
           }
 
           if ( edit_mode_type == EditModeType.ROTATE )
           {
-            angle++;
-            if ( angle >= 4 )
-              angle = 0;
-
+            angle = getCycled( angle, 4 );
             matrix_local.quad_entities[index].start_rotation = 90.0f * angle;
           }
 
-          if ( edit_mode_type == EditModeType.STARTER )
-            matrix_local.quad_entities[index].role_type = QuadRoleType.STARTER;
+          if ( edit_mode_type == EditModeType.ROLE )
+          {
+            role = getCycled( role, 4 );
+            matrix_local.quad_entities[index].role_type = (QuadRoleType)role;
+          }
 
-          if ( edit_mode_type == EditModeType.FINISHER )
-            matrix_local.quad_entities[index].role_type = QuadRoleType.FINISHER;
-
-          if ( edit_mode_type == EditModeType.PLAYABLE )
-            matrix_local.quad_entities[index].role_type = QuadRoleType.PLAYABLE;
-
-          if ( edit_mode_type == EditModeType.NONPLAYABLE )
-            matrix_local.quad_entities[index].role_type = QuadRoleType.NONE;
+          if ( edit_mode_type == EditModeType.RECOURCE )
+          {
+            recource = getCycled( recource, 3 );
+            matrix_local.quad_entities[index].recource_type = (QuadResourceType)recource;
+          }
         }
       }
       GUILayout.EndHorizontal();
     }
     GUILayout.EndVertical();
+  }
+
+  private int getCycled( int number, int max_number )
+  {
+    number++;
+    if ( number >= max_number )
+      number = 0;
+
+    return number;
   }
 
   private List<Vector2Int> getAllByType( QuadRoleType role_type )
@@ -214,8 +228,6 @@ public enum EditModeType
 {
   TYPE = 0,
   ROTATE = 1,
-  STARTER = 2,
-  FINISHER = 3,
-  PLAYABLE = 4,
-  NONPLAYABLE = 5
+  ROLE = 2,
+  RECOURCE = 3
 }

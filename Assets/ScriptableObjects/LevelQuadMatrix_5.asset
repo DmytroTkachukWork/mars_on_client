@@ -10,53 +10,46 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 316300f36bbf0e545814e01ae55414c6, type: 3}
-  m_Name: LevelQuadMatrix_3
+  m_Name: LevelQuadMatrix_5
   m_EditorClassIdentifier: 
   quad_entities:
-  - connection_type: 2
-    role_type: 2
-    recource_type: 1
-    start_rotation: 90
+  - connection_type: 0
+    role_type: 0
+    recource_type: 0
+    start_rotation: 0
     curent_rotation: 0
     matrix_x: 0
     matrix_y: 0
-  - connection_type: 2
-    role_type: 1
+  - connection_type: 0
+    role_type: 0
     recource_type: 0
     start_rotation: 0
     curent_rotation: 0
     matrix_x: 0
     matrix_y: 0
   - connection_type: 6
-    role_type: 2
-    recource_type: 2
-    start_rotation: 90
-    curent_rotation: 0
-    matrix_x: 0
-    matrix_y: 0
-  - connection_type: 2
-    role_type: 1
-    recource_type: 0
-    start_rotation: 0
-    curent_rotation: 0
-    matrix_x: 0
-    matrix_y: 0
-  - connection_type: 6
-    role_type: 2
+    role_type: 3
     recource_type: 1
     start_rotation: 180
     curent_rotation: 0
     matrix_x: 0
     matrix_y: 0
-  - connection_type: 1
-    role_type: 1
+  - connection_type: 0
+    role_type: 0
     recource_type: 0
     start_rotation: 0
     curent_rotation: 0
     matrix_x: 0
     matrix_y: 0
-  - connection_type: 1
-    role_type: 1
+  - connection_type: 0
+    role_type: 0
+    recource_type: 0
+    start_rotation: 0
+    curent_rotation: 0
+    matrix_x: 0
+    matrix_y: 0
+  - connection_type: 0
+    role_type: 0
     recource_type: 0
     start_rotation: 0
     curent_rotation: 0
@@ -76,31 +69,31 @@ MonoBehaviour:
     curent_rotation: 0
     matrix_x: 0
     matrix_y: 0
-  - connection_type: 1
-    role_type: 1
+  - connection_type: 0
+    role_type: 0
     recource_type: 0
     start_rotation: 0
     curent_rotation: 0
     matrix_x: 0
     matrix_y: 0
-  - connection_type: 1
-    role_type: 1
-    recource_type: 0
-    start_rotation: 0
-    curent_rotation: 0
-    matrix_x: 0
-    matrix_y: 0
-  - connection_type: 1
-    role_type: 1
+  - connection_type: 0
+    role_type: 0
     recource_type: 0
     start_rotation: 0
     curent_rotation: 0
     matrix_x: 0
     matrix_y: 0
   - connection_type: 6
-    role_type: 3
-    recource_type: 2
+    role_type: 2
+    recource_type: 1
     start_rotation: 90
+    curent_rotation: 0
+    matrix_x: 0
+    matrix_y: 0
+  - connection_type: 1
+    role_type: 1
+    recource_type: 0
+    start_rotation: 0
     curent_rotation: 0
     matrix_x: 0
     matrix_y: 0
@@ -118,15 +111,15 @@ MonoBehaviour:
     curent_rotation: 0
     matrix_x: 0
     matrix_y: 0
-  - connection_type: 2
+  - connection_type: 6
     role_type: 3
-    recource_type: 1
-    start_rotation: 0
+    recource_type: 2
+    start_rotation: 270
     curent_rotation: 0
     matrix_x: 0
     matrix_y: 0
-  - connection_type: 2
-    role_type: 1
+  - connection_type: 0
+    role_type: 0
     recource_type: 0
     start_rotation: 0
     curent_rotation: 0
@@ -139,22 +132,8 @@ MonoBehaviour:
     curent_rotation: 0
     matrix_x: 0
     matrix_y: 0
-  - connection_type: 2
+  - connection_type: 1
     role_type: 1
-    recource_type: 0
-    start_rotation: 0
-    curent_rotation: 0
-    matrix_x: 0
-    matrix_y: 0
-  - connection_type: 2
-    role_type: 1
-    recource_type: 0
-    start_rotation: 180
-    curent_rotation: 0
-    matrix_x: 0
-    matrix_y: 0
-  - connection_type: 0
-    role_type: 0
     recource_type: 0
     start_rotation: 0
     curent_rotation: 0
@@ -174,17 +153,38 @@ MonoBehaviour:
     curent_rotation: 0
     matrix_x: 0
     matrix_y: 0
-  - connection_type: 2
-    role_type: 1
+  - connection_type: 0
+    role_type: 0
     recource_type: 0
-    start_rotation: 90
+    start_rotation: 0
+    curent_rotation: 0
+    matrix_x: 0
+    matrix_y: 0
+  - connection_type: 0
+    role_type: 0
+    recource_type: 0
+    start_rotation: 0
     curent_rotation: 0
     matrix_x: 0
     matrix_y: 0
   - connection_type: 6
-    role_type: 3
-    recource_type: 1
-    start_rotation: 270
+    role_type: 2
+    recource_type: 2
+    start_rotation: 0
+    curent_rotation: 0
+    matrix_x: 0
+    matrix_y: 0
+  - connection_type: 0
+    role_type: 0
+    recource_type: 0
+    start_rotation: 0
+    curent_rotation: 0
+    matrix_x: 0
+    matrix_y: 0
+  - connection_type: 0
+    role_type: 0
+    recource_type: 0
+    start_rotation: 0
     curent_rotation: 0
     matrix_x: 0
     matrix_y: 0

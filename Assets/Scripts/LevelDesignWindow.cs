@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using System.IO;
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
 public class LevelDesignWindow : EditorWindow
 {
   private LevelQuadMatrix matrix = null;
@@ -231,3 +231,4 @@ public enum EditModeType
   ROLE = 2,
   RECOURCE = 3
 }
+#endif

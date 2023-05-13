@@ -183,7 +183,6 @@ public class MultiPool<T> where T : MonoBehaviourPoolable
       instance.transform.SetParent( parent_transform );
       instance.transform.localPosition = Vector3.zero;
       instance.transform.localRotation = Quaternion.identity;
-      instance.transform.localScale = Vector3.one;
       instance.onSpawn();
       return instance;
     }

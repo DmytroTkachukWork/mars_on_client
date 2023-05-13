@@ -13,7 +13,7 @@ public class FieldManager : MonoBehaviourBase
   private Vector3 cached_position = Vector3.zero;
   private QuadContentController[,] quad_matrix = null;
   private MyTask awaiter = null;
-  private float check_delay = 0.5f;
+  private float check_delay = 0.2f;
   #endregion
 
 
@@ -38,12 +38,13 @@ public class FieldManager : MonoBehaviourBase
         QuadConectionType type = level_quad_matrix.quad_entities[index].connection_type;
         
         quad_matrix[i, j] = spawnManager.spawnQuad( cached_position, transform, role_type );
-        spawnManager.spawnConector( quad_matrix[i, j].conectorRoot ).init( type );
+        ConectorController conector = spawnManager.spawnConector( quad_matrix[i, j].conectorRoot );
+        conector.init( type );
 
         level_quad_matrix.quad_entities[index].matrix_x = i;
         level_quad_matrix.quad_entities[index].matrix_y = j;
 
-        quad_matrix[i, j].init( level_quad_matrix.quad_entities[index] );
+        quad_matrix[i, j].init( level_quad_matrix.quad_entities[index], conector );
         quad_matrix[i, j].onRotate += waitAndCkeck;
       }
     }
@@ -122,6 +123,7 @@ public class FieldManager : MonoBehaviourBase
       if ( curent_quad_entity.role_type == QuadRoleType.STARTER )
       {
         Vector2Int vector_dir = getNextPosV( inner_dir );
+        curent_quad.paintConected( resource_type );
         moveNext( inner_dir, vector_dir.x + x, vector_dir.y + y, resource_type );
         return;
       }
@@ -135,6 +137,9 @@ public class FieldManager : MonoBehaviourBase
       if ( !curent_quad_entity.canBeAccessedFrom( inner_dir ) && curent_quad_entity.role_type != QuadRoleType.STARTER ) // is it reacheable
         return;
 
+      int origin_dir = curent_quad_entity.getOriginDir( inner_dir );
+      curent_quad.paintConected( resource_type, origin_dir );
+
       if ( curent_quad_entity.role_type == QuadRoleType.FINISHER && resource_type == curent_quad_entity.recource_type ) // check for win
       {
         win = true;
@@ -146,8 +151,6 @@ public class FieldManager : MonoBehaviourBase
       inner_dir = inverse4( inner_dir );
 
       List<int> next_dirs = curent_quad_entity.getNextConections( inner_dir );
-
-      quad_matrix[x, y].paintConected( resource_type );
 
       foreach( int dir in next_dirs )
       {

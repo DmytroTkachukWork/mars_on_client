@@ -29,6 +29,13 @@ public class QuadEntity
     return matrix[input_dir] != 0;
   }
 
+  public int getOriginDir( int dir )
+  {
+    int count = (int)((curent_rotation / 90)%4);
+    dir = MatrixHelper.inverse4( dir );
+    return (((4 - count) % 4) + dir ) % 4;
+  }
+
   public List<int> getNextConections( int dir )
   {
     int[] conection_matrix = MatrixHelper.rotateQuadByAngle( MatrixHelper.getMatrix( connection_type ), curent_rotation );

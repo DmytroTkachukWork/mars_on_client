@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 9099982607947850588}
   - component: {fileID: 6584436764095314171}
-  - component: {fileID: 1170319514320336770}
   m_Layer: 0
   m_Name: Finisher
   m_TagString: Untagged
@@ -49,14 +48,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movement_controller: {fileID: 0}
   conector_root: {fileID: 2896466889272951524}
-  mesh_renderer: {fileID: 4660783385584615389}
-  recoutce_mat_pairs:
-  - resource_type: 0
-    material: {fileID: 2100000, guid: d1fdfb63729161b4d89601064072f674, type: 2}
-  - resource_type: 1
-    material: {fileID: 2100000, guid: cebc99d35071521418afb94a737648f5, type: 2}
-  - resource_type: 2
-    material: {fileID: 2100000, guid: 1d455c1be9b4ebd438fbdea43d68093c, type: 2}
   quad_entity:
     connection_type: 0
     role_type: 0
@@ -65,36 +56,14 @@ MonoBehaviour:
     curent_rotation: 0
     matrix_x: 0
     matrix_y: 0
---- !u!114 &1170319514320336770
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 454100047451183017}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 067384f87fba90543943022db49044e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movement_controller: {fileID: 0}
-  conector_root: {fileID: 2896466889272951524}
   mesh_renderer: {fileID: 4660783385584615389}
-  recoutce_mat_pairs:
+  resource_mat_pairs:
   - resource_type: 0
-    material: {fileID: 2100000, guid: d1fdfb63729161b4d89601064072f674, type: 2}
+    material: {fileID: 2100000, guid: 2ace64b16e715284595c821dedf47641, type: 2}
   - resource_type: 1
     material: {fileID: 2100000, guid: cebc99d35071521418afb94a737648f5, type: 2}
   - resource_type: 2
     material: {fileID: 2100000, guid: 1d455c1be9b4ebd438fbdea43d68093c, type: 2}
-  quad_entity:
-    connection_type: 0
-    role_type: 0
-    recource_type: 0
-    start_rotation: 0
-    curent_rotation: 0
-    matrix_x: 0
-    matrix_y: 0
 --- !u!1 &3551624779495131107
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,7 +125,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1d455c1be9b4ebd438fbdea43d68093c, type: 2}
+  - {fileID: 2100000, guid: d1fdfb63729161b4d89601064072f674, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

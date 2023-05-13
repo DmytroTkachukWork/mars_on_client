@@ -43,7 +43,7 @@ MonoBehaviour:
     matrix_y: 0
   - connection_type: 6
     role_type: 2
-    recource_type: 0
+    recource_type: 1
     start_rotation: 180
     curent_rotation: 0
     matrix_x: 0
@@ -183,7 +183,7 @@ MonoBehaviour:
     matrix_y: 0
   - connection_type: 6
     role_type: 3
-    recource_type: 0
+    recource_type: 1
     start_rotation: 270
     curent_rotation: 0
     matrix_x: 0

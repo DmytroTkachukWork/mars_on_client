@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using UnityEngine;
 
 public class QuadContentController : MonoBehaviourPoolable
@@ -7,8 +6,10 @@ public class QuadContentController : MonoBehaviourPoolable
   #region Serialized Fields
   [SerializeField] private QuadMovementController movement_controller = null;
   [SerializeField] private Transform conector_root = null;
-  [SerializeField] private MeshRenderer mesh_renderer = null;
-  [SerializeField] private RecoutceMatPair[] recoutce_mat_pairs = null;
+  #endregion
+
+  #region Private Fields
+  protected ConectorController conector_controller = null;
   #endregion
 
   #region Public Fields
@@ -19,13 +20,14 @@ public class QuadContentController : MonoBehaviourPoolable
 
 
   #region Public Methods
-  public virtual void init( QuadEntity quad_entity )
+  public virtual void init( QuadEntity quad_entity, ConectorController conector_controller )
   {
+    this.conector_controller = conector_controller;
     this.quad_entity = quad_entity;
     quad_entity.curent_rotation = quad_entity.start_rotation;
     transform.rotation = Quaternion.Euler( 0.0f, quad_entity.start_rotation, 0.0f );
     quad_entity.curent_rotation = quad_entity.start_rotation;
-    paintConected( QuadResourceType.NONE, true );
+    paintConected( QuadResourceType.NONE );
 
     if ( movement_controller == null )
       return;
@@ -43,12 +45,9 @@ public class QuadContentController : MonoBehaviourPoolable
     movement_controller.onRotate -= updateState;
   }
 
-  public virtual void paintConected( QuadResourceType resource_type = QuadResourceType.NONE, bool force = false )
+  public virtual void paintConected( QuadResourceType resource_type = QuadResourceType.NONE, int origin_dir = 0 )
   {
-    if ( quad_entity.role_type != QuadRoleType.PLAYABLE && !force )
-      return;
-
-    mesh_renderer.material = recoutce_mat_pairs.FirstOrDefault( x => x.resource_type == resource_type ).material;
+    conector_controller.paintConected( resource_type, origin_dir );
   }
 
   public override void onDespawn()
@@ -66,11 +65,4 @@ public class QuadContentController : MonoBehaviourPoolable
     onRotate.Invoke();
   }
   #endregion
-}
-
-[Serializable]
-public class RecoutceMatPair
-{
-  [SerializeField] public QuadResourceType resource_type = QuadResourceType.NONE;
-  [SerializeField] public Material         material      = null;
 }

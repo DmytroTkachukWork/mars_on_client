@@ -9,6 +9,7 @@ public class ConectorController : MonoBehaviourPoolable
 
   #region Private Fields
   private QuadConectionType conection_type = QuadConectionType.NONE;
+  private ConectorPipesController curent_conector_pipes_controller = null;
   #endregion
 
   #region Public Fields
@@ -22,13 +23,27 @@ public class ConectorController : MonoBehaviourPoolable
     this.conection_type = conection_type;
 
     foreach( ConectorTypePair pair in conector_type_pairs )
-      pair.game_object.SetActive( pair.type == conection_type );
+    {
+      if ( pair.conector_pipes_controller.conectionType == conection_type )
+      {
+        curent_conector_pipes_controller = pair.conector_pipes_controller;
+        curent_conector_pipes_controller.gameObject.SetActive( true );
+        continue;
+      }
+
+      pair.conector_pipes_controller.gameObject.SetActive( false );
+    }
   }
 
   public void deinit()
   {
     foreach( ConectorTypePair pair in conector_type_pairs )
-      pair.game_object.SetActive( false );
+      pair.conector_pipes_controller.gameObject.SetActive( false );
+  }
+
+  public void paintConected( QuadResourceType resource_type, int origin_dir )
+  {
+    curent_conector_pipes_controller.paintConected( resource_type, origin_dir );
   }
 
   public override void onDespawn()
@@ -43,6 +58,6 @@ public class ConectorController : MonoBehaviourPoolable
 [Serializable]
 public class ConectorTypePair
 {
-  [SerializeField] public GameObject game_object = null;
+  [SerializeField] public ConectorPipesController conector_pipes_controller = null;
   [SerializeField] public QuadConectionType type = QuadConectionType.NONE;
 }

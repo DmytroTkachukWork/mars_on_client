@@ -71,6 +71,13 @@ public class QuadMovementController : MonoBehaviourBase
         rotation_time_left -= Time.deltaTime;
 
         scaling_time_left -= Time.deltaTime;
+
+        if ( transform.rotation.eulerAngles.y >= target_rotation - 1.0f && transform.rotation.eulerAngles.y <= target_rotation + 1.0f )
+        {
+          transform.rotation = Quaternion.Euler( 0.0f, target_rotation, 0.0f );
+          break;
+        }
+
         await Task.Yield();
       }
       onRotate.Invoke( target_rotation );

@@ -634,13 +634,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spiners:
-  - {fileID: 2078881144987901257}
   - {fileID: 8857452877712225765}
   - {fileID: 3156191436289005053}
   - {fileID: 3669374435283281173}
   - {fileID: 4493009805124345595}
   - {fileID: 3452244804571882307}
   - {fileID: 1518335148648811669}
+  - {fileID: 2078881144987901257}
 --- !u!1 &6851030836365431682
 GameObject:
   m_ObjectHideFlags: 0
@@ -762,8 +762,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8707396134196479606}
   m_LocalRotation: {x: 0.34735548, y: -0, z: -0, w: 0.93773353}
-  m_LocalPosition: {x: 0.42, y: -12.23, z: 5.41}
-  m_LocalScale: {x: 9.310608, y: 9.310608, z: 9.310608}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 3.355339, y: 3.355339, z: 3.355339}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3357936610622991492}

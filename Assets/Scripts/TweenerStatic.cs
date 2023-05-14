@@ -8,6 +8,11 @@ public static class TweenerStatic
 {
   private static MyTaskPool tasks_pool = new MyTaskPool();
 
+  public static MyTask getEmptyMyTask()
+  {
+    return tasks_pool.get();
+  }
+
   public static MyTask tween( Action<float> func, float start_value, float finish_value, float time, Action callback )
   {
     MyTask my_task = tasks_pool.get();
@@ -46,6 +51,22 @@ public static class TweenerStatic
         func?.Invoke();
     }
   }
+
+  public static MyTask updateUntil( Action func )
+  {
+    MyTask my_task = tasks_pool.get();
+    my_task.curent_task = perform();
+    return my_task;
+
+    async Task perform()
+    {
+      while( !my_task.cencel_token )
+      {
+        func?.Invoke();
+        await Task.Yield();
+      }
+    }
+  }
 }
 
 public class MyTask
@@ -74,7 +95,6 @@ public class MyTaskPool
 
   public MyTask get()
   {
-    Debug.LogError( tasks_pool.Count );
     foreach( MyTask task in tasks_pool )
     {
       if ( !task.curent_task.IsCompleted )

@@ -177,20 +177,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movement_controller: {fileID: 9092523643317770879}
   conector_root: {fileID: 2948971425516097662}
-  mesh_renderer: {fileID: 1500828232667554775}
-  recoutce_mat_pairs:
-  - resource_type: 0
-    material: {fileID: 2100000, guid: d1fdfb63729161b4d89601064072f674, type: 2}
-  - resource_type: 1
-    material: {fileID: 2100000, guid: cebc99d35071521418afb94a737648f5, type: 2}
-  - resource_type: 2
-    material: {fileID: 2100000, guid: 1d455c1be9b4ebd438fbdea43d68093c, type: 2}
   quad_entity:
     connection_type: 0
     role_type: 0
     recource_type: 0
     start_rotation: 0
     curent_rotation: 0
+    matrix_x: 0
+    matrix_y: 0
 --- !u!1001 &3251172858820887673
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -242,6 +236,10 @@ PrefabInstance:
     - target: {fileID: 2737666593207305601, guid: 3b6590d63c093d44fbf6e4ac2bf38e98, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2886510270327222575, guid: 3b6590d63c093d44fbf6e4ac2bf38e98, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7443907636529544821, guid: 3b6590d63c093d44fbf6e4ac2bf38e98, type: 3}
       propertyPath: m_Name

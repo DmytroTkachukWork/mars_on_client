@@ -18,6 +18,7 @@ public class ScreenMainUI : MonoBehaviourPoolable
   public void init()
   {
     this.gameObject.SetActive( true );
+
     levels_button.init();
     levels_button.onClick += onLevelsClick;
   }

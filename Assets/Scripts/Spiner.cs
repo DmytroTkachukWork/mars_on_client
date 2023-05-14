@@ -14,7 +14,6 @@ public class Spiner : MonoBehaviour
   #endregion
 
   #region Public Methods
-  private void Start(){init();}
   public void init()
   {
     is_cenceled = false;

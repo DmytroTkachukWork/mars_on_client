@@ -128,14 +128,14 @@ public class FieldManager : MonoBehaviourBase
         return;
       }
 
+      if ( !curent_quad_entity.canBeAccessedFrom( inner_dir ) && curent_quad_entity.role_type != QuadRoleType.STARTER ) // is it reacheable
+        return;
+
       if ( !checked_quads.Add( curent_quad ) && curent_quad_entity.connection_type != QuadConectionType.TWO_CORNERS && curent_quad_entity.role_type == QuadRoleType.PLAYABLE ) // wasnt pessed previuslly
       {
         if ( curent_quad_entity.recource_type != resource_type )
           return;
       }
-
-      if ( !curent_quad_entity.canBeAccessedFrom( inner_dir ) && curent_quad_entity.role_type != QuadRoleType.STARTER ) // is it reacheable
-        return;
 
       int origin_dir = curent_quad_entity.getOriginDir( inner_dir );
       curent_quad.paintConected( resource_type, origin_dir );

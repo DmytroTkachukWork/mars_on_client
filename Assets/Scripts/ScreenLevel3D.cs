@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEditor;
-using System.IO;
 
 public class ScreenLevel3D : MonoBehaviourPoolable
 {
@@ -15,6 +13,10 @@ public class ScreenLevel3D : MonoBehaviourPoolable
   public void init( int level_number )
   {
     this.gameObject.SetActive( true );
+
+    CameraController.cameraController.resetCamera();
+    CameraController.cameraController.setUpCamera( DragType.POSITION );
+
     if ( level_number >= level_matrixes.Length )
       return;
 

@@ -10,9 +10,6 @@ public class ScreenLevels3D : MonoBehaviourPoolable
   #region Public Methods
   public void init()
   {
-    CameraController.cameraController.resetCamera();
-    CameraController.cameraController.setUpCamera( DragType.POSITION );
-
     foreach( MapLevel3DController controller in levels )
     {
       controller.init();
@@ -47,11 +44,6 @@ public class ScreenLevels3D : MonoBehaviourPoolable
   #region Private Methods
   private void startLevel( int level_number )
   {
-    spawnManager.spawnScreenLevel3D().init( level_number );
-    spawnManager.spawnScreenLevelUI();
-
-    spawnManager.despawnScreenLevelsUI();
-    spawnManager.despawnScreenLevels3D();
   }
   #endregion
 }

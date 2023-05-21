@@ -1,12 +1,11 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class CameraController : MonoBehaviourBase
+public class CameraContainerController : MonoBehaviourBase
 {
   #region Serialized Fields
   [SerializeField] private ClickableBase3D clickable_base = null;
-  [SerializeField] private Collider additional_collider = null;
-  [SerializeField] private Transform camera_transform = null;
+  [SerializeField] private Transform rotation_transform = null;
   [SerializeField] private Transform zoom_transform = null;
   [SerializeField] private float drag_position_speed = 0.05f;
   [SerializeField] private float drag_rotation_speed = 0.1f;
@@ -43,43 +42,48 @@ public class CameraController : MonoBehaviourBase
   #endregion
 
   #region Public Fields
-  public static CameraController cameraController = null;
+  public Transform cameraRoot => zoom_transform;
   #endregion
 
 
   #region Public Methods
-  public void resetCamera()
+  public virtual void init()
   {
-    drag_task?.stop();
-    camera_transform.position = Vector3.zero;
-    camera_transform.rotation = Quaternion.identity;
-    target_rotation = camera_transform.rotation.eulerAngles;
-    zoom_transform.localPosition = Vector3.zero;
-  }
-  
-  public void setUpCamera( DragType drag_type )
-  {
-    this.drag_type = drag_type;
-    clickable_base.dragEnabled = true;
-
+    deinit();
+    resetCamera();
+    setUpCamera( DragType.POSITION );
     clickable_base.gameObject.SetActive( true );
-    additional_collider.enabled = drag_type == DragType.ROTATION;
-  }
-  #endregion
-
-  #region Private Methods
-  private void Awake()
-  {
-    cameraController = this;
-  }
-
-  private void Start()
-  {
     clickable_base.onBeginDrag += onBeginDrag;
     clickable_base.onDrag += onDrag;
     clickable_base.onZoom += onZoom;
   }
 
+  public virtual void deinit()
+  {
+    resetCamera();
+    clickable_base.onBeginDrag -= onBeginDrag;
+    clickable_base.onDrag -= onDrag;
+    clickable_base.onZoom -= onZoom;
+    clickable_base.gameObject.SetActive( false );
+  }
+
+  public void resetCamera()
+  {
+    drag_task?.stop();
+    rotation_transform.localPosition = Vector3.zero;
+    //rotation_transform.localRotation = Quaternion.identity;
+    zoom_transform.localPosition = Vector3.zero;
+  }
+  
+  public virtual void setUpCamera( DragType drag_type )
+  {
+    this.drag_type = drag_type;
+    clickable_base.dragEnabled = true;
+    clickable_base.gameObject.SetActive( true );
+  }
+  #endregion
+
+  #region Private Methods
   private void onBeginDrag()
   {
     drag_task?.stop();
@@ -115,9 +119,9 @@ public class CameraController : MonoBehaviourBase
       return;
 
     cached_delta_sum += delta;
-    cached_aprox_position.x = camera_transform.position.x - cached_delta_sum.x * drag_position_speed;
-    cached_aprox_position.y = camera_transform.position.y;
-    cached_aprox_position.z = camera_transform.position.z - cached_delta_sum.y * drag_position_speed;
+    cached_aprox_position.x = rotation_transform.localPosition.x - cached_delta_sum.x * drag_position_speed;
+    cached_aprox_position.y = rotation_transform.localPosition.y;
+    cached_aprox_position.z = rotation_transform.localPosition.z - cached_delta_sum.y * drag_position_speed;
     grag_time_left = ON_MOVE_POSITION_POGRESS;
     grag_time_left_delta = ON_MOVE_POSITION_DELTA_POGRESS;
 
@@ -128,10 +132,10 @@ public class CameraController : MonoBehaviourBase
     {
       while( grag_time_left <= SWIPE_POSITION_TIME && !drag_task.cencel_token && Application.isPlaying ) 
       {
-        cached_position = Vector3.Lerp( camera_transform.position, cached_aprox_position, grag_time_left / SWIPE_POSITION_TIME );
+        cached_position = Vector3.Lerp( rotation_transform.localPosition, cached_aprox_position, grag_time_left / SWIPE_POSITION_TIME );
         cached_position.x = Mathf.Clamp( cached_position.x, left_right_limit.y, left_right_limit.x );
         cached_position.z = Mathf.Clamp( cached_position.z, top_bottom_limit.y, top_bottom_limit.x );
-        camera_transform.position = cached_position;
+        rotation_transform.localPosition = cached_position;
         cached_delta_sum = Vector3.Lerp( cached_delta_sum, Vector3.zero, grag_time_left_delta / SWIPE_POSITION_TIME );
         grag_time_left += Time.deltaTime * ON_MOVE_POSITION_TIME_SCALE;
         grag_time_left_delta += Time.deltaTime * ON_MOVE_POSITION_DELTA_TIME_SCALE;
@@ -166,8 +170,8 @@ public class CameraController : MonoBehaviourBase
     {
       while( grag_time_left <= SWIPE_ROTATION_TIME && !drag_task.cencel_token && Application.isPlaying ) 
       {
-        camera_transform.rotation = Quaternion.Lerp(
-            camera_transform.rotation
+        rotation_transform.rotation = Quaternion.Lerp(
+            rotation_transform.rotation
           , Quaternion.Euler( cached_aprox_position )
           , grag_time_left / SWIPE_ROTATION_TIME );
 

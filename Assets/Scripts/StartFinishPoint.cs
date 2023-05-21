@@ -14,7 +14,7 @@ public class StartFinishPoint : QuadContentController
   {
     this.conector_controller = conector_controller;
     this.quad_entity = quad_entity;
-    transform.rotation = Quaternion.Euler( 0.0f, quad_entity.start_rotation, 0.0f );
+    transform.localRotation = Quaternion.Euler( 0.0f, quad_entity.start_rotation, 0.0f );
     quad_entity.curent_rotation = quad_entity.start_rotation;
     mesh_renderer.material = resource_mat_pairs.FirstOrDefault( x => x.resource_type == quad_entity.recource_type ).material;
     if ( quad_entity.role_type == QuadRoleType.STARTER )

@@ -31,13 +31,15 @@ public class FieldManager : MonoBehaviourBase
         if ( level_quad_matrix.quad_entities[index].role_type == QuadRoleType.NONE )
           continue;
 
-        cached_position.x = transform.position.x + QUAD_DISTANCE * j;
-        cached_position.z = transform.position.z - QUAD_DISTANCE * i;
+        cached_position.x = transform.localPosition.x + QUAD_DISTANCE * j;
+        cached_position.z = transform.localPosition.z - QUAD_DISTANCE * i;
 
         QuadRoleType role_type = level_quad_matrix.quad_entities[index].role_type;
         QuadConectionType type = level_quad_matrix.quad_entities[index].connection_type;
         
         quad_matrix[i, j] = spawnManager.spawnQuad( cached_position, transform, role_type );
+        quad_matrix[i, j].transform.localPosition = cached_position;
+        quad_matrix[i, j].transform.localRotation = Quaternion.identity;
         ConectorController conector = spawnManager.spawnConector( quad_matrix[i, j].conectorRoot );
         conector.init( type );
 
@@ -105,7 +107,7 @@ public class FieldManager : MonoBehaviourBase
     spawnManager.spawnScreenWinUI().init( () =>
       { 
         spawnManager.despawnScreenLevelUI();
-        spawnManager.despawnScreenLevel3D();
+        cameraController.moveCameraToSector();
       } );
 
     void moveNext( int inner_dir, int x, int y, QuadResourceType resource_type )

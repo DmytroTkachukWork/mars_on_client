@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-public class SpawnManager : MonoBehaviour
+public class SpawnManager : MonoBehaviourService<SpawnManager>
 {
   #region Serialized Fields
   [SerializeField] private Transform screen_ui = null;
@@ -43,9 +43,9 @@ public class SpawnManager : MonoBehaviour
   {
     switch( role_type )
     {
-    case QuadRoleType.PLAYABLE: return quads_pool.spawn( quad_prefab, position, Quaternion.identity, parent_transform );
-    case QuadRoleType.STARTER:  return start_points_pool.spawn( start_point, position, Quaternion.identity, parent_transform );
-    case QuadRoleType.FINISHER: return finish_points_pool.spawn( finish_point, position, Quaternion.identity, parent_transform );
+    case QuadRoleType.PLAYABLE: return quads_pool.spawn( quad_prefab, parent_transform );
+    case QuadRoleType.STARTER:  return start_points_pool.spawn( start_point, parent_transform );
+    case QuadRoleType.FINISHER: return finish_points_pool.spawn( finish_point, parent_transform );
     }
     return null;
   }
@@ -165,7 +165,7 @@ public class SinglePool<T> where T : MonoBehaviourPoolable
 
   public void despawn()
   {
-    instance.onDespawn();
+    instance?.onDespawn();
   }
 }
 
@@ -202,8 +202,8 @@ public class MultiPool<T> where T : MonoBehaviourPoolable
     {
       Debug.LogError( "Spawned from pool" );
       instance.transform.SetParent( parent_transform );
-      instance.transform.position = position;
-      instance.transform.rotation = rotation;
+      instance.transform.localPosition = position;
+      instance.transform.localRotation = rotation;
       instance.onSpawn();
       return instance;
     }
@@ -218,7 +218,7 @@ public class MultiPool<T> where T : MonoBehaviourPoolable
   public void despawnAll()
   {
     foreach( T instance in instances )
-      instance.onDespawn();
+      instance?.onDespawn();
   }
 
   private T checkForDespawned()
@@ -228,14 +228,6 @@ public class MultiPool<T> where T : MonoBehaviourPoolable
     if ( instances.Any( x => x.isAvailuableToSpawn() ) )
       instance = instances.First( x => x.isAvailuableToSpawn() );
 
-    if ( instance == null )
-      return null;
-
-    //instance.transform.SetParent( parent_transform );
-    //instance.transform.position = position;
-    //instance.transform.rotation = rotation;
-    instance.onSpawn();
     return instance;
-
   }
 }

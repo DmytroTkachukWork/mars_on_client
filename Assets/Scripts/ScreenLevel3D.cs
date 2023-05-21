@@ -14,13 +14,8 @@ public class ScreenLevel3D : MonoBehaviourPoolable
   {
     this.gameObject.SetActive( true );
 
-    CameraController.cameraController.resetCamera();
-    CameraController.cameraController.setUpCamera( DragType.POSITION );
-
     if ( level_number >= level_matrixes.Length )
       return;
-
-    field_manager.init( level_matrixes[level_number] );
   }
 
   public void deinit()

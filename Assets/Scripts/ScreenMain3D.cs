@@ -12,9 +12,6 @@ public class ScreenMain3D : MonoBehaviourPoolable
   #region Public Methods
   public void init()
   {
-    CameraController.cameraController.resetCamera();
-    CameraController.cameraController.setUpCamera( DragType.ROTATION );
-
     foreach( Spiner spiner in spiners )
       spiner.init();
   }

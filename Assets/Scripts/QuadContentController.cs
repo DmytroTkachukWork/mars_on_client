@@ -25,7 +25,7 @@ public class QuadContentController : MonoBehaviourPoolable
     this.conector_controller = conector_controller;
     this.quad_entity = quad_entity;
     quad_entity.curent_rotation = quad_entity.start_rotation;
-    transform.rotation = Quaternion.Euler( 0.0f, quad_entity.start_rotation, 0.0f );
+    transform.localRotation = Quaternion.Euler( 0.0f, quad_entity.start_rotation, 0.0f );
     quad_entity.curent_rotation = quad_entity.start_rotation;
     paintConected( QuadResourceType.NONE );
 
@@ -55,6 +55,7 @@ public class QuadContentController : MonoBehaviourPoolable
     base.onDespawn();
 
     deinit();
+    Debug.Log( "Quad despawned" );
   }
   #endregion
 

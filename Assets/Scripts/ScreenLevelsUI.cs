@@ -33,22 +33,11 @@ public class ScreenLevelsUI : MonoBehaviourPoolable
   #endregion
 
   #region Private Methods
-  private void onLevelClick( int value )
-  {
-    Debug.LogError( "onLevelClick" );
-    spawnManager.despawnScreenLevels3D();
-    spawnManager.despawnScreenLevelsUI();
-    spawnManager.spawnScreenLevel3D().init( value );
-  }
 
   private void onExit()
   {
     Debug.LogError( "onExit" );
-    spawnManager.despawnScreenLevels3D();
-    spawnManager.despawnScreenLevelsUI();
-
-    spawnManager.spawnScreenMainUI().init();
-    spawnManager.spawnScreenMain3D();
+    cameraController.moveCameraToPlanet();
   }
   #endregion 
 }

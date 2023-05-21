@@ -31,7 +31,7 @@ public class QuadMovementController : MonoBehaviourBase
   public void init( float start_angle )
   {
     target_rotation = start_angle;
-    transform.rotation = Quaternion.Euler( 0.0f, target_rotation, 0.0f );
+    transform.localRotation = Quaternion.Euler( 0.0f, target_rotation, 0.0f );
     rotation_time_left = 0.0f;
     scaling_time_left = 0.0f;
     clickable_basease.onClick += rotateOverTime;
@@ -58,9 +58,9 @@ public class QuadMovementController : MonoBehaviourBase
     {
       while( rotation_time_left > ROTATION_TIME / 2 )
       {
-        transform.rotation = Quaternion.Lerp(
+        transform.localRotation = Quaternion.Lerp(
             Quaternion.Euler( 0.0f, target_rotation, 0.0f )
-          , transform.rotation
+          , transform.localRotation
           , rotation_time_left / ROTATION_TIME );
 
         float scale = Mathf.Lerp( MAX_SCALE, MIN_SCALE, scaling_time_left / SCALING_TIME );
@@ -72,9 +72,9 @@ public class QuadMovementController : MonoBehaviourBase
 
         scaling_time_left -= Time.deltaTime;
 
-        if ( transform.rotation.eulerAngles.y >= target_rotation - 1.0f && transform.rotation.eulerAngles.y <= target_rotation + 1.0f )
+        if ( transform.localRotation.eulerAngles.y >= target_rotation - 1.0f && transform.localRotation.eulerAngles.y <= target_rotation + 1.0f )
         {
-          transform.rotation = Quaternion.Euler( 0.0f, target_rotation, 0.0f );
+          transform.localRotation = Quaternion.Euler( 0.0f, target_rotation, 0.0f );
           break;
         }
 
@@ -87,7 +87,7 @@ public class QuadMovementController : MonoBehaviourBase
   private void forcestopRotation()
   {
     rotation_task = Task.CompletedTask;
-    transform.rotation = Quaternion.Euler( 0.0f, target_rotation, 0.0f );
+    transform.localRotation = Quaternion.Euler( 0.0f, target_rotation, 0.0f );
     cached_scale = Vector3.one;
     transform.localScale = cached_scale;
   }

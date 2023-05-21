@@ -32,6 +32,73 @@ public static class TweenerStatic
     }
   }
 
+  public static MyTask tweenTransform( Transform curtent_transform, Transform target_transform, float time, Action callback = null )
+  {
+    MyTask my_task = tasks_pool.get();
+    my_task.curent_task = perform();
+    return my_task;
+
+    async Task perform()
+    {
+      float time_left = 0.0f;
+      float progress = 0.0f;
+      while( time_left <= time && !my_task.cencel_token ) 
+      {
+        progress = time_left / time;
+        curtent_transform.position = Vector3.Lerp( curtent_transform.position, target_transform.position, progress );
+        curtent_transform.rotation = Quaternion.Lerp( curtent_transform.rotation, target_transform.rotation, progress );
+        curtent_transform.localScale = Vector3.Lerp( curtent_transform.localScale, target_transform.localScale, progress );
+        time_left += Time.deltaTime;
+        await Task.Yield();
+      }
+
+      if ( !my_task.cencel_token )
+        callback?.Invoke();
+    }
+  }
+
+  public static MyTask tweenPosition( Transform curtent_transform, Transform target_transform, float time, Action callback = null )
+  {
+    MyTask my_task = tasks_pool.get();
+    my_task.curent_task = perform();
+    return my_task;
+
+    async Task perform()
+    {
+      float time_left = 0.0f;
+      float progress = 0.0f;
+      while( time_left <= time && !my_task.cencel_token ) 
+      {
+        progress = time_left / time;
+        curtent_transform.position = Vector3.Lerp( curtent_transform.position, target_transform.position, progress );
+        time_left += Time.deltaTime;
+        await Task.Yield();
+      }
+      callback?.Invoke();
+    }
+  }
+
+  public static MyTask tweenRotation( Transform curtent_transform, Transform target_transform, float time, Action callback = null )
+  {
+    MyTask my_task = tasks_pool.get();
+    my_task.curent_task = perform();
+    return my_task;
+
+    async Task perform()
+    {
+      float time_left = 0.0f;
+      float progress = 0.0f;
+      while( time_left <= time && !my_task.cencel_token ) 
+      {
+        progress = time_left / time;
+        curtent_transform.rotation = Quaternion.Lerp( curtent_transform.rotation, target_transform.rotation, progress );
+        time_left += Time.deltaTime;
+        await Task.Yield();
+      }
+      callback?.Invoke();
+    }
+  }
+
   public static MyTask waitAndDo( Action func, float time )
   {
     MyTask my_task = tasks_pool.get();

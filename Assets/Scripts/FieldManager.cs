@@ -104,6 +104,8 @@ public class FieldManager : MonoBehaviourBase
 public class PathFinder
 {
   private static MyTask check_task = new MyTask();
+  private static MyTask culc_task = new MyTask();
+  private static float QUAD_CALC_TIME = 0.3f;
 
   public static async Task fastRepaint( QuadContentController[,] quad_matrix, LevelQuadMatrix level_quad_matrix )
   {
@@ -182,7 +184,10 @@ public class PathFinder
   public static async Task checkForWin( QuadContentController[,] quad_matrix, LevelQuadMatrix level_quad_matrix, Action callback )
   {
     if ( !check_task.curent_task.IsCompleted )
+    {
       check_task.stop();
+      culc_task.stop();
+    }
 
     await Task.Yield();
     await Task.Yield();
@@ -265,13 +270,8 @@ public class PathFinder
         int origin_dir = curent_quad_entity.getOriginDir( inner_dir );
         if ( curent_quad.paintConected( resource_type, origin_dir ) )
         {
-          for( int i = 0; i < 10; i++ )
-          {
-            if ( !check_task.cencel_token )
-              await Task.Yield();
-            else
-              return;
-          }
+          culc_task = TweenerStatic.waitAndDo( null, QUAD_CALC_TIME );
+          await culc_task.curent_task;
         }
 
         if ( curent_quad_entity.role_type == QuadRoleType.FINISHER && resource_type == curent_quad_entity.recource_type ) // check for win

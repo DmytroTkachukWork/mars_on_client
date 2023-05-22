@@ -18,12 +18,12 @@ public class ConectorPipesController : MonoBehaviour
     bool was_overpainted = false;
     if ( resource_type == QuadResourceType.NONE )
     {
-      foreach( PipeRosourceController pipe_controller in pipe_controllers )
+      for( int i = 0; i < pipe_controllers.Length; i++ )
       {
-        if ( pipe_controller == null )
+        if ( pipe_controllers[i] == null )
           continue;
 
-        if ( pipe_controller.setResourceAndFill( resource_type, true ) )
+        if ( pipe_controllers[i].setResourceAndFill( resource_type, i == inner_dir ) )
           was_overpainted = true;
       }
 
@@ -35,18 +35,18 @@ public class ConectorPipesController : MonoBehaviour
       if ( pipe_controllers[inner_dir].setResourceAndFill( resource_type, true ) )
         was_overpainted = true;
         
-      if ( pipe_controllers[inner_dir + (inner_dir % 2 == 0 ? 1 : -1)].setResourceAndFill( resource_type, true ) )
+      if ( pipe_controllers[inner_dir + (inner_dir % 2 == 0 ? 1 : -1)].setResourceAndFill( resource_type, false ) )
         was_overpainted = true;
 
       return was_overpainted;
     }
 
-    foreach( PipeRosourceController pipe_controller in pipe_controllers )
+    for( int i = 0; i < pipe_controllers.Length; i++ )
     {
-      if ( pipe_controller == null )
+      if ( pipe_controllers[i] == null )
           continue;
 
-      if (  pipe_controller.setResourceAndFill( resource_type, true ) )
+      if ( pipe_controllers[i].setResourceAndFill( resource_type, i == inner_dir ) )
         was_overpainted = true;
     }
     return was_overpainted;

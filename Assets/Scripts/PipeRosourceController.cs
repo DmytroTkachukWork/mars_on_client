@@ -14,29 +14,50 @@ public class PipeRosourceController : MonoBehaviour
   #region Private Fields
   private const float MIN_SCALE  = 0.0f;
   private const float MAX_SCALE  = 1.0f;
-  private const float SCALE_TIME = 1.0f;
+  private const float SCALE_TIME = 0.15f;
   private MyTask scale_task = null;
+  private QuadResourceType resource_type = QuadResourceType.NONE;
   #endregion
 
   #region Public Methods
   public bool setResourceAndFill( QuadResourceType resource_type, bool is_incoming )
   {
-    Material cahced_mat = null;
-    if ( resource_renderers.Length > 0 )
-      cahced_mat = resource_renderers[0].material;
+    if ( this.resource_type == resource_type )
+      return false;
+
+    this.resource_type = resource_type;
+    scale_task?.stop();
 
     foreach ( MeshRenderer renderer in resource_renderers )
       renderer.material = resources_pairs.FirstOrDefault( x => x.resource_type == resource_type ).material;
 
-    return cahced_mat != resource_renderers[0].material;
+    in_scale_transform.localScale = setZ( in_scale_transform.localScale, MIN_SCALE );
+    out_scale_transform.localScale = setZ( out_scale_transform.localScale, MIN_SCALE );
 
-    //Transform curent_transform = is_incoming ? in_scale_transform : out_scale_transform;
-    //scale_task = TweenerStatic.tween(
-    //    ( value ) => curent_transform.localScale = setZ( curent_transform.localScale, value )
-    //  , MIN_SCALE
-    //  , MAX_SCALE
-    //  , SCALE_TIME
-    //  , null );
+    if ( resource_type == QuadResourceType.NONE )
+      return true;
+
+    if ( is_incoming )
+    {
+      scale_task = TweenerStatic.tween(
+          ( value ) => in_scale_transform.localScale = setZ( in_scale_transform.localScale, value )
+        , MIN_SCALE
+        , MAX_SCALE
+        , SCALE_TIME
+        , null );
+    }
+    else
+    {
+      scale_task = TweenerStatic.waitAndDo( () => TweenerStatic.tween(
+          ( value ) => out_scale_transform.localScale = setZ( out_scale_transform.localScale, value )
+        , MIN_SCALE
+        , MAX_SCALE
+        , SCALE_TIME
+        , null )
+        , SCALE_TIME );
+    }
+
+    return true;
   }
 
   private Vector3 setZ( Vector3 vector, float value )//TODO

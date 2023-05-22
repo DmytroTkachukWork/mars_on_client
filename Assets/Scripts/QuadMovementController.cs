@@ -59,7 +59,7 @@ public class QuadMovementController : MonoBehaviourBase
 
     async Task rotateHex()
     {
-      while( rotation_time_left > ROTATION_TIME / 2 )
+      while( rotation_time_left > ROTATION_TIME / 1.5 )
       {
         transform.localRotation = Quaternion.Lerp(
             Quaternion.Euler( 0.0f, target_rotation, 0.0f )
@@ -78,6 +78,7 @@ public class QuadMovementController : MonoBehaviourBase
         if ( transform.localRotation.eulerAngles.y >= target_rotation - 1.0f && transform.localRotation.eulerAngles.y <= target_rotation + 1.0f )
         {
           transform.localRotation = Quaternion.Euler( 0.0f, target_rotation, 0.0f );
+          transform.localScale = Vector3.one;
           break;
         }
 

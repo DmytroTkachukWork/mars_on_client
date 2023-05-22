@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using UnityEngine;
 
-public class PipeRosourceController : MonoBehaviour
+public class PipeRosourceController : MonoBehaviourBase
 {
   #region Serialized Fields
   [SerializeField] private MeshRenderer[]    resource_renderers  = null;
@@ -32,13 +32,16 @@ public class PipeRosourceController : MonoBehaviour
       renderer.material = resources_pairs.FirstOrDefault( x => x.resource_type == resource_type ).material;
 
     in_scale_transform.localScale = setZ( in_scale_transform.localScale, MIN_SCALE );
+    in_scale_transform.gameObject.SetActive( false );
     out_scale_transform.localScale = setZ( out_scale_transform.localScale, MIN_SCALE );
+    out_scale_transform.gameObject.SetActive( false );
 
     if ( resource_type == QuadResourceType.NONE )
       return true;
 
     if ( is_incoming )
     {
+      in_scale_transform.gameObject.SetActive( true );
       scale_task = TweenerStatic.tween(
           ( value ) => in_scale_transform.localScale = setZ( in_scale_transform.localScale, value )
         , MIN_SCALE
@@ -48,6 +51,7 @@ public class PipeRosourceController : MonoBehaviour
     }
     else
     {
+      out_scale_transform.gameObject.SetActive( true );
       scale_task = TweenerStatic.waitAndDo( () => TweenerStatic.tween(
           ( value ) => out_scale_transform.localScale = setZ( out_scale_transform.localScale, value )
         , MIN_SCALE

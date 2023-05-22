@@ -283,7 +283,7 @@ MonoBehaviour:
   - resource_type: 0
     material: {fileID: 2100000, guid: 2ace64b16e715284595c821dedf47641, type: 2}
   - resource_type: 1
-    material: {fileID: 2100000, guid: cebc99d35071521418afb94a737648f5, type: 2}
+    material: {fileID: 2100000, guid: 914616d4bfa344e44a9c26b480b01a00, type: 2}
   - resource_type: 2
     material: {fileID: 2100000, guid: 1d455c1be9b4ebd438fbdea43d68093c, type: 2}
   in_scale_transform: {fileID: 6115758955537044200}

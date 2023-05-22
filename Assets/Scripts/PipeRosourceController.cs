@@ -19,10 +19,16 @@ public class PipeRosourceController : MonoBehaviour
   #endregion
 
   #region Public Methods
-  public void setResourceAndFill( QuadResourceType resource_type, bool is_incoming )
+  public bool setResourceAndFill( QuadResourceType resource_type, bool is_incoming )
   {
+    Material cahced_mat = null;
+    if ( resource_renderers.Length > 0 )
+      cahced_mat = resource_renderers[0].material;
+
     foreach ( MeshRenderer renderer in resource_renderers )
       renderer.material = resources_pairs.FirstOrDefault( x => x.resource_type == resource_type ).material;
+
+    return cahced_mat != resource_renderers[0].material;
 
     //Transform curent_transform = is_incoming ? in_scale_transform : out_scale_transform;
     //scale_task = TweenerStatic.tween(

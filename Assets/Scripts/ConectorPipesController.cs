@@ -13,25 +13,43 @@ public class ConectorPipesController : MonoBehaviour
 
 
   #region Public Methods
-  public void paintConected( QuadResourceType resource_type, int inner_dir = 0 )
+  public bool paintConected( QuadResourceType resource_type, int inner_dir = 0 )
   {
+    bool was_overpainted = false;
     if ( resource_type == QuadResourceType.NONE )
     {
       foreach( PipeRosourceController pipe_controller in pipe_controllers )
-        pipe_controller?.setResourceAndFill( resource_type, true );
+      {
+        if ( pipe_controller == null )
+          continue;
 
-      return;
+        if ( pipe_controller.setResourceAndFill( resource_type, true ) )
+          was_overpainted = true;
+      }
+
+      return was_overpainted;
     }
 
     if ( conection_type == QuadConectionType.TWO_CORNERS )
     {
-      pipe_controllers[inner_dir].setResourceAndFill( resource_type, true );
-      pipe_controllers[inner_dir + (inner_dir % 2 == 0 ? 1 : -1)].setResourceAndFill( resource_type, true );
-      return;
+      if ( pipe_controllers[inner_dir].setResourceAndFill( resource_type, true ) )
+        was_overpainted = true;
+        
+      if ( pipe_controllers[inner_dir + (inner_dir % 2 == 0 ? 1 : -1)].setResourceAndFill( resource_type, true ) )
+        was_overpainted = true;
+
+      return was_overpainted;
     }
 
     foreach( PipeRosourceController pipe_controller in pipe_controllers )
-      pipe_controller?.setResourceAndFill( resource_type, true );
+    {
+      if ( pipe_controller == null )
+          continue;
+
+      if (  pipe_controller.setResourceAndFill( resource_type, true ) )
+        was_overpainted = true;
+    }
+    return was_overpainted;
   }
   #endregion
 }

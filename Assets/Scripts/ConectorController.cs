@@ -41,9 +41,9 @@ public class ConectorController : MonoBehaviourPoolable
       pair.conector_pipes_controller.gameObject.SetActive( false );
   }
 
-  public void paintConected( QuadResourceType resource_type, int origin_dir )
+  public bool paintConected( QuadResourceType resource_type, int origin_dir )
   {
-    curent_conector_pipes_controller.paintConected( resource_type, origin_dir );
+    return curent_conector_pipes_controller.paintConected( resource_type, origin_dir );
   }
 
   public override void onDespawn()

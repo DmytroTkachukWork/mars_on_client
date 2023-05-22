@@ -9,6 +9,7 @@ public class LevelController : MonoBehaviourBase
 
   [SerializeField] private FieldManager field_manager = null;
   [SerializeField] private LevelQuadMatrix[] level_matrixes = null;
+  [SerializeField] private int level_id = 0;
 
   public LevelCameraContainerController cameraContainer => camera_container;
 
@@ -61,7 +62,7 @@ public class LevelController : MonoBehaviourBase
   public void initLevel()
   {
     Debug.LogError( "initLevel" );
-    field_manager.init( level_matrixes[0] );
+    field_manager.init( level_matrixes[level_id] );
     spawnManager.despawnScreenLevelsUI();
     spawnManager.spawnScreenLevelUI().init();
   }

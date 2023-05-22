@@ -23,7 +23,8 @@ public class QuadMovementController : MonoBehaviourBase
   #endregion
 
   #region Public Fields
-  public event Action<float> onRotate = delegate{};
+  public event Action onRotate = delegate{};
+  public event Action<float> onBeginRotate = delegate{};
   #endregion
 
 
@@ -50,6 +51,8 @@ public class QuadMovementController : MonoBehaviourBase
     rotation_time_left = ROTATION_TIME;
     scaling_time_left = SCALING_TIME;
     target_rotation = target_rotation + ANGLE_PER_CLICK;
+
+    onBeginRotate.Invoke( target_rotation );
 
     if ( rotation_task.IsCompleted )
       rotation_task = rotateHex();
@@ -80,7 +83,7 @@ public class QuadMovementController : MonoBehaviourBase
 
         await Task.Yield();
       }
-      onRotate.Invoke( target_rotation );
+      onRotate.Invoke();
     }
   }
 

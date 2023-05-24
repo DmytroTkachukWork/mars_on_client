@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 
-public class ClickableBase3D : MonoBehaviour
+public class ClickableBase3D : MonoBehaviourBase
 {
   #region Public Fields
   public event Action onClick = delegate{};
@@ -45,7 +45,7 @@ public class ClickableBase3D : MonoBehaviour
   {
     drag_updater?.stop();
     cached_mouse_pos = Input.mousePosition;
-    drag_updater = TweenerStatic.updateUntil( drag );
+    drag_updater = tweener.updateUntil( drag );
 
     void drag()
     {

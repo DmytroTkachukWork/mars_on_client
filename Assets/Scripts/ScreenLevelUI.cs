@@ -39,7 +39,7 @@ public class ScreenLevelUI : MonoBehaviourPoolable
   private void onExit()
   {
     Debug.LogError( "onExit" );
-    cameraController.moveCameraToSector();
+    cameraController.moveCameraToSectorFromLevel();
     spawnManager.despawnScreenLevelUI();
   }
   #endregion 

@@ -23,7 +23,14 @@ public class PipeRosourceController : MonoBehaviourBase
   public bool setResourceAndFill( QuadResourceType resource_type, bool is_incoming )
   {
     if ( this.resource_type == resource_type )
+    {
+      if ( resource_type == QuadResourceType.NONE )
+        return false;
+
+      in_scale_transform.localScale = setZ( in_scale_transform.localScale, MAX_SCALE );
+      out_scale_transform.localScale = setZ( out_scale_transform.localScale, MAX_SCALE );
       return false;
+    }
 
     this.resource_type = resource_type;
     scale_task?.stop();
@@ -42,7 +49,7 @@ public class PipeRosourceController : MonoBehaviourBase
     if ( is_incoming )
     {
       in_scale_transform.gameObject.SetActive( true );
-      scale_task = TweenerStatic.tween(
+      scale_task = tweener.tween(
           ( value ) => in_scale_transform.localScale = setZ( in_scale_transform.localScale, value )
         , MIN_SCALE
         , MAX_SCALE
@@ -52,7 +59,7 @@ public class PipeRosourceController : MonoBehaviourBase
     else
     {
       out_scale_transform.gameObject.SetActive( true );
-      scale_task = TweenerStatic.waitAndDo( () => TweenerStatic.tween(
+      scale_task = tweener.waitAndDo( () => tweener.tween(
           ( value ) => out_scale_transform.localScale = setZ( out_scale_transform.localScale, value )
         , MIN_SCALE
         , MAX_SCALE

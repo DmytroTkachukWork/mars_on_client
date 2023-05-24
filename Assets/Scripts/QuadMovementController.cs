@@ -84,6 +84,9 @@ public class QuadMovementController : MonoBehaviourBase
 
         await Task.Yield();
       }
+
+      transform.localRotation = Quaternion.Euler( 0.0f, target_rotation, 0.0f );
+      transform.localScale = Vector3.one;
       onRotate.Invoke();
     }
   }

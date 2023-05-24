@@ -15,20 +15,24 @@ public class ScreenWinUI : MonoBehaviourPoolable
 
   
   #region Public Methods
-  public void init( Action callback )
+  public void init( Action callback = null )
   {
     full_button.onClick += onDespawn;
-    my_task = TweenerStatic.tween( ( value ) => canvas_group.alpha = value, 0.0f, 1.0f, fade_time, callback );
+    my_task = tweener.tween( ( value ) => canvas_group.alpha = value, 0.0f, 1.0f, fade_time, callback == null ? moveCamera : null );
+  }
+
+  public void moveCamera()
+  {
+    spawnManager.despawnScreenLevelUI();
+    cameraController.moveCameraToSectorFromLevel();
   }
 
   public void deinit()
   {
     full_button.onClick -= onDespawn;
     my_task?.stop();
-    spawnManager.despawnScreenLevel3D();
-    spawnManager.despawnScreenLevelUI();
+    moveCamera();
     spawnManager.spawnScreenLevelsUI();
-    spawnManager.spawnScreenLevels3D();
   }
 
   public override void onDespawn()

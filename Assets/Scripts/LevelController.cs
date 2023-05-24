@@ -13,7 +13,34 @@ public class LevelController : MonoBehaviourBase
 
   public LevelCameraContainerController cameraContainer => camera_container;
 
-  public void showFar()// like from sector view
+  public void startShowClose()// like from sector view
+  {
+    clickable_base.onClick -= moveToLevel;
+    clickable_base.gameObject.SetActive( false );
+
+    level_content.SetActive( true );
+    sector_level_content.SetActive( true );
+
+    camera_container.init();
+    initLevel();
+  }
+
+  public void finishShowClose()// like from sector view
+  {
+    sector_level_content.SetActive( false );
+  }
+
+  public void startShowFar()// like from sector view
+  {
+    level_content.SetActive( true );
+    sector_level_content.SetActive( true );
+
+    camera_container.deinit();
+    field_manager.deinit();
+    spawnManager.despawnScreenLevelUI();
+  }
+
+  public void finishShowFar()// like from sector view
   {
     clickable_base.gameObject.SetActive( true );
     clickable_base.onClick -= moveToLevel;
@@ -25,18 +52,6 @@ public class LevelController : MonoBehaviourBase
     camera_container.deinit();
     field_manager.deinit();
     spawnManager.despawnScreenLevelUI();
-  }
-
-  public void showClose()// like from sector view
-  {
-    clickable_base.onClick -= moveToLevel;
-    clickable_base.gameObject.SetActive( false );
-
-    sector_level_content.SetActive( false );
-    level_content.SetActive( true );
-
-    camera_container.init();
-    initLevel();
   }
 
   public void hide()

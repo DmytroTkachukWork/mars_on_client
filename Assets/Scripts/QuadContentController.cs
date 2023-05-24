@@ -65,6 +65,7 @@ public class QuadContentController : MonoBehaviourPoolable
   #region Private Methods
   private void updateState( float angle )
   {
+    paintConected();
     quad_entity.curent_rotation = angle;
     onBeginRotate.Invoke();
   }

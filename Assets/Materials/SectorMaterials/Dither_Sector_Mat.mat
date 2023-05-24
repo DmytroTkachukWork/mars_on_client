@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ConectorBaseMaterial
+  m_Name: Dither_Sector_Mat
   m_Shader: {fileID: -6465566751694194690, guid: 73623bb05b28b8343977a8d7b3ec3bf1, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -66,9 +66,9 @@ Material:
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
-    - _DitherEase: 0.29
+    - _DitherEase: 0.38
     - _DstBlend: 0
-    - _EndDitherDistance: 0
+    - _EndDitherDistance: -138.89
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -79,16 +79,16 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _StartDitherDistance: 15.4
+    - _StartDitherDistance: 197.93
     - _StopDitherForce: 0
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.34901962, g: 0.47058824, b: 0.44313726, a: 1}
-    - _Color: {r: 0.8235295, g: 0.56078434, b: 0.45098042, a: 1}
+    - _BaseColor: {r: 0.8113208, g: 0.8113208, b: 0.8113208, a: 0}
+    - _Color: {r: 0.8018868, g: 0.8018868, b: 0.8018868, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &3801453965184986918
+--- !u!114 &5919910558169854873
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

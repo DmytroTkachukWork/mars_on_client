@@ -11,23 +11,19 @@ public class SectorController : MonoBehaviourBase
   public LevelController[] level_controllers = null;
 
 
-  public void showFar()// like from sector view
+  public void startShowClose()// like from sector view
   {
-    clickable_base.gameObject.SetActive( true );
     clickable_base.onClick -= moveToSector;
-    clickable_base.onClick += moveToSector;
+    clickable_base.gameObject.SetActive( false );
 
-    sector_content.SetActive( false );
     planet_sector_content.SetActive( true );
+    sector_content.SetActive( true );
 
     foreach( LevelController level in level_controllers )
-      level.hide();
-
-    camera_container.deinit();
-    spawnManager.despawnScreenLevelsUI();
+      level.startShowFar();
   }
 
-  public void showClose()// like from sector view
+  public void finishShowClose()// like from sector view
   {
     clickable_base.onClick -= moveToSector;
     clickable_base.gameObject.SetActive( false );
@@ -36,10 +32,35 @@ public class SectorController : MonoBehaviourBase
     sector_content.SetActive( true );
 
     foreach( LevelController level in level_controllers )
-      level.showFar();
+      level.finishShowFar();
 
     camera_container.init();
     spawnManager.spawnScreenLevelsUI();
+  }
+
+  public void startShowFar()// like from sector view
+  {
+    sector_content.SetActive( true );
+    planet_sector_content.SetActive( true );
+
+    foreach( LevelController level in level_controllers )
+      level.hide();
+
+    camera_container.deinit();
+    spawnManager.despawnScreenLevelsUI();
+  }
+  
+  public void finishShowFar()// like from sector view
+  {
+    clickable_base.gameObject.SetActive( true );
+    clickable_base.onClick -= moveToSector;
+    clickable_base.onClick += moveToSector;
+
+    sector_content.SetActive( false );
+    planet_sector_content.SetActive( true );
+
+    camera_container.deinit();
+    spawnManager.despawnScreenLevelsUI();
   }
 
   public void hide()
@@ -58,6 +79,6 @@ public class SectorController : MonoBehaviourBase
   {
     //start move camera
     Debug.LogError( "moveToSector" );
-    cameraController.moveCameraToSector( this );
+    cameraController.moveCameraToSectorFromPlanet( this );
   }
 }

@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 30664447}
   - component: {fileID: 30664448}
+  - component: {fileID: 30664449}
   m_Layer: 0
   m_Name: GeneralManager
   m_TagString: Untagged
@@ -170,6 +171,90 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   planet_controller: {fileID: 1640615887}
+--- !u!114 &30664449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 30664446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbeeea31e51c1d74cb30de9b811deecb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ease_in_curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  ease_out_curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  ease_in_out_curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &222329702 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 148206308863338594, guid: 79373529ae2f6444a839e497a833ed31, type: 3}
@@ -440,7 +525,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 38e3ec7167e77e64e87df2327eed4512, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 0a9c98a9f5e4fb247abd3b9ecb16bc9f, type: 2}
+      objectReference: {fileID: 2100000, guid: 767ca1e8ae17b6f41af9c6f1e505de69, type: 2}
     - target: {fileID: 919132149155446097, guid: 38e3ec7167e77e64e87df2327eed4512, type: 3}
       propertyPath: m_Name
       value: Hex_Segment
@@ -793,7 +878,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 38e3ec7167e77e64e87df2327eed4512, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 0a9c98a9f5e4fb247abd3b9ecb16bc9f, type: 2}
+      objectReference: {fileID: 2100000, guid: 4c0c2356d3013fd429b52a3645945a21, type: 2}
     - target: {fileID: 919132149155446097, guid: 38e3ec7167e77e64e87df2327eed4512, type: 3}
       propertyPath: m_Name
       value: Hex_Segment (1)
@@ -1126,10 +1211,6 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 226003533255776551, guid: 79373529ae2f6444a839e497a833ed31, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 601471923766628344, guid: 79373529ae2f6444a839e497a833ed31, type: 3}
       propertyPath: level_controllers.Array.size
       value: 2
@@ -1174,13 +1255,17 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 46.5
       objectReference: {fileID: 0}
+    - target: {fileID: 2470962697677713551, guid: 79373529ae2f6444a839e497a833ed31, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 47ef56d12f47b164bad037ab2fa2c7e4, type: 2}
     - target: {fileID: 3483320744650812456, guid: 79373529ae2f6444a839e497a833ed31, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3747018660424805359, guid: 79373529ae2f6444a839e497a833ed31, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4031645669560619461, guid: 79373529ae2f6444a839e497a833ed31, type: 3}
       propertyPath: m_RootOrder
@@ -1232,7 +1317,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4243635355442993059, guid: 79373529ae2f6444a839e497a833ed31, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4400815503816754345, guid: 79373529ae2f6444a839e497a833ed31, type: 3}
       propertyPath: m_Name
@@ -1261,14 +1346,6 @@ PrefabInstance:
     - target: {fileID: 8224452052633082345, guid: 79373529ae2f6444a839e497a833ed31, type: 3}
       propertyPath: m_LocalScale.z
       value: 0.41923356
-      objectReference: {fileID: 0}
-    - target: {fileID: 8225652768432843578, guid: 79373529ae2f6444a839e497a833ed31, type: 3}
-      propertyPath: far clip plane
-      value: 7000
-      objectReference: {fileID: 0}
-    - target: {fileID: 8225652768432843578, guid: 79373529ae2f6444a839e497a833ed31, type: 3}
-      propertyPath: near clip plane
-      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

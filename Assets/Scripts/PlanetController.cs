@@ -17,7 +17,10 @@ public class PlanetController : MonoBehaviourBase
     planet_content.SetActive( true );
 
     foreach( SectorController sector in sector_controllers )
-      sector.showFar();
+    {
+      sector.startShowFar();
+      sector.finishShowFar();
+    }
 
     camera_container.init();
     spawnManager.spawnScreenMainUI();

@@ -81,22 +81,19 @@ public class FieldManager : MonoBehaviourBase
   private void stopWaitingForCheck()
   {
     awaiter?.stop();
+    PathFinder.stopCheck();
     PathFinder.fastRepaint( quad_matrix, level_quad_matrix );
   }
   private void waitAndCkeck()
   {
     awaiter?.stop();
-    awaiter = TweenerStatic.waitAndDo( checkForWinNew, check_delay );
+    awaiter = tweener.waitAndDo( checkForWinNew, check_delay );
   }
 
   private void checkForWinNew()
   {
     PathFinder.checkForWin( quad_matrix, level_quad_matrix, () =>
-    spawnManager.spawnScreenWinUI().init( () =>
-      { 
-        spawnManager.despawnScreenLevelUI();
-        cameraController.moveCameraToSector();
-      } ) );
+    spawnManager.spawnScreenWinUI().init( null ) );
   }
   #endregion
 }
@@ -106,6 +103,12 @@ public class PathFinder
   private static MyTask check_task = new MyTask();
   private static MyTask culc_task = new MyTask();
   private static float QUAD_CALC_TIME = 0.3f;
+
+  public static void stopCheck()
+  {
+    check_task.stop();
+    culc_task.stop();
+  }
 
   public static async Task fastRepaint( QuadContentController[,] quad_matrix, LevelQuadMatrix level_quad_matrix )
   {
@@ -184,10 +187,7 @@ public class PathFinder
   public static async Task checkForWin( QuadContentController[,] quad_matrix, LevelQuadMatrix level_quad_matrix, Action callback )
   {
     if ( !check_task.curent_task.IsCompleted )
-    {
-      check_task.stop();
-      culc_task.stop();
-    }
+      stopCheck();
 
     await Task.Yield();
     await Task.Yield();
@@ -214,6 +214,9 @@ public class PathFinder
         Debug.Log( $"dirs count is {dirs.Count}" );
         foreach( int dir in dirs )
         {
+          if ( check_task.cencel_token )
+            return;
+
           win = false;
           await moveNext( dir, starter.matrix_x, starter.matrix_y, starter_resource );
           Debug.Log( $"Does we win? {win}" );
@@ -270,7 +273,7 @@ public class PathFinder
         int origin_dir = curent_quad_entity.getOriginDir( inner_dir );
         if ( curent_quad.paintConected( resource_type, origin_dir ) )
         {
-          culc_task = TweenerStatic.waitAndDo( null, QUAD_CALC_TIME );
+          culc_task = Service<Tweener>.get().waitAndDo( null, QUAD_CALC_TIME );
           await culc_task.curent_task;
         }
 
@@ -289,6 +292,10 @@ public class PathFinder
         foreach( int dir in next_dirs )
         {
           Vector2Int vector_dir = getNextPosV( dir );
+          
+          if ( check_task.cencel_token )
+            return;
+
           await moveNext( dir, vector_dir.x + x, vector_dir.y + y, resource_type );
         }
       }

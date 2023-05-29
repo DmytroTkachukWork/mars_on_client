@@ -8,7 +8,6 @@ public class LevelController : MonoBehaviourBase
   [SerializeField] private LevelCameraContainerController camera_container = null;
 
   [SerializeField] private FieldManager field_manager = null;
-  [SerializeField] private LevelQuadMatrix[] level_matrixes = null;
   [SerializeField] private int level_id = 0;
 
   public LevelCameraContainerController cameraContainer => camera_container;
@@ -21,12 +20,12 @@ public class LevelController : MonoBehaviourBase
     level_content.SetActive( true );
     sector_level_content.SetActive( true );
 
-    camera_container.init();
     initLevel();
   }
 
   public void finishShowClose()// like from sector view
   {
+    camera_container.init();
     sector_level_content.SetActive( false );
   }
 
@@ -36,7 +35,6 @@ public class LevelController : MonoBehaviourBase
     sector_level_content.SetActive( true );
 
     camera_container.deinit();
-    field_manager.deinit();
     spawnManager.despawnScreenLevelUI();
   }
 
@@ -77,7 +75,7 @@ public class LevelController : MonoBehaviourBase
   public void initLevel()
   {
     Debug.LogError( "initLevel" );
-    field_manager.init( level_matrixes[level_id] );
+    field_manager.init( levelsHolder.getLevelById( level_id ) );
     spawnManager.despawnScreenLevelsUI();
     spawnManager.spawnScreenLevelUI().init();
   }

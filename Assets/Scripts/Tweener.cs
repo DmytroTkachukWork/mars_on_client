@@ -64,8 +64,13 @@ public class Tweener : MonoBehaviourService<Tweener>
         await Task.Yield();
       }
 
-      if ( !my_task.cencel_token )
-        callback?.Invoke();
+      if ( my_task.cencel_token )
+        return;
+
+      curtent_transform.position = target_transform.position;
+      curtent_transform.rotation = target_transform.rotation;
+      curtent_transform.localScale = target_transform.localScale;
+      callback?.Invoke();
     }
   }
 

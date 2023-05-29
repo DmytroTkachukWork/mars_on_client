@@ -9,7 +9,14 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
   private LevelController curent_level_controller = null;
 
   private MyTask camera_move = null;
-  private float CAMERA_MOVE_TIME = 1f;
+  private MyVariables my_variables = null;
+  private Tweener tweener = null;
+
+  public void init()
+  {
+    my_variables = Service<MyVariables>.get();
+    tweener = Service<Tweener>.get();
+  }
 
   public void moveCameraToSectorFromPlanet( SectorController sector = null )
   {
@@ -22,14 +29,14 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
     main_camera.transform.SetParent( curent_sector_controller.camera_container.cameraRoot );
     camera_move?.stop();
     curent_sector_controller.startShowClose();
-    camera_move = Service<Tweener>.get().tweenTransform( main_camera.transform, curent_sector_controller.camera_container.cameraRoot, CAMERA_MOVE_TIME, null, CurveType.EASE_IN_OUT );
+    camera_move = tweener.tweenTransform( main_camera.transform, curent_sector_controller.camera_container.cameraRoot, my_variables.CAMERA_MOVE_TIME, null, CurveType.EASE_IN_OUT );
 
-    Service<Tweener>.get().waitAndDo( () =>
+    tweener.waitAndDo( () =>
     {
       curent_sector_controller.finishShowClose();
       curent_planet_controller.hide();
     }
-    , CAMERA_MOVE_TIME );
+    , my_variables.CAMERA_MOVE_TIME );
 
     Debug.LogError( "tweener.tweenTransform" );
   }
@@ -46,14 +53,14 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
     camera_move?.stop();
     curent_level_controller.startShowFar();
     curent_sector_controller.startShowClose();
-    camera_move = Service<Tweener>.get().tweenTransform( main_camera.transform, curent_sector_controller.camera_container.cameraRoot, CAMERA_MOVE_TIME, null, CurveType.EASE_IN_OUT );
+    camera_move = tweener.tweenTransform( main_camera.transform, curent_sector_controller.camera_container.cameraRoot, my_variables.CAMERA_MOVE_TIME, null, CurveType.EASE_IN_OUT );
 
-    Service<Tweener>.get().waitAndDo( () =>
+    tweener.waitAndDo( () =>
     {
       curent_level_controller.finishShowFar();
       curent_sector_controller.finishShowClose();
     }
-    , CAMERA_MOVE_TIME );
+    , my_variables.CAMERA_MOVE_TIME );
 
     Debug.LogError( "tweener.tweenTransform" );
   }
@@ -68,17 +75,17 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
 
     main_camera.transform.SetParent( curent_level_controller.cameraContainer.cameraRoot );
     camera_move?.stop();
+    curent_sector_controller?.camera_container.deinit();
     curent_level_controller.startShowClose();
-    camera_move = Service<Tweener>.get().tweenTransform( main_camera.transform, curent_level_controller.cameraContainer.cameraRoot, CAMERA_MOVE_TIME, null, CurveType.EASE_IN_OUT );
-
-    Service<Tweener>.get().waitAndDo( () =>
-    {
-      curent_level_controller.finishShowClose();
-      curent_sector_controller?.hide();
-    }
-    , CAMERA_MOVE_TIME );
+    camera_move = tweener.tweenTransform( main_camera.transform, curent_level_controller.cameraContainer.cameraRoot, my_variables.CAMERA_MOVE_TIME, finish, CurveType.EASE_IN_OUT );
 
     Debug.LogError( "tweener.tweenTransform" );
+
+    void finish()
+    {
+      curent_sector_controller?.hide();
+      curent_level_controller.finishShowClose();
+    }
   }
 
   public void moveCameraToPlanet()
@@ -87,12 +94,12 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
     camera_move?.stop();
     curent_planet_controller.showClose();
     curent_sector_controller?.startShowFar();
-    camera_move = Service<Tweener>.get().tweenTransform( main_camera.transform, planet_camera_controller.cameraRoot, CAMERA_MOVE_TIME, null, CurveType.EASE_IN_OUT );
+    camera_move = tweener.tweenTransform( main_camera.transform, planet_camera_controller.cameraRoot, my_variables.CAMERA_MOVE_TIME, null, CurveType.EASE_IN_OUT );
 
-    Service<Tweener>.get().waitAndDo( () =>
+    tweener.waitAndDo( () =>
     {
       curent_sector_controller?.finishShowFar();
     }
-    , CAMERA_MOVE_TIME );
+    , my_variables.CAMERA_MOVE_TIME );
   }
 }

@@ -11,11 +11,9 @@ public class FieldManager : MonoBehaviourBase
 
   #region Private Fields
   private LevelQuadMatrix level_quad_matrix = null;
-  private float QUAD_DISTANCE = 1.15f;
   private Vector3 cached_position = Vector3.zero;
   private QuadContentController[,] quad_matrix = null;
   private MyTask awaiter = null;
-  private float check_delay = 0.2f;
   #endregion
 
 
@@ -34,8 +32,8 @@ public class FieldManager : MonoBehaviourBase
         if ( level_quad_matrix.quad_entities[index].role_type == QuadRoleType.NONE )
           continue;
 
-        cached_position.x = transform.localPosition.x + QUAD_DISTANCE * j;
-        cached_position.z = transform.localPosition.z - QUAD_DISTANCE * i;
+        cached_position.x = transform.localPosition.x + myVariables.QUAD_DISTANCE * j;
+        cached_position.z = transform.localPosition.z - myVariables.QUAD_DISTANCE * i;
 
         QuadRoleType role_type = level_quad_matrix.quad_entities[index].role_type;
         QuadConectionType type = level_quad_matrix.quad_entities[index].connection_type;
@@ -54,6 +52,7 @@ public class FieldManager : MonoBehaviourBase
         quad_matrix[i, j].onBeginRotate += stopWaitingForCheck;
       }
     }
+    checkForWinNew();
   }
 
   public void deinit()
@@ -87,7 +86,7 @@ public class FieldManager : MonoBehaviourBase
   private void waitAndCkeck()
   {
     awaiter?.stop();
-    awaiter = tweener.waitAndDo( checkForWinNew, check_delay );
+    awaiter = tweener.waitAndDo( checkForWinNew, myVariables.WIN_CHECK_DELAY );
   }
 
   private void checkForWinNew()
@@ -151,7 +150,7 @@ public class PathFinder
       if ( curent_quad_entity.role_type == QuadRoleType.STARTER )
       {
         Vector2Int vector_dir = getNextPosV( inner_dir );
-        curent_quad.paintConected( resource_type );
+        curent_quad.paintConected( resource_type, inner_dir );
         moveNext( inner_dir, vector_dir.x + x, vector_dir.y + y, resource_type );
         return;
       }
@@ -256,7 +255,7 @@ public class PathFinder
         if ( curent_quad_entity.role_type == QuadRoleType.STARTER )
         {
           Vector2Int vector_dir = getNextPosV( inner_dir );
-          curent_quad.paintConected( resource_type );
+          curent_quad.paintConected( resource_type, inner_dir );
           await moveNext( inner_dir, vector_dir.x + x, vector_dir.y + y, resource_type );
           return;
         }

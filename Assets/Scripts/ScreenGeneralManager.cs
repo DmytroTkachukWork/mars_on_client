@@ -17,7 +17,7 @@ public class ScreenGeneralManager : MonoBehaviourBase
   {
     Debug.LogError( "init UI" );
     Application.targetFrameRate = 60;
-    spawnManager.spawnScreenMainUI().init();
+    spawnManager.getOrSpawnScreenUI( ScreenUIId.MAIN );
     cameraController.init();
     planet_controller.init();
   }

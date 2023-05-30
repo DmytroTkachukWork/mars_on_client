@@ -2,16 +2,21 @@ using UnityEngine;
 
 public class SectorController : MonoBehaviourBase
 {
-  public GameObject planet_sector_content = null;
-  public GameObject sector_content = null;
+  #region Serialized Fields
+  [SerializeField] private GameObject                      planet_sector_content = null;
+  [SerializeField] private GameObject                      sector_content        = null;
+  [SerializeField] private ClickableBase3D                 clickable_base        = null;
+  [SerializeField] private SectorCameraContainerController camera_container      = null;
+  [SerializeField] private LevelController[]               level_controllers     = null;
+  #endregion
 
-  public ClickableBase3D clickable_base = null;
-  public SectorCameraContainerController camera_container = null;
+  #region Public Fields
+  public SectorCameraContainerController cameraContainer => camera_container;
+  #endregion
 
-  public LevelController[] level_controllers = null;
 
-
-  public void startShowClose()// like from sector view
+  #region Public Methods
+  public void startShowClose()
   {
     clickable_base.onClick -= moveToSector;
     clickable_base.gameObject.SetActive( false );
@@ -23,7 +28,7 @@ public class SectorController : MonoBehaviourBase
       level.startShowFar();
   }
 
-  public void finishShowClose()// like from sector view
+  public void finishShowClose()
   {
     clickable_base.onClick -= moveToSector;
     clickable_base.gameObject.SetActive( false );
@@ -35,32 +40,32 @@ public class SectorController : MonoBehaviourBase
       level.finishShowFar();
 
     camera_container.init();
-    spawnManager.spawnScreenLevelsUI();
+    spawnManager.getOrSpawnScreenUI( ScreenUIId.SECTOR );
   }
 
-  public void startShowFar()// like from sector view
+  public void startShowFar()
   {
     sector_content.SetActive( true );
     planet_sector_content.SetActive( true );
 
-    foreach( LevelController level in level_controllers )
-      level.hide();
-
     camera_container.deinit();
-    spawnManager.despawnScreenLevelsUI();
+    spawnManager.despawnScreenUI( ScreenUIId.SECTOR );
   }
   
-  public void finishShowFar()// like from sector view
+  public void finishShowFar()
   {
     clickable_base.gameObject.SetActive( true );
     clickable_base.onClick -= moveToSector;
     clickable_base.onClick += moveToSector;
 
+    foreach( LevelController level in level_controllers )
+      level.hide();
+
     sector_content.SetActive( false );
     planet_sector_content.SetActive( true );
 
     camera_container.deinit();
-    spawnManager.despawnScreenLevelsUI();
+    spawnManager.despawnScreenUI( ScreenUIId.SECTOR );
   }
 
   public void hide()
@@ -72,13 +77,12 @@ public class SectorController : MonoBehaviourBase
     planet_sector_content.SetActive( false );
 
     camera_container.deinit();
-    spawnManager.despawnScreenLevelsUI();
+    spawnManager.despawnScreenUI( ScreenUIId.SECTOR );
   }
 
   public void moveToSector()
   {
-    //start move camera
-    Debug.LogError( "moveToSector" );
     cameraController.moveCameraToSectorFromPlanet( this );
   }
+  #endregion
 }

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class ScreenWinUI : ScreenBaseUI
+public class ScreenLoseUI : ScreenBaseUI
 {
   #region Serilized Fields
   [SerializeField] private CanvasGroup canvas_group = null;
@@ -17,12 +17,12 @@ public class ScreenWinUI : ScreenBaseUI
   public void init( Action callback = null )
   {
     full_button.onClick += onDespawn;
-    my_task = tweener.tweenFloat( ( value ) => canvas_group.alpha = value, 0.0f, 1.0f, myVariables.LEVEL_WIN_FADE_TIME, callback == null ? moveCamera : callback );
+    spawnManager.despawnScreenUI( ScreenUIId.LEVEL );
+    my_task = tweener.tweenFloat( ( value ) => canvas_group.alpha = value, 0.0f, 1.0f, myVariables.LEVEL_LOSE_FADE_TIME, callback == null ? moveCamera : callback );
   }
 
   public void moveCamera()
   {
-    spawnManager.despawnScreenUI( ScreenUIId.LEVEL );
     cameraController.moveCameraToSectorFromLevel();
   }
 

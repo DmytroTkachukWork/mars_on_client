@@ -49,7 +49,7 @@ public class PipeRosourceController : MonoBehaviourBase
     if ( is_incoming )
     {
       in_scale_transform.gameObject.SetActive( true );
-      scale_task = tweener.tween(
+      scale_task = tweener.tweenFloat(
           ( value ) => in_scale_transform.localScale = setZ( in_scale_transform.localScale, value )
         , MIN_SCALE
         , MAX_SCALE
@@ -59,7 +59,7 @@ public class PipeRosourceController : MonoBehaviourBase
     else
     {
       out_scale_transform.gameObject.SetActive( true );
-      scale_task = tweener.waitAndDo( () => tweener.tween(
+      scale_task = tweener.waitAndDo( () => tweener.tweenFloat(
           ( value ) => out_scale_transform.localScale = setZ( out_scale_transform.localScale, value )
         , MIN_SCALE
         , MAX_SCALE

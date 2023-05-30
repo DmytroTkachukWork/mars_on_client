@@ -2,17 +2,19 @@ using UnityEngine;
 
 public class PlanetController : MonoBehaviourBase
 {
-  public GameObject planet_content = null;
-  public PlanetCameraContainerController camera_container = null;
-  public SectorController[] sector_controllers = null;
+  #region Serialized Fields
+  [SerializeField] private GameObject planet_content = null;
+  [SerializeField] private PlanetCameraContainerController camera_container = null;
+  [SerializeField] private SectorController[] sector_controllers = null;
+  #endregion
+
+  #region Public Fields
+  public PlanetCameraContainerController cameraContainer => camera_container;
+  #endregion
 
 
+  #region Public Methods
   public void init()
-  {
-    showClose();
-  }
-
-  public void showClose()
   {
     planet_content.SetActive( true );
 
@@ -23,7 +25,26 @@ public class PlanetController : MonoBehaviourBase
     }
 
     camera_container.init();
-    spawnManager.spawnScreenMainUI();
+    spawnManager.getOrSpawnScreenUI( ScreenUIId.MAIN );
+  }
+
+  public void startShowClose()
+  {
+    planet_content.SetActive( true );
+
+    foreach( SectorController sector in sector_controllers )
+      sector.startShowFar();
+  }
+
+  public void finishShowClose()
+  {
+    planet_content.SetActive( true );
+
+    foreach( SectorController sector in sector_controllers )
+      sector.finishShowFar();
+
+    camera_container.init();
+    spawnManager.getOrSpawnScreenUI( ScreenUIId.MAIN );
   }
 
   public void hide()
@@ -31,12 +52,12 @@ public class PlanetController : MonoBehaviourBase
     planet_content.SetActive( false );
 
     camera_container.deinit();
-    spawnManager.despawnScreenMainUI();
+    spawnManager.despawnScreenUI( ScreenUIId.MAIN );
   }
 
   public void moveToPlanet()
   {
-    Debug.LogError( "moveToSector" );
     cameraController.moveCameraToPlanet();
   }
+  #endregion
 }

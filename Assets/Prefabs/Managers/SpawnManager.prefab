@@ -54,6 +54,7 @@ MonoBehaviour:
   screen_levels_ui: {fileID: 438251574226702944, guid: bcb4e99cb8eb57a439f08d2081221c9c, type: 3}
   screen_level_ui: {fileID: 4474804752419511675, guid: 5164fc53391971844a338195b460839a, type: 3}
   screen_win_ui: {fileID: 1030586960811523614, guid: 6b2dc71f94e575a4da4dc76643a19c81, type: 3}
+  screen_lose_ui: {fileID: 8928876153441121439, guid: b37bec215e45d2442a187c5f1a684405, type: 3}
   screen_level_3d: {fileID: 8046438305560946861, guid: 5f5933d1ee35aee489eee56887f2a5ca, type: 3}
   screen_main_3d: {fileID: 2138785832199395244, guid: 0e9482799db1d9e4b8b1956c4d2cbb11, type: 3}
   screen_levels_3d: {fileID: 7538933702045671217, guid: d1855894d638ed34a98d2d65fa9384d1, type: 3}

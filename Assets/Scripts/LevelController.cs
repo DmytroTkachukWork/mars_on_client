@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class LevelController : MonoBehaviourBase
 {
+  #region Serialized Fields
   [SerializeField] private GameObject sector_level_content = null;
   [SerializeField] private GameObject level_content = null;
   [SerializeField] private ClickableBase3D clickable_base = null;
@@ -9,10 +10,15 @@ public class LevelController : MonoBehaviourBase
 
   [SerializeField] private FieldManager field_manager = null;
   [SerializeField] private int level_id = 0;
+  #endregion
 
+  #region Public Fields
   public LevelCameraContainerController cameraContainer => camera_container;
+  #endregion
 
-  public void startShowClose()// like from sector view
+
+  #region Public Methods
+  public void startShowClose()
   {
     clickable_base.onClick -= moveToLevel;
     clickable_base.gameObject.SetActive( false );
@@ -23,22 +29,22 @@ public class LevelController : MonoBehaviourBase
     initLevel();
   }
 
-  public void finishShowClose()// like from sector view
+  public void finishShowClose()
   {
     camera_container.init();
     sector_level_content.SetActive( false );
   }
 
-  public void startShowFar()// like from sector view
+  public void startShowFar()
   {
     level_content.SetActive( true );
     sector_level_content.SetActive( true );
 
     camera_container.deinit();
-    spawnManager.despawnScreenLevelUI();
+    spawnManager.despawnScreenUI( ScreenUIId.LEVEL );
   }
 
-  public void finishShowFar()// like from sector view
+  public void finishShowFar()
   {
     clickable_base.gameObject.SetActive( true );
     clickable_base.onClick -= moveToLevel;
@@ -49,7 +55,7 @@ public class LevelController : MonoBehaviourBase
 
     camera_container.deinit();
     field_manager.deinit();
-    spawnManager.despawnScreenLevelUI();
+    spawnManager.despawnScreenUI( ScreenUIId.LEVEL );
   }
 
   public void hide()
@@ -62,21 +68,19 @@ public class LevelController : MonoBehaviourBase
 
     camera_container.deinit();
     field_manager.deinit();
-    spawnManager.despawnScreenLevelUI();
+    spawnManager.despawnScreenUI( ScreenUIId.LEVEL );
   }
 
   public void moveToLevel()
   {
-    //start move camera
-    Debug.LogError( "moveToLevel" );
     cameraController.moveCameraToLevel( this );
   }
 
   public void initLevel()
   {
-    Debug.LogError( "initLevel" );
     field_manager.init( levelsHolder.getLevelById( level_id ) );
-    spawnManager.despawnScreenLevelsUI();
-    spawnManager.spawnScreenLevelUI().init();
+    spawnManager.despawnScreenUI( ScreenUIId.SECTOR );
+    (spawnManager.getOrSpawnScreenUI( ScreenUIId.LEVEL ) as ScreenLevelUI ).init();
   }
+  #endregion
 }

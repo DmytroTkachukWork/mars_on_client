@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ScreenLevelsUI : MonoBehaviourPoolable
+public class ScreenLevelsUI : ScreenBaseUI
 {
   #region Serialized Fields
   [SerializeField] private ButtonBase exit_button = null;

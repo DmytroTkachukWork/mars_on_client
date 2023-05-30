@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
-public class ScreenLevelUI : MonoBehaviourPoolable
+public class ScreenLevelUI : ScreenBaseUI
 {
   #region Serialized Fields
   [SerializeField] private ButtonBase exit_button = null;
+  [SerializeField] private TMP_Text steps_to_lose_text = null;
   #endregion
 
   #region Public Methods
@@ -18,6 +20,11 @@ public class ScreenLevelUI : MonoBehaviourPoolable
   public void deinit()
   {
     exit_button.onClick -= onExit;
+  }
+
+  public void updateStepsCount( int count )
+  {
+    steps_to_lose_text.text = count.ToString();
   }
 
   public override void onSpawn()
@@ -40,7 +47,7 @@ public class ScreenLevelUI : MonoBehaviourPoolable
   {
     Debug.LogError( "onExit" );
     cameraController.moveCameraToSectorFromLevel();
-    spawnManager.despawnScreenLevelUI();
+    spawnManager.despawnScreenUI( ScreenUIId.LEVEL );
   }
   #endregion 
 }

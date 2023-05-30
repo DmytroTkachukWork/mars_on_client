@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Assertions.Must;
 
 public class Tweener : MonoBehaviourService<Tweener>
 {
@@ -16,7 +15,7 @@ public class Tweener : MonoBehaviourService<Tweener>
     return tasks_pool.get();
   }
 
-  public MyTask tween( Action<float> func, float start_value, float finish_value, float time, Action callback )
+  public MyTask tweenFloat( Action<float> func, float start_value, float finish_value, float time, Action callback, CurveType curve_type = CurveType.NONE )
   {
     MyTask my_task = tasks_pool.get();
     my_task.curent_task = perform();
@@ -25,9 +24,12 @@ public class Tweener : MonoBehaviourService<Tweener>
     async Task perform()
     {
       float time_left = 0.0f;
+      float progress = 0.0f;
       while( time_left <= time && !my_task.cencel_token ) 
       {
-        func.Invoke( Mathf.Lerp( start_value, finish_value, time_left / time ) );
+        progress = culcCurve( curve_type, time_left / time );
+
+        func.Invoke( Mathf.Lerp( start_value, finish_value, progress ) );
         time_left += Time.deltaTime;
         await Task.Yield();
       }
@@ -52,10 +54,7 @@ public class Tweener : MonoBehaviourService<Tweener>
       float progress = 0.0f;
       while( time_left <= time && !my_task.cencel_token ) 
       {
-        progress = time_left / time;
-
-        if ( curve_type == CurveType.NONE )
-          progress = getCurve( curve_type ).Evaluate( progress );
+        progress = culcCurve( curve_type, time_left / time );
 
         curtent_transform.position = Vector3.Lerp( pos, target_transform.position, progress );
         curtent_transform.rotation = Quaternion.Lerp( rot, target_transform.rotation, progress );
@@ -74,7 +73,7 @@ public class Tweener : MonoBehaviourService<Tweener>
     }
   }
 
-  public MyTask tweenPosition( Transform curtent_transform, Transform target_transform, float time, Action callback = null )
+  public MyTask tweenPosition( Transform curtent_transform, Transform target_transform, float time, Action callback = null, CurveType curve_type = CurveType.NONE )
   {
     MyTask my_task = tasks_pool.get();
     my_task.curent_task = perform();
@@ -86,7 +85,8 @@ public class Tweener : MonoBehaviourService<Tweener>
       float progress = 0.0f;
       while( time_left <= time && !my_task.cencel_token ) 
       {
-        progress = time_left / time;
+        progress = culcCurve( curve_type, time_left / time );
+
         curtent_transform.position = Vector3.Lerp( curtent_transform.position, target_transform.position, progress );
         time_left += Time.deltaTime;
         await Task.Yield();
@@ -95,7 +95,7 @@ public class Tweener : MonoBehaviourService<Tweener>
     }
   }
 
-  public MyTask tweenRotation( Transform curtent_transform, Transform target_transform, float time, Action callback = null )
+  public MyTask tweenRotation( Transform curtent_transform, Transform target_transform, float time, Action callback = null, CurveType curve_type = CurveType.NONE )
   {
     MyTask my_task = tasks_pool.get();
     my_task.curent_task = perform();
@@ -107,7 +107,8 @@ public class Tweener : MonoBehaviourService<Tweener>
       float progress = 0.0f;
       while( time_left <= time && !my_task.cencel_token ) 
       {
-        progress = time_left / time;
+        progress = culcCurve( curve_type, time_left / time );
+
         curtent_transform.rotation = Quaternion.Lerp( curtent_transform.rotation, target_transform.rotation, progress );
         time_left += Time.deltaTime;
         await Task.Yield();
@@ -161,6 +162,14 @@ public class Tweener : MonoBehaviourService<Tweener>
     case CurveType.EASE_IN_OUT : return ease_in_out_curve;
     default : return null;
     }
+  }
+
+  public float culcCurve( CurveType curve_type, float curent_progress )
+  {
+    if ( curve_type != CurveType.NONE )
+      curent_progress = getCurve( curve_type ).Evaluate( curent_progress );
+
+    return curent_progress;
   }
 }
 

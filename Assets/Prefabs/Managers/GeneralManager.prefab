@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1443718286576827328}
   - component: {fileID: 7294185280965450628}
   - component: {fileID: 4442888143216407734}
+  - component: {fileID: 4541516977136244187}
   m_Layer: 0
   m_Name: GeneralManager
   m_TagString: Untagged
@@ -150,6 +151,8 @@ MonoBehaviour:
   QUAD_DISTANCE: 1.15
   WIN_CHECK_DELAY: 0.2
   LEVEL_WIN_FADE_TIME: 5.5
+  LEVEL_LOSE_FADE_TIME: 5.5
+  QUAD_ROTATION_TIME: 0.9
 --- !u!114 &4442888143216407734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,6 +171,21 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0d0f3042c70ff8941b0f9d4c3747e808, type: 2}
   - {fileID: 11400000, guid: 074532bdfcf8fe54e80790bd637df97f, type: 2}
   - {fileID: 11400000, guid: c7c6cd4da25d5924eadaa86c6d6dc4c5, type: 2}
+--- !u!114 &4541516977136244187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1806407465073043666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b1aec1cf80bf984cbd41286b7c8e506, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  main_camera: {fileID: 0}
+  planet_camera_controller: {fileID: 0}
+  curent_planet_controller: {fileID: 0}
 --- !u!1 &3705605676578492945
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,9 +7,11 @@ public class LevelController : MonoBehaviourBase
   [SerializeField] private GameObject level_content = null;
   [SerializeField] private ClickableBase3D clickable_base = null;
   [SerializeField] private LevelCameraContainerController camera_container = null;
+  [SerializeField] private GameObject smoke = null;
 
   [SerializeField] private FieldManager field_manager = null;
   [SerializeField] private int level_id = 0;
+  [SerializeField] private int sector_id = 0;
   #endregion
 
   #region Public Fields
@@ -42,6 +44,8 @@ public class LevelController : MonoBehaviourBase
 
     camera_container.deinit();
     spawnManager.despawnScreenUI( ScreenUIId.LEVEL );
+
+    smoke.SetActive( !playerDataManager.hasAccessToLevel( sector_id, level_id ) );
   }
 
   public void finishShowFar()
@@ -69,16 +73,20 @@ public class LevelController : MonoBehaviourBase
     camera_container.deinit();
     field_manager.deinit();
     spawnManager.despawnScreenUI( ScreenUIId.LEVEL );
+    smoke.SetActive( false );
   }
 
   public void moveToLevel()
   {
+    if ( !playerDataManager.hasAccessToLevel( sector_id, level_id ) && !playerDataManager.isCurentLevel( sector_id, level_id ) )
+      return;
+
     cameraController.moveCameraToLevel( this );
   }
 
   public void initLevel()
   {
-    field_manager.init( levelsHolder.getLevelById( level_id ) );
+    field_manager.init( levelsHolder.getLevel( sector_id, level_id ) );
     spawnManager.despawnScreenUI( ScreenUIId.SECTOR );
     (spawnManager.getOrSpawnScreenUI( ScreenUIId.LEVEL ) as ScreenLevelUI ).init();
   }

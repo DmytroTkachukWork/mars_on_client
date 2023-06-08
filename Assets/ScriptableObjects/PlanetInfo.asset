@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4302c389843203449aa87ae777e7cecf, type: 3}
+  m_Name: PlanetInfo
+  m_EditorClassIdentifier: 
+  sectors_info:
+  - levels_info:
+    - level_matrix: {fileID: 11400000, guid: b12a7373b221f7e4bb9028c966c781be, type: 2}
+      stars_count: 0
+    - level_matrix: {fileID: 11400000, guid: 2ed81802b4bfa3a4b93e959336406b64, type: 2}
+      stars_count: 0
+    - level_matrix: {fileID: 11400000, guid: 0d0f3042c70ff8941b0f9d4c3747e808, type: 2}
+      stars_count: 0
+  - levels_info:
+    - level_matrix: {fileID: 11400000, guid: 074532bdfcf8fe54e80790bd637df97f, type: 2}
+      stars_count: 0
+    - level_matrix: {fileID: 11400000, guid: c7c6cd4da25d5924eadaa86c6d6dc4c5, type: 2}
+      stars_count: 0
+    - level_matrix: {fileID: 11400000, guid: 82bafe52bc38f6f4fb67210fdf0c286d, type: 2}
+      stars_count: 0
+    - level_matrix: {fileID: 11400000, guid: 23af8e60cef610c4d8ca27e419eb885b, type: 2}
+      stars_count: 0
+    - level_matrix: {fileID: 11400000, guid: d07073e019150c644a326f9f97b0d2d8, type: 2}
+      stars_count: 0

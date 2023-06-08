@@ -1,0 +1,334 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 316300f36bbf0e545814e01ae55414c6, type: 3}
+  m_Name: LevelQuadMatrix_01_00
+  m_EditorClassIdentifier: 
+  quad_entities:
+  - connection_type: 6
+    role_type: 2
+    recource_type: 1
+    start_rotation: 90
+    curent_rotation: 90
+    matrix_x: 0
+    matrix_y: 0
+  - connection_type: 2
+    role_type: 1
+    recource_type: 1
+    start_rotation: 90
+    curent_rotation: 180
+    matrix_x: 0
+    matrix_y: 1
+  - connection_type: 0
+    role_type: 0
+    recource_type: 0
+    start_rotation: 0
+    curent_rotation: 0
+    matrix_x: 0
+    matrix_y: 0
+  - connection_type: 2
+    role_type: 1
+    recource_type: 0
+    start_rotation: 90
+    curent_rotation: 90
+    matrix_x: 0
+    matrix_y: 3
+  - connection_type: 1
+    role_type: 1
+    recource_type: 0
+    start_rotation: 90
+    curent_rotation: 90
+    matrix_x: 0
+    matrix_y: 4
+  - connection_type: 0
+    role_type: 0
+    recource_type: 0
+    start_rotation: 0
+    curent_rotation: 0
+    matrix_x: 0
+    matrix_y: 0
+  - connection_type: 0
+    role_type: 0
+    recource_type: 0
+    start_rotation: 0
+    curent_rotation: 0
+    matrix_x: 0
+    matrix_y: 0
+  - connection_type: 0
+    role_type: 0
+    recource_type: 0
+    start_rotation: 0
+    curent_rotation: 0
+    matrix_x: 0
+    matrix_y: 0
+  - connection_type: 0
+    role_type: 0
+    recource_type: 0
+    start_rotation: 0
+    curent_rotation: 0
+    matrix_x: 0
+    matrix_y: 0
+  - connection_type: 0
+    role_type: 0
+    recource_type: 0
+    start_rotation: 0
+    curent_rotation: 0
+    matrix_x: 0
+    matrix_y: 0
+  - connection_type: 2
+    role_type: 1
+    recource_type: 1
+    start_rotation: 270
+    curent_rotation: 360
+    matrix_x: 1
+    matrix_y: 1
+  - connection_type: 1
+    role_type: 1
+    recource_type: 1
+    start_rotation: 90
+    curent_rotation: 360
+    matrix_x: 1
+    matrix_y: 2
+  - connection_type: 2
+    role_type: 1
+    recource_type: 1
+    start_rotation: 0
+    curent_rotation: 180
+    matrix_x: 1
+    matrix_y: 3
+  - connection_type: 0
+    role_type: 0
+    recource_type: 0
+    start_rotation: 0
+    curent_rotation: 0
+    matrix_x: 0
+    matrix_y: 0
+  - connection_type: 2
+    role_type: 1
+    recource_type: 1
+    start_rotation: 90
+    curent_rotation: 90
+    matrix_x: 1
+    matrix_y: 5
+  - connection_type: 1
+    role_type: 1
+    recource_type: 1
+    start_rotation: 0
+    curent_rotation: 0
+    matrix_x: 1
+    matrix_y: 6
+  - connection_type: 2
+    role_type: 1
+    recource_type: 1
+    start_rotation: 180
+    curent_rotation: 180
+    matrix_x: 1
+    matrix_y: 7
+  - connection_type: 0
+    role_type: 0
+    recource_type: 0
+    start_rotation: 0
+    curent_rotation: 0
+    matrix_x: 0
+    matrix_y: 0
+  - connection_type: 0
+    role_type: 0
+    recource_type: 0
+    start_rotation: 0
+    curent_rotation: 0
+    matrix_x: 0
+    matrix_y: 0
+  - connection_type: 2
+    role_type: 1
+    recource_type: 0
+    start_rotation: 90
+    curent_rotation: 90
+    matrix_x: 2
+    matrix_y: 1
+  - connection_type: 1
+    role_type: 1
+    recource_type: 1
+    start_rotation: 90
+    curent_rotation: 90
+    matrix_x: 2
+    matrix_y: 2
+  - connection_type: 1
+    role_type: 1
+    recource_type: 1
+    start_rotation: 0
+    curent_rotation: 90
+    matrix_x: 2
+    matrix_y: 3
+  - connection_type: 2
+    role_type: 1
+    recource_type: 1
+    start_rotation: 180
+    curent_rotation: 450
+    matrix_x: 2
+    matrix_y: 4
+  - connection_type: 2
+    role_type: 1
+    recource_type: 1
+    start_rotation: 0
+    curent_rotation: 540
+    matrix_x: 2
+    matrix_y: 5
+  - connection_type: 0
+    role_type: 0
+    recource_type: 0
+    start_rotation: 0
+    curent_rotation: 0
+    matrix_x: 2
+    matrix_y: 6
+  - connection_type: 1
+    role_type: 1
+    recource_type: 1
+    start_rotation: 90
+    curent_rotation: 90
+    matrix_x: 2
+    matrix_y: 7
+  - connection_type: 0
+    role_type: 0
+    recource_type: 0
+    start_rotation: 0
+    curent_rotation: 0
+    matrix_x: 0
+    matrix_y: 0
+  - connection_type: 0
+    role_type: 0
+    recource_type: 0
+    start_rotation: 0
+    curent_rotation: 0
+    matrix_x: 0
+    matrix_y: 0
+  - connection_type: 1
+    role_type: 1
+    recource_type: 0
+    start_rotation: 90
+    curent_rotation: 90
+    matrix_x: 3
+    matrix_y: 1
+  - connection_type: 2
+    role_type: 1
+    recource_type: 1
+    start_rotation: 270
+    curent_rotation: 450
+    matrix_x: 3
+    matrix_y: 2
+  - connection_type: 2
+    role_type: 1
+    recource_type: 1
+    start_rotation: 270
+    curent_rotation: 270
+    matrix_x: 3
+    matrix_y: 3
+  - connection_type: 1
+    role_type: 1
+    recource_type: 1
+    start_rotation: 90
+    curent_rotation: 90
+    matrix_x: 3
+    matrix_y: 4
+  - connection_type: 1
+    role_type: 1
+    recource_type: 1
+    start_rotation: 0
+    curent_rotation: 90
+    matrix_x: 3
+    matrix_y: 5
+  - connection_type: 2
+    role_type: 1
+    recource_type: 1
+    start_rotation: 90
+    curent_rotation: 90
+    matrix_x: 3
+    matrix_y: 6
+  - connection_type: 1
+    role_type: 1
+    recource_type: 1
+    start_rotation: 90
+    curent_rotation: 180
+    matrix_x: 3
+    matrix_y: 7
+  - connection_type: 6
+    role_type: 3
+    recource_type: 1
+    start_rotation: 270
+    curent_rotation: 270
+    matrix_x: 3
+    matrix_y: 8
+  - connection_type: 0
+    role_type: 0
+    recource_type: 0
+    start_rotation: 0
+    curent_rotation: 0
+    matrix_x: 0
+    matrix_y: 0
+  - connection_type: 2
+    role_type: 1
+    recource_type: 0
+    start_rotation: 180
+    curent_rotation: 180
+    matrix_x: 4
+    matrix_y: 1
+  - connection_type: 2
+    role_type: 1
+    recource_type: 1
+    start_rotation: 270
+    curent_rotation: 360
+    matrix_x: 4
+    matrix_y: 2
+  - connection_type: 1
+    role_type: 1
+    recource_type: 1
+    start_rotation: 0
+    curent_rotation: 0
+    matrix_x: 4
+    matrix_y: 3
+  - connection_type: 2
+    role_type: 1
+    recource_type: 1
+    start_rotation: 0
+    curent_rotation: 270
+    matrix_x: 4
+    matrix_y: 4
+  - connection_type: 2
+    role_type: 1
+    recource_type: 1
+    start_rotation: 180
+    curent_rotation: 360
+    matrix_x: 4
+    matrix_y: 5
+  - connection_type: 2
+    role_type: 1
+    recource_type: 1
+    start_rotation: 270
+    curent_rotation: 270
+    matrix_x: 4
+    matrix_y: 6
+  - connection_type: 1
+    role_type: 1
+    recource_type: 1
+    start_rotation: 90
+    curent_rotation: 90
+    matrix_x: 4
+    matrix_y: 7
+  - connection_type: 0
+    role_type: 0
+    recource_type: 0
+    start_rotation: 0
+    curent_rotation: 0
+    matrix_x: 0
+    matrix_y: 0
+  matrix_size: {x: 5, y: 9}
+  max_steps_to_lose: 40
+  sector_id: 1
+  level_id: 0

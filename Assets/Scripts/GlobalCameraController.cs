@@ -4,11 +4,10 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
 {
   #region Serialized Fields
   [SerializeField] private Camera main_camera = null;
-  [SerializeField] private PlanetCameraContainerController planet_camera_controller = null;
-  [SerializeField] private PlanetController curent_planet_controller = null;
   #endregion
 
   #region Private Fields
+  private PlanetController curent_planet_controller = null;
   private SectorController curent_sector_controller = null;
   private LevelController curent_level_controller = null;
   private MyTask camera_move = null;
@@ -18,10 +17,14 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
 
 
   #region Public Methosd
-  public void init()
+  public void init( PlanetController planet_controller )
   {
     my_variables = Service<MyVariables>.get();
     tweener = Service<Tweener>.get();
+    curent_planet_controller = planet_controller;
+    main_camera.transform.SetParent( curent_planet_controller.cameraContainer.cameraRoot );
+    main_camera.transform.localPosition = Vector3.zero;
+    main_camera.transform.localRotation = Quaternion.identity;
   }
 
   public void moveCameraToSectorFromPlanet( SectorController sector = null )
@@ -34,14 +37,15 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
 
     main_camera.transform.SetParent( curent_sector_controller.cameraContainer.cameraRoot );
     camera_move?.stop();
+    curent_planet_controller.startHide();
     curent_sector_controller.startShowClose();
   
     camera_move = tweener.tweenTransform( main_camera.transform, curent_sector_controller.cameraContainer.cameraRoot, my_variables.CAMERA_MOVE_TIME, callback, CurveType.EASE_IN_OUT );
 
     void callback()
     {
+      curent_planet_controller.hide( curent_sector_controller );
       curent_sector_controller.finishShowClose();
-      curent_planet_controller.hide();
     }
   }
 
@@ -93,13 +97,13 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
 
   public void moveCameraToPlanet()
   {
-    main_camera.transform.SetParent( planet_camera_controller.cameraRoot );
+    main_camera.transform.SetParent( curent_planet_controller.cameraContainer.cameraRoot );
     camera_move?.stop();
 
     curent_planet_controller.startShowClose();
     curent_sector_controller?.startShowFar();
 
-    camera_move = tweener.tweenTransform( main_camera.transform, planet_camera_controller.cameraRoot, my_variables.CAMERA_MOVE_TIME, callback, CurveType.EASE_IN_OUT );
+    camera_move = tweener.tweenTransform( main_camera.transform, curent_planet_controller.cameraContainer.cameraRoot, my_variables.CAMERA_MOVE_TIME, callback, CurveType.EASE_IN_OUT );
 
     void callback()
     {

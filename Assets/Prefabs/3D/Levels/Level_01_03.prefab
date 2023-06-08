@@ -74,6 +74,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3711592203828198815, guid: 4bd7cc8fd5e96a7489e721fea853cc48, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.93
+      objectReference: {fileID: 0}
+    - target: {fileID: 3711592203828198815, guid: 4bd7cc8fd5e96a7489e721fea853cc48, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.78
+      objectReference: {fileID: 0}
     - target: {fileID: 5362660431593928853, guid: 4bd7cc8fd5e96a7489e721fea853cc48, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -118,9 +126,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6296188596441399577, guid: 4bd7cc8fd5e96a7489e721fea853cc48, type: 3}
+      propertyPath: level_id
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6296188596441399577, guid: 4bd7cc8fd5e96a7489e721fea853cc48, type: 3}
+      propertyPath: sector_id
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8224884458735686770, guid: 4bd7cc8fd5e96a7489e721fea853cc48, type: 3}
       propertyPath: m_Name
-      value: Level_0 1
+      value: Level_01_03
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

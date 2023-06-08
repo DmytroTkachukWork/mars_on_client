@@ -8,6 +8,7 @@ public class SectorController : MonoBehaviourBase
   [SerializeField] private ClickableBase3D                 clickable_base        = null;
   [SerializeField] private SectorCameraContainerController camera_container      = null;
   [SerializeField] private LevelController[]               level_controllers     = null;
+  [SerializeField] private int                             sector_id             = 0;
   #endregion
 
   #region Public Fields
@@ -82,6 +83,9 @@ public class SectorController : MonoBehaviourBase
 
   public void moveToSector()
   {
+    if ( !playerDataManager.hasAccessToSector( sector_id ) )
+      return;
+
     cameraController.moveCameraToSectorFromPlanet( this );
   }
   #endregion

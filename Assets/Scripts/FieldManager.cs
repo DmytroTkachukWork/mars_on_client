@@ -115,7 +115,11 @@ public class FieldManager : MonoBehaviourBase
   private void checkForWin()
   {
     PathFinder.checkForWin( quad_matrix, level_quad_matrix, () =>
-    ( spawnManager.getOrSpawnScreenUI( ScreenUIId.LEVEL_WIN ) as ScreenWinUI ).init( null ) );
+    {
+      ( spawnManager.getOrSpawnScreenUI( ScreenUIId.LEVEL_WIN ) as ScreenWinUI ).init( null );
+      playerDataManager.handleLevelWin( level_quad_matrix.sector_id, level_quad_matrix.level_id );
+    }
+    );
   }
   #endregion
 }

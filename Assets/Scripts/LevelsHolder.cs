@@ -2,13 +2,16 @@ using UnityEngine;
 
 public class LevelsHolder : MonoBehaviourService<LevelsHolder>
 {
-  [SerializeField] private LevelQuadMatrix[] level_matrixes = null;
+  [SerializeField] private PlanetInfo planet_info = null;
 
-  public LevelQuadMatrix getLevelById( int idx )
+  public LevelQuadMatrix getLevel( int sector_id, int level_id )
   {
-    if ( idx >= level_matrixes.Length )
+    if ( sector_id >= planet_info.sectors_info.Length )
       return null;
 
-    return level_matrixes[idx];
+    if ( level_id >= planet_info.sectors_info[sector_id].levels_info.Length )
+      return null;
+
+    return planet_info.sectors_info[sector_id].levels_info[level_id].level_matrix.getCopy();
   }
 }

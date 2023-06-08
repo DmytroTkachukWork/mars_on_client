@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlanetController : MonoBehaviourBase
+public class PlanetController : MonoBehaviourPoolable
 {
   #region Serialized Fields
   [SerializeField] private GameObject planet_content = null;
@@ -47,12 +47,25 @@ public class PlanetController : MonoBehaviourBase
     spawnManager.getOrSpawnScreenUI( ScreenUIId.MAIN );
   }
 
-  public void hide()
+  public void startHide()
+  {
+    spawnManager.despawnScreenUI( ScreenUIId.MAIN );
+  }
+
+  public void hide( SectorController curent_sector )
+
   {
     planet_content.SetActive( false );
 
     camera_container.deinit();
     spawnManager.despawnScreenUI( ScreenUIId.MAIN );
+
+    foreach( SectorController sector in sector_controllers )
+    {
+      if ( curent_sector != sector )
+        sector.hide();
+    }
+
   }
 
   public void moveToPlanet()

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -13,13 +11,15 @@ public class ScreenLevelUI : ScreenBaseUI
   #region Public Methods
   public void init()
   {
-    this.gameObject.SetActive( true );
+    steps_to_lose_text.text = string.Empty;
+    exit_button.onClick -= onExit;
     exit_button.onClick += onExit;
   }
 
   public void deinit()
   {
     exit_button.onClick -= onExit;
+    steps_to_lose_text.text = string.Empty;
   }
 
   public void updateStepsCount( int count )

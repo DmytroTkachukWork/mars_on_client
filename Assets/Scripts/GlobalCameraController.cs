@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class GlobalCameraController : MonoBehaviourService<GlobalCameraController>
@@ -10,9 +11,9 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
   private PlanetController curent_planet_controller = null;
   private SectorController curent_sector_controller = null;
   private LevelController curent_level_controller = null;
-  private MyTask camera_move = null;
   private MyVariables my_variables = null;
   private Tweener tweener = null;
+  private IEnumerator camera_tweener = null;
   #endregion
 
 
@@ -36,11 +37,17 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
       return;
 
     main_camera.transform.SetParent( curent_sector_controller.cameraContainer.cameraRoot );
-    camera_move?.stop();
+
     curent_planet_controller.startHide();
     curent_sector_controller.startShowClose();
-  
-    camera_move = tweener.tweenTransform( main_camera.transform, curent_sector_controller.cameraContainer.cameraRoot, my_variables.CAMERA_MOVE_TIME, callback, CurveType.EASE_IN_OUT );
+
+    camera_tweener = camera_tweener.startCoroutineAndStopPrev( tweener.tweenTransform(
+        main_camera.transform
+      , curent_sector_controller.cameraContainer.cameraRoot
+      , my_variables.CAMERA_MOVE_TIME
+      , callback
+      , CurveType.EASE_IN_OUT
+    ) );
 
     void callback()
     {
@@ -49,25 +56,25 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
     }
   }
 
-  public void moveCameraToSectorFromLevel( SectorController sector = null )
+  public void moveCameraToSectorFromLevel()
   {
-    if ( sector != null )
-      curent_sector_controller = sector;
-
     if ( curent_sector_controller == null )
       return;
 
     main_camera.transform.SetParent( curent_sector_controller.cameraContainer.cameraRoot );
-    camera_move?.stop();
 
-    curent_level_controller.startShowFar();
     curent_sector_controller.startShowClose();
 
-    camera_move = tweener.tweenTransform( main_camera.transform, curent_sector_controller.cameraContainer.cameraRoot, my_variables.CAMERA_MOVE_TIME, callback, CurveType.EASE_IN_OUT );
+    camera_tweener = camera_tweener.startCoroutineAndStopPrev( tweener.tweenTransform(
+        main_camera.transform
+      , curent_sector_controller.cameraContainer.cameraRoot
+      , my_variables.CAMERA_MOVE_TIME
+      , callback
+      , CurveType.EASE_IN_OUT
+    ) );
 
     void callback()
     {
-      curent_level_controller.finishShowFar();
       curent_sector_controller.finishShowClose();
     }
   }
@@ -77,20 +84,25 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
     if ( level != null )
       curent_level_controller = level;
 
-    if ( curent_level_controller == null )
+    if ( curent_level_controller == null || curent_sector_controller == null )
       return;
 
     main_camera.transform.SetParent( curent_level_controller.cameraContainer.cameraRoot );
-    camera_move?.stop();
+    curent_sector_controller.cameraContainer.deinit();
 
-    curent_sector_controller?.cameraContainer.deinit();
     curent_level_controller.startShowClose();
 
-    camera_move = tweener.tweenTransform( main_camera.transform, curent_level_controller.cameraContainer.cameraRoot, my_variables.CAMERA_MOVE_TIME, callback, CurveType.EASE_IN_OUT );
+    camera_tweener = camera_tweener.startCoroutineAndStopPrev( tweener.tweenTransform(
+        main_camera.transform
+      , curent_level_controller.cameraContainer.cameraRoot
+      , my_variables.CAMERA_MOVE_TIME
+      , callback
+      , CurveType.EASE_IN_OUT
+    ) );
 
     void callback()
     {
-      curent_sector_controller?.hide();
+      curent_sector_controller.hide();
       curent_level_controller.finishShowClose();
     }
   }
@@ -98,12 +110,17 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
   public void moveCameraToPlanet()
   {
     main_camera.transform.SetParent( curent_planet_controller.cameraContainer.cameraRoot );
-    camera_move?.stop();
 
     curent_planet_controller.startShowClose();
     curent_sector_controller?.startShowFar();
 
-    camera_move = tweener.tweenTransform( main_camera.transform, curent_planet_controller.cameraContainer.cameraRoot, my_variables.CAMERA_MOVE_TIME, callback, CurveType.EASE_IN_OUT );
+    camera_tweener = camera_tweener.startCoroutineAndStopPrev( tweener.tweenTransform(
+        main_camera.transform
+      , curent_planet_controller.cameraContainer.cameraRoot
+      , my_variables.CAMERA_MOVE_TIME
+      , callback
+      , CurveType.EASE_IN_OUT
+    ) );
 
     void callback()
     {
@@ -111,5 +128,5 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
       curent_planet_controller.finishShowClose();
     }
   }
-  #endregion 
+  #endregion
 }

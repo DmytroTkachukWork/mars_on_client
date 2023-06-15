@@ -23,6 +23,9 @@ public class QuadEntity
   #region Public Methods
   public bool canBeAccessedFrom( int dir )
   {
+    if ( role_type == QuadRoleType.NONE )
+      return false;
+
     int input_dir = MatrixHelper.inverse4( dir );
     int[] matrix = MatrixHelper.getMatrix( connection_type );
     matrix = MatrixHelper.rotateQuadByAngle( matrix, curent_rotation );

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 
@@ -16,7 +17,7 @@ public class ClickableBase3D : MonoBehaviourBase
   #region Private Fields
   private Vector3 cached_mouse_pos = Vector3.zero;
   private Vector3 drag_delta = Vector3.zero;
-  private MyTask drag_updater = null;
+  private IEnumerator drag_updater = null;
   #endregion
 
 
@@ -43,9 +44,8 @@ public class ClickableBase3D : MonoBehaviourBase
 
   private void startDrag()
   {
-    drag_updater?.stop();
     cached_mouse_pos = Input.mousePosition;
-    drag_updater = tweener.updateUntil( drag );
+    drag_updater = drag_updater.startCoroutineAndStopPrev( tweener.updateUntil( drag ) );
 
     void drag()
     {

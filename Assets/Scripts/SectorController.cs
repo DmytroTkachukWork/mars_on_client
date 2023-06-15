@@ -22,11 +22,12 @@ public class SectorController : MonoBehaviourBase
     clickable_base.onClick -= moveToSector;
     clickable_base.gameObject.SetActive( false );
 
-    planet_sector_content.SetActive( true );
     sector_content.SetActive( true );
 
     foreach( LevelController level in level_controllers )
       level.startShowFar();
+
+    spawnManager.despawnScreenUI( ScreenUIId.SECTOR );
   }
 
   public void finishShowClose()

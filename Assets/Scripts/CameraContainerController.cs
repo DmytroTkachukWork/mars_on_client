@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+using System.Collections;
 using UnityEngine;
 
 public class CameraContainerController : MonoBehaviourBase
@@ -32,7 +32,8 @@ public class CameraContainerController : MonoBehaviourBase
   private Vector3 cached_delta_sum = Vector3.zero;
   private Vector3 cached_aprox_position = Vector3.zero;
   private Vector3 cached_position = Vector3.zero;
-  private MyTask drag_task = null;
+  private IEnumerator drag_cor = null;
+  private bool drag_cor_finished = true;
   private float grag_time_left = 0.0f;
   private float grag_time_left_delta = 0.0f;
   private DragType drag_type = DragType.ROTATION;
@@ -69,9 +70,9 @@ public class CameraContainerController : MonoBehaviourBase
 
   public void resetCamera()
   {
-    drag_task?.stop();
+    drag_cor?.stop();
+    drag_cor_finished = true;
     rotation_transform.localPosition = Vector3.zero;
-    //rotation_transform.localRotation = Quaternion.identity;
     zoom_transform.localPosition = Vector3.zero;
   }
   
@@ -86,14 +87,10 @@ public class CameraContainerController : MonoBehaviourBase
   #region Private Methods
   private void onBeginDrag()
   {
-    drag_task?.stop();
+    drag_cor?.stop();
+    drag_cor_finished = true;
     grag_time_left = 0.0f;
     cached_delta_sum = Vector3.zero;
-
-    if ( drag_task == null )
-      drag_task = new MyTask();
-
-    drag_task.init();
   }
 
   private void onZoom( float delta )
@@ -125,12 +122,13 @@ public class CameraContainerController : MonoBehaviourBase
     grag_time_left = ON_MOVE_POSITION_POGRESS;
     grag_time_left_delta = ON_MOVE_POSITION_DELTA_POGRESS;
 
-    if ( drag_task.curent_task.IsCompleted )
-      drag_task.curent_task = perform();
+    if ( drag_cor_finished )
+      drag_cor = drag_cor.startCoroutineAndStopPrev( perform() );
 
-    async Task perform()
+    IEnumerator perform()
     {
-      while( grag_time_left <= SWIPE_POSITION_TIME && !drag_task.cencel_token && Application.isPlaying ) 
+      drag_cor_finished = false;
+      while( grag_time_left <= SWIPE_POSITION_TIME ) 
       {
         cached_position = Vector3.Lerp( rotation_transform.localPosition, cached_aprox_position, grag_time_left / SWIPE_POSITION_TIME );
         cached_position.x = Mathf.Clamp( cached_position.x, left_right_limit.y, left_right_limit.x );
@@ -139,8 +137,9 @@ public class CameraContainerController : MonoBehaviourBase
         cached_delta_sum = Vector3.Lerp( cached_delta_sum, Vector3.zero, grag_time_left_delta / SWIPE_POSITION_TIME );
         grag_time_left += Time.deltaTime * ON_MOVE_POSITION_TIME_SCALE;
         grag_time_left_delta += Time.deltaTime * ON_MOVE_POSITION_DELTA_TIME_SCALE;
-        await Task.Yield();
+        yield return null;
       }
+      drag_cor_finished = true;
     }
   }
 
@@ -163,12 +162,13 @@ public class CameraContainerController : MonoBehaviourBase
     grag_time_left = ON_MOVE_ROTATION_POGRESS;
     grag_time_left_delta = ON_MOVE_ROTATION_POGRESS;
 
-    if ( drag_task.curent_task.IsCompleted )
-      drag_task.curent_task = perform();
+    if ( drag_cor_finished )
+      drag_cor = drag_cor.startCoroutineAndStopPrev( perform() );
 
-    async Task perform()
+    IEnumerator perform()
     {
-      while( grag_time_left <= SWIPE_ROTATION_TIME && !drag_task.cencel_token && Application.isPlaying ) 
+      drag_cor_finished = false;
+      while( grag_time_left <= SWIPE_ROTATION_TIME ) 
       {
         rotation_transform.rotation = Quaternion.Lerp(
             rotation_transform.rotation
@@ -178,8 +178,9 @@ public class CameraContainerController : MonoBehaviourBase
         cached_delta_sum = Vector3.Lerp( cached_delta_sum, Vector3.zero, grag_time_left_delta / SWIPE_ROTATION_TIME );
         grag_time_left += Time.deltaTime * ON_MOVE_ROTATION_TIME_SCALE;
         grag_time_left_delta += Time.deltaTime * ON_MOVE_ROTATION_TIME_SCALE;
-        await Task.Yield();
+        yield return null;
       }
+      drag_cor_finished = true;
     }
   }
   private bool isDeltaEnought( Vector3 delta )

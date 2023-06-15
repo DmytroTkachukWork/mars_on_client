@@ -1,13 +1,20 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class FieldManager : MonoBehaviourBase
 {
+  #region Serialized Fields
+  [SerializeField] private WinLoseManager win_lose_manager = null;
+  #endregion
+
   #region Private Fields
   private LevelQuadMatrix level_quad_matrix = null;
   private Vector3 cached_position = Vector3.zero;
   private QuadContentController[,] quad_matrix = null;
-  private MyTask awaiter = null;
   private int cached_steps_to_lose = 0;
+  private event Action onBeginRotate = delegate{};
+  private PipeTree pipe_tree = null;
   #endregion
 
 
@@ -46,19 +53,28 @@ public class FieldManager : MonoBehaviourBase
         level_quad_matrix.quad_entities[index].matrix_y = j;
 
         quad_matrix[i, j].init( level_quad_matrix.quad_entities[index], conector );
-        quad_matrix[i, j].onRotate += waitAndCkeck;
-        quad_matrix[i, j].onBeginRotate += stopWaitingForCheck;
+        quad_matrix[i, j].onRotate += continuePainting;
+        quad_matrix[i, j].onBeginRotate += handleQuadRotation;
       }
     }
 
-    checkForWin();
-    (spawnManager.getOrSpawnScreenUI( ScreenUIId.LEVEL ) as ScreenLevelUI ).updateStepsCount( cached_steps_to_lose );
+    pipe_tree = PathFinder.getPipeTree( quad_matrix, level_quad_matrix );
+    continuePainting();
+
+    if ( level_quad_matrix.lose_type == LevelLoseType.NONE )
+      return;
+
+    win_lose_manager.init( level_quad_matrix );
+    win_lose_manager.onLose += handleLose;
+
+    if ( level_quad_matrix.lose_type == LevelLoseType.ROTATIONS_COUNT )
+      onBeginRotate += win_lose_manager.onBeginRotate;
+
+    ( spawnManager.getOrSpawnScreenUI( ScreenUIId.LEVEL ) as ScreenLevelUI ).updateStepsCount( cached_steps_to_lose );
   }
 
   public void deinit()
   {
-    awaiter?.stop();
-
     despawnMatrix();
     unsubscrube();
   }
@@ -71,6 +87,10 @@ public class FieldManager : MonoBehaviourBase
 
   public void unsubscrube()
   {
+    win_lose_manager.deinit();
+    onBeginRotate -= win_lose_manager.onBeginRotate;
+    win_lose_manager.onLose -= handleLose;
+
     if ( quad_matrix == null )
       return;
 
@@ -79,47 +99,62 @@ public class FieldManager : MonoBehaviourBase
       if ( quad == null )
         continue;
 
-      quad.onRotate -= waitAndCkeck;
-      quad.onBeginRotate -= stopWaitingForCheck;
+      quad.onRotate -= continuePainting;
+      quad.onBeginRotate -= handleQuadRotation;
     }
   }
   #endregion
 
   #region Private Methods
-  private void stopWaitingForCheck()
+  private void handleQuadRotation( QuadEntity quad_entity )
   {
-    awaiter?.stop();
-
-    cached_steps_to_lose--;
-
-    if ( cached_steps_to_lose == 0 )
-    {
-      unsubscrube();
-      spawnManager.despawnScreenUI( ScreenUIId.LEVEL );
-      ( spawnManager.getOrSpawnScreenUI( ScreenUIId.LEVEL_LOSE ) as ScreenLoseUI ).init();
-      return;
-    }
-
-    (spawnManager.getOrSpawnScreenUI( ScreenUIId.LEVEL ) as ScreenLevelUI ).updateStepsCount( cached_steps_to_lose );
-
-    PathFinder.stopCheck();
+    onBeginRotate.Invoke();
+    pipe_tree.getPipe( quad_entity )?.controller?.paintConected();
     PathFinder.fastRepaint( quad_matrix, level_quad_matrix );
   }
 
-  private void waitAndCkeck()
+  private void levelCore()
   {
-    awaiter?.stop();
-    awaiter = tweener.waitAndDo( checkForWin, myVariables.WIN_CHECK_DELAY );
+    pipe_tree.starter_pipe.controller.paintConected( pipe_tree.starter_pipe.pipe_resource, pipe_tree.starter_pipe.inner_dir, pipe_tree.starter_pipe.children, paintMe );
+
+    void paintMe( List<Pipe> next_pipes_to_paint )
+    {
+      if ( next_pipes_to_paint == null )
+        return;
+
+      foreach( Pipe pipe in next_pipes_to_paint )
+      {
+        pipe.controller.paintConected( pipe.pipe_resource, pipe.inner_dir, pipe.children, paintMe );
+        if ( pipe.quad.role_type == QuadRoleType.FINISHER )
+          handleWin();
+      }
+    }
   }
 
-  private void checkForWin()
+  private void handleLose()
   {
-    PathFinder.checkForWin( quad_matrix, level_quad_matrix, () =>
-    {
-      ( spawnManager.getOrSpawnScreenUI( ScreenUIId.LEVEL_WIN ) as ScreenWinUI ).init( null );
-      playerDataManager.handleLevelWin( level_quad_matrix.sector_id, level_quad_matrix.level_id );
-    }
-    );
+    unsubscrube();
+
+    foreach ( QuadContentController quad in quad_matrix )
+      quad?.paintConected();
+
+    spawnManager.despawnScreenUI( ScreenUIId.LEVEL );
+    ( spawnManager.getOrSpawnScreenUI( ScreenUIId.LEVEL_LOSE ) as ScreenLoseUI ).init();
+  }
+
+  private void handleWin()
+  {
+    unsubscrube();
+    spawnManager.despawnScreenUI( ScreenUIId.LEVEL );
+    ( spawnManager.getOrSpawnScreenUI( ScreenUIId.LEVEL_WIN ) as ScreenWinUI ).init( null );
+    playerDataManager.handleLevelWin( level_quad_matrix.sector_id, level_quad_matrix.level_id );
+  }
+
+
+  private void continuePainting()
+  {
+    pipe_tree = PathFinder.getPipeTree( quad_matrix, level_quad_matrix );
+    levelCore();
   }
   #endregion
 }

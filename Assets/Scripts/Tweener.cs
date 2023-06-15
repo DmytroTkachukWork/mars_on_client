@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -8,148 +9,78 @@ public class Tweener : MonoBehaviourService<Tweener>
   [SerializeField] private AnimationCurve ease_in_curve = null;
   [SerializeField] private AnimationCurve ease_out_curve = null;
   [SerializeField] private AnimationCurve ease_in_out_curve = null;
-  private static MyTaskPool tasks_pool = new MyTaskPool();
 
-  public static MyTask getEmptyMyTask()
+
+  public IEnumerator tweenFloat( Action<float> func, float start_value, float finish_value, float time, Action callback, CurveType curve_type = CurveType.NONE )
   {
-    return tasks_pool.get();
-  }
+    float time_spend = 0.0f;
+    float progress = 0.0f;
 
-  public MyTask tweenFloat( Action<float> func, float start_value, float finish_value, float time, Action callback, CurveType curve_type = CurveType.NONE )
-  {
-    MyTask my_task = tasks_pool.get();
-    my_task.curent_task = perform();
-    return my_task;
-
-    async Task perform()
+    while( time_spend <= time ) 
     {
-      float time_left = 0.0f;
-      float progress = 0.0f;
-      while( time_left <= time && !my_task.cencel_token ) 
-      {
-        progress = culcCurve( curve_type, time_left / time );
+      progress = culcCurve( curve_type, time_spend / time );
 
-        func.Invoke( Mathf.Lerp( start_value, finish_value, progress ) );
-        time_left += Time.deltaTime;
-        await Task.Yield();
-      }
-
-      if ( !my_task.cencel_token )
-        callback?.Invoke();
+      func.Invoke( Mathf.Lerp( start_value, finish_value, progress ) );
+      time_spend += Time.deltaTime;
+      yield return null;
     }
+    func.Invoke( finish_value );
+    callback?.Invoke();
   }
 
-  public MyTask tweenTransform( Transform curtent_transform, Transform target_transform, float time, Action callback = null, CurveType curve_type = CurveType.NONE )
+  public IEnumerator tweenTransform( Transform curtent_transform, Transform target_transform, float time, Action callback = null, CurveType curve_type = CurveType.NONE )
   {
     Vector3 pos = curtent_transform.position;
     Quaternion rot = curtent_transform.rotation;
     Vector3 scale = curtent_transform.localScale;
-    MyTask my_task = tasks_pool.get();
-    my_task.curent_task = perform();
-    return my_task;
 
-    async Task perform()
+    float time_spend = 0.0f;
+    float progress = 0.0f;
+    while( time_spend <= time ) 
     {
-      float time_left = 0.0f;
-      float progress = 0.0f;
-      while( time_left <= time && !my_task.cencel_token ) 
-      {
-        progress = culcCurve( curve_type, time_left / time );
+      yield return null;
+      time_spend += Time.deltaTime;
+      progress = culcCurve( curve_type, time_spend / time );
 
-        curtent_transform.position = Vector3.Lerp( pos, target_transform.position, progress );
-        curtent_transform.rotation = Quaternion.Lerp( rot, target_transform.rotation, progress );
-        curtent_transform.localScale = Vector3.Lerp( scale, target_transform.localScale, progress );
-        time_left += Time.deltaTime;
-        await Task.Yield();
-      }
-
-      if ( my_task.cencel_token )
-        return;
-
-      curtent_transform.position = target_transform.position;
-      curtent_transform.rotation = target_transform.rotation;
-      curtent_transform.localScale = target_transform.localScale;
-      callback?.Invoke();
+      curtent_transform.position = Vector3.Lerp( pos, target_transform.position, progress );
+      curtent_transform.rotation = Quaternion.Lerp( rot, target_transform.rotation, progress );
+      curtent_transform.localScale = Vector3.Lerp( scale, target_transform.localScale, progress );
     }
+
+
+    curtent_transform.position = target_transform.position;
+    curtent_transform.rotation = target_transform.rotation;
+    curtent_transform.localScale = target_transform.localScale;
+    callback?.Invoke();
   }
 
-  public MyTask tweenPosition( Transform curtent_transform, Transform target_transform, float time, Action callback = null, CurveType curve_type = CurveType.NONE )
+  public IEnumerator waitAndDo( Action func, float time )
   {
-    MyTask my_task = tasks_pool.get();
-    my_task.curent_task = perform();
-    return my_task;
-
-    async Task perform()
-    {
-      float time_left = 0.0f;
-      float progress = 0.0f;
-      while( time_left <= time && !my_task.cencel_token ) 
-      {
-        progress = culcCurve( curve_type, time_left / time );
-
-        curtent_transform.position = Vector3.Lerp( curtent_transform.position, target_transform.position, progress );
-        time_left += Time.deltaTime;
-        await Task.Yield();
-      }
-      callback?.Invoke();
-    }
+    yield return new WaitForSeconds( time );
+    func?.Invoke();
   }
 
-  public MyTask tweenRotation( Transform curtent_transform, Transform target_transform, float time, Action callback = null, CurveType curve_type = CurveType.NONE )
+  public IEnumerator waitAndDoCycle( Action func, float cycle_time, float full_time, Action callback )
   {
-    MyTask my_task = tasks_pool.get();
-    my_task.curent_task = perform();
-    return my_task;
+    WaitForSeconds wait_for_seconds = new WaitForSeconds( cycle_time );
+    float cached_time_left = full_time;
 
-    async Task perform()
+    while( cached_time_left >= 0.0f )
     {
-      float time_left = 0.0f;
-      float progress = 0.0f;
-      while( time_left <= time && !my_task.cencel_token ) 
-      {
-        progress = culcCurve( curve_type, time_left / time );
-
-        curtent_transform.rotation = Quaternion.Lerp( curtent_transform.rotation, target_transform.rotation, progress );
-        time_left += Time.deltaTime;
-        await Task.Yield();
-      }
-      callback?.Invoke();
+      yield return wait_for_seconds;
+      cached_time_left -= cycle_time;
+      func?.Invoke();
     }
+
+    callback?.Invoke();
   }
 
-  public MyTask waitAndDo( Action func, float time )
+  public IEnumerator updateUntil( Action func )
   {
-    MyTask my_task = tasks_pool.get();
-    my_task.curent_task = perform();
-    return my_task;
-
-    async Task perform()
+    while( true )
     {
-      float ceched_check_delay = time;
-      while( ceched_check_delay > 0.0f && !my_task.cencel_token )
-      {
-        ceched_check_delay -= Time.deltaTime;
-        await Task.Yield();
-      }
-
-      if ( !my_task.cencel_token )
-        func?.Invoke();
-    }
-  }
-
-  public MyTask updateUntil( Action func )
-  {
-    MyTask my_task = tasks_pool.get();
-    my_task.curent_task = perform();
-    return my_task;
-
-    async Task perform()
-    {
-      while( !my_task.cencel_token )
-      {
-        func?.Invoke();
-        await Task.Yield();
-      }
+      func?.Invoke();
+      yield return null;
     }
   }
 

@@ -382,6 +382,10 @@ PrefabInstance:
       propertyPath: main_camera
       value: 
       objectReference: {fileID: 1138478058}
+    - target: {fileID: 7294185280965450628, guid: e1e7bfdecf476dc45a6e34616a79c776, type: 3}
+      propertyPath: PIPE_SCALE_TIME
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 8041395641916725999, guid: e1e7bfdecf476dc45a6e34616a79c776, type: 3}
       propertyPath: m_RootOrder
       value: 3

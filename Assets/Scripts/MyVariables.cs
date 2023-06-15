@@ -8,4 +8,5 @@ public class MyVariables : MonoBehaviourService<MyVariables>
   [SerializeField] public float LEVEL_WIN_FADE_TIME = 5.5f;
   [SerializeField] public float LEVEL_LOSE_FADE_TIME = 5.5f;
   [SerializeField] public float QUAD_ROTATION_TIME = 0.9f;
+  [SerializeField] public float PIPE_SCALE_TIME = 0.3f;
 }

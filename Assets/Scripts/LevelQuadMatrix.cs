@@ -10,6 +10,7 @@ public class LevelQuadMatrix : ScriptableObject
   [SerializeField] public int max_steps_to_lose = 20;
   [SerializeField] public int sector_id = 0;
   [SerializeField] public int level_id = 0;
+  [SerializeField] public LevelLoseType lose_type = LevelLoseType.NONE;
 
   public LevelQuadMatrix getCopy()
   {
@@ -19,6 +20,14 @@ public class LevelQuadMatrix : ScriptableObject
     copy.max_steps_to_lose = max_steps_to_lose;
     copy.sector_id = sector_id;
     copy.level_id = level_id;
+    copy.lose_type = lose_type;
     return copy;
   }
+}
+
+public enum LevelLoseType
+{
+  NONE = 0,
+  ROTATIONS_COUNT = 1,
+  TIME_LEFT = 2
 }

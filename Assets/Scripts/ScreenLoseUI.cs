@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class ScreenLoseUI : ScreenBaseUI
@@ -10,6 +11,7 @@ public class ScreenLoseUI : ScreenBaseUI
 
   #region Private Fields
   private MyTask my_task = null;
+  private IEnumerator tween_cor = null;
   #endregion
 
   
@@ -18,7 +20,7 @@ public class ScreenLoseUI : ScreenBaseUI
   {
     full_button.onClick += onDespawn;
     spawnManager.despawnScreenUI( ScreenUIId.LEVEL );
-    my_task = tweener.tweenFloat( ( value ) => canvas_group.alpha = value, 0.0f, 1.0f, myVariables.LEVEL_LOSE_FADE_TIME, callback == null ? moveCamera : callback );
+    tween_cor = tween_cor.startCoroutineAndStopPrev( tweener.tweenFloat( ( value ) => canvas_group.alpha = value, 0.0f, 1.0f, myVariables.LEVEL_LOSE_FADE_TIME, callback == null ? moveCamera : callback ) );
   }
 
   public void moveCamera()
@@ -30,6 +32,7 @@ public class ScreenLoseUI : ScreenBaseUI
   {
     full_button.onClick -= onDespawn;
     my_task?.stop();
+    tween_cor.stop();
     moveCamera();
     spawnManager.getOrSpawnScreenUI( ScreenUIId.SECTOR );
   }

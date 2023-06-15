@@ -24,7 +24,7 @@ MonoBehaviour:
     role_type: 1
     recource_type: 1
     start_rotation: 90
-    curent_rotation: 180
+    curent_rotation: 90
     matrix_x: 0
     matrix_y: 1
   - connection_type: 0
@@ -87,21 +87,21 @@ MonoBehaviour:
     role_type: 1
     recource_type: 1
     start_rotation: 270
-    curent_rotation: 360
+    curent_rotation: 270
     matrix_x: 1
     matrix_y: 1
   - connection_type: 1
     role_type: 1
     recource_type: 1
     start_rotation: 90
-    curent_rotation: 360
+    curent_rotation: 90
     matrix_x: 1
     matrix_y: 2
   - connection_type: 2
     role_type: 1
     recource_type: 1
     start_rotation: 0
-    curent_rotation: 180
+    curent_rotation: 0
     matrix_x: 1
     matrix_y: 3
   - connection_type: 0
@@ -164,21 +164,21 @@ MonoBehaviour:
     role_type: 1
     recource_type: 1
     start_rotation: 0
-    curent_rotation: 90
+    curent_rotation: 0
     matrix_x: 2
     matrix_y: 3
   - connection_type: 2
     role_type: 1
     recource_type: 1
     start_rotation: 180
-    curent_rotation: 450
+    curent_rotation: 180
     matrix_x: 2
     matrix_y: 4
   - connection_type: 2
     role_type: 1
     recource_type: 1
     start_rotation: 0
-    curent_rotation: 540
+    curent_rotation: 0
     matrix_x: 2
     matrix_y: 5
   - connection_type: 0
@@ -220,7 +220,7 @@ MonoBehaviour:
     role_type: 1
     recource_type: 1
     start_rotation: 270
-    curent_rotation: 450
+    curent_rotation: 270
     matrix_x: 3
     matrix_y: 2
   - connection_type: 2
@@ -241,7 +241,7 @@ MonoBehaviour:
     role_type: 1
     recource_type: 1
     start_rotation: 0
-    curent_rotation: 90
+    curent_rotation: 0
     matrix_x: 3
     matrix_y: 5
   - connection_type: 2
@@ -255,7 +255,7 @@ MonoBehaviour:
     role_type: 1
     recource_type: 1
     start_rotation: 90
-    curent_rotation: 180
+    curent_rotation: 90
     matrix_x: 3
     matrix_y: 7
   - connection_type: 6
@@ -283,7 +283,7 @@ MonoBehaviour:
     role_type: 1
     recource_type: 1
     start_rotation: 270
-    curent_rotation: 360
+    curent_rotation: 270
     matrix_x: 4
     matrix_y: 2
   - connection_type: 1
@@ -297,14 +297,14 @@ MonoBehaviour:
     role_type: 1
     recource_type: 1
     start_rotation: 0
-    curent_rotation: 270
+    curent_rotation: 0
     matrix_x: 4
     matrix_y: 4
   - connection_type: 2
     role_type: 1
     recource_type: 1
     start_rotation: 180
-    curent_rotation: 360
+    curent_rotation: 180
     matrix_x: 4
     matrix_y: 5
   - connection_type: 2
@@ -332,3 +332,4 @@ MonoBehaviour:
   max_steps_to_lose: 40
   sector_id: 1
   level_id: 0
+  lose_type: 2

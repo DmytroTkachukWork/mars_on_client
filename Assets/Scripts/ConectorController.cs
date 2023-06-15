@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ConectorController : MonoBehaviourPoolable
@@ -41,9 +42,9 @@ public class ConectorController : MonoBehaviourPoolable
       pair.conector_pipes_controller.gameObject.SetActive( false );
   }
 
-  public bool paintConected( QuadResourceType resource_type, int origin_dir )
+  public void paintConected( QuadResourceType resource_type, int origin_dir, List<Pipe> next_pipes = null, Action<List<Pipe>> callback = null )
   {
-    return curent_conector_pipes_controller.paintConected( resource_type, origin_dir );
+    curent_conector_pipes_controller.paintConectedCor( resource_type, origin_dir, next_pipes, callback );
   }
 
   public override void onDespawn()

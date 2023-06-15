@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ScreenGeneralManager : MonoBehaviourBase
@@ -17,7 +15,6 @@ public class ScreenGeneralManager : MonoBehaviourBase
 
   private void init()
   {
-    Debug.LogError( "init UI" );
     Application.targetFrameRate = 60;
     playerDataManager.loadProgress();
     spawnManager.getOrSpawnScreenUI( ScreenUIId.MAIN );

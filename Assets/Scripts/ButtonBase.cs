@@ -27,7 +27,6 @@ public class ButtonBase : MonoBehaviourBase
 
   public void init( int value = -1 )
   {
-    Debug.LogError( "init ButtonBase" );
     cached_int_value = value < 0 ? int_value : value;
     button.onClick.AddListener( onButtonClick );
   }
@@ -41,7 +40,6 @@ public class ButtonBase : MonoBehaviourBase
   #region Private Methods
   private void onButtonClick()
   {
-    Debug.LogError( "onButtonClick" );
     onClick.Invoke();
     onClickInt.Invoke( cached_int_value );
   }

@@ -53,7 +53,6 @@ public class PlanetController : MonoBehaviourPoolable
   }
 
   public void hide( SectorController curent_sector )
-
   {
     planet_content.SetActive( false );
 

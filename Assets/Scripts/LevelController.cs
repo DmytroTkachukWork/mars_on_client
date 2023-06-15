@@ -28,6 +28,8 @@ public class LevelController : MonoBehaviourBase
     level_content.SetActive( true );
     sector_level_content.SetActive( true );
 
+    spawnManager.despawnScreenUI( ScreenUIId.SECTOR );
+    (spawnManager.getOrSpawnScreenUI( ScreenUIId.LEVEL ) as ScreenLevelUI ).init();
     initLevel();
   }
 
@@ -35,6 +37,7 @@ public class LevelController : MonoBehaviourBase
   {
     camera_container.init();
     sector_level_content.SetActive( false );
+    level_content.SetActive( true );
   }
 
   public void startShowFar()
@@ -46,6 +49,7 @@ public class LevelController : MonoBehaviourBase
     spawnManager.despawnScreenUI( ScreenUIId.LEVEL );
 
     smoke.SetActive( !playerDataManager.hasAccessToLevel( sector_id, level_id ) );
+    field_manager.deinit();
   }
 
   public void finishShowFar()
@@ -87,8 +91,6 @@ public class LevelController : MonoBehaviourBase
   public void initLevel()
   {
     field_manager.init( levelsHolder.getLevel( sector_id, level_id ) );
-    spawnManager.despawnScreenUI( ScreenUIId.SECTOR );
-    (spawnManager.getOrSpawnScreenUI( ScreenUIId.LEVEL ) as ScreenLevelUI ).init();
   }
   #endregion
 }

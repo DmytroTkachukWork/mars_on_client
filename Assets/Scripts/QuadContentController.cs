@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class QuadContentController : MonoBehaviourPoolable
@@ -15,8 +16,8 @@ public class QuadContentController : MonoBehaviourPoolable
   #region Public Fields
   public Transform conectorRoot => conector_root;
   public event Action onRotate = delegate{};
-  public event Action onBeginRotate = delegate{};
-  public QuadEntity quad_entity = new QuadEntity();
+  public event Action<QuadEntity> onBeginRotate = delegate{};
+  public QuadEntity quad_entity = null;
   #endregion
 
 
@@ -26,7 +27,8 @@ public class QuadContentController : MonoBehaviourPoolable
     this.conector_controller = conector_controller;
     this.quad_entity = quad_entity;
     quad_entity.curent_rotation = quad_entity.start_rotation;
-    paintConected( QuadResourceType.NONE );
+    quad_entity.recource_type = QuadResourceType.NONE;
+    paintConected();
 
     if ( movement_controller == null )
       return;
@@ -46,9 +48,9 @@ public class QuadContentController : MonoBehaviourPoolable
     movement_controller.onRotate -= () => onRotate.Invoke();
   }
 
-  public virtual bool paintConected( QuadResourceType resource_type = QuadResourceType.NONE, int origin_dir = 0 )
+  public virtual void paintConected( QuadResourceType resource_type = QuadResourceType.NONE, int origin_dir = 0, List<Pipe> next_pipes = null, Action<List<Pipe>> callback = null )
   {
-    return conector_controller.paintConected( resource_type, origin_dir );
+    conector_controller.paintConected( resource_type, origin_dir, next_pipes, callback );
   }
 
   public override void onDespawn()
@@ -63,9 +65,8 @@ public class QuadContentController : MonoBehaviourPoolable
   #region Private Methods
   private void updateState( float angle )
   {
-    paintConected();
     quad_entity.curent_rotation = angle;
-    onBeginRotate.Invoke();
+    onBeginRotate.Invoke( quad_entity );
   }
   #endregion
 }

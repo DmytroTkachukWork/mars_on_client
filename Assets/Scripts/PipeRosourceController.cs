@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 
@@ -14,26 +15,25 @@ public class PipeRosourceController : MonoBehaviourBase
   #region Private Fields
   private const float MIN_SCALE  = 0.0f;
   private const float MAX_SCALE  = 1.0f;
-  private const float SCALE_TIME = 0.15f;
-  private MyTask scale_task = null;
+  private IEnumerator scale_cor = null;
   private QuadResourceType resource_type = QuadResourceType.NONE;
+  private bool is_painting_in_progress = false;
   #endregion
 
   #region Public Methods
-  public bool setResourceAndFill( QuadResourceType resource_type, bool is_incoming )
+  public bool isPaintInProgress()
+  {
+    return is_painting_in_progress;
+  }
+
+  public IEnumerator setResourceAndFill( QuadResourceType resource_type, bool is_incoming )
   {
     if ( this.resource_type == resource_type )
     {
-      if ( resource_type == QuadResourceType.NONE )
-        return false;
-
-      in_scale_transform.localScale = setZ( in_scale_transform.localScale, MAX_SCALE );
-      out_scale_transform.localScale = setZ( out_scale_transform.localScale, MAX_SCALE );
-      return false;
+      yield break;
     }
 
     this.resource_type = resource_type;
-    scale_task?.stop();
 
     foreach ( MeshRenderer renderer in resource_renderers )
       renderer.material = resources_pairs.FirstOrDefault( x => x.resource_type == resource_type ).material;
@@ -44,31 +44,21 @@ public class PipeRosourceController : MonoBehaviourBase
     out_scale_transform.gameObject.SetActive( false );
 
     if ( resource_type == QuadResourceType.NONE )
-      return true;
+      yield break;
 
-    if ( is_incoming )
-    {
-      in_scale_transform.gameObject.SetActive( true );
-      scale_task = tweener.tweenFloat(
-          ( value ) => in_scale_transform.localScale = setZ( in_scale_transform.localScale, value )
-        , MIN_SCALE
-        , MAX_SCALE
-        , SCALE_TIME
-        , null );
-    }
-    else
-    {
-      out_scale_transform.gameObject.SetActive( true );
-      scale_task = tweener.waitAndDo( () => tweener.tweenFloat(
-          ( value ) => out_scale_transform.localScale = setZ( out_scale_transform.localScale, value )
-        , MIN_SCALE
-        , MAX_SCALE
-        , SCALE_TIME
-        , null )
-        , SCALE_TIME );
-    }
+    Transform cached_transform = is_incoming ? in_scale_transform : out_scale_transform;
+    cached_transform.gameObject.SetActive( true );
+    is_painting_in_progress = true;
 
-    return true;
+    scale_cor = tweener.tweenFloat(
+        ( value ) => cached_transform.localScale = setZ( cached_transform.localScale, value )
+      , MIN_SCALE
+      , MAX_SCALE
+      , myVariables.PIPE_SCALE_TIME
+      , null
+    );
+    yield return scale_cor;
+    is_painting_in_progress = false;
   }
 
   private Vector3 setZ( Vector3 vector, float value )//TODO

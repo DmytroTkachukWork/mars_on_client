@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class ScreenWinUI : ScreenBaseUI
@@ -9,7 +10,7 @@ public class ScreenWinUI : ScreenBaseUI
   #endregion
 
   #region Private Fields
-  private MyTask my_task = null;
+  private IEnumerator my_cor = null;
   #endregion
 
   
@@ -17,7 +18,7 @@ public class ScreenWinUI : ScreenBaseUI
   public void init( Action callback = null )
   {
     full_button.onClick += onDespawn;
-    my_task = tweener.tweenFloat( ( value ) => canvas_group.alpha = value, 0.0f, 1.0f, myVariables.LEVEL_WIN_FADE_TIME, callback == null ? moveCamera : callback );
+    my_cor = my_cor.startCoroutineAndStopPrev( tweener.tweenFloat( ( value ) => canvas_group.alpha = value, 0.0f, 1.0f, myVariables.LEVEL_WIN_FADE_TIME, callback == null ? moveCamera : callback ) );
   }
 
   public void moveCamera()
@@ -29,7 +30,7 @@ public class ScreenWinUI : ScreenBaseUI
   public void deinit()
   {
     full_button.onClick -= onDespawn;
-    my_task?.stop();
+    my_cor?.stop();
     moveCamera();
     spawnManager.getOrSpawnScreenUI( ScreenUIId.SECTOR );
   }

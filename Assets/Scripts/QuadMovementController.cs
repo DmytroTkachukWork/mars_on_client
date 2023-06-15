@@ -1,5 +1,5 @@
 using System;
-using System.Threading.Tasks;
+using System.Collections;
 using UnityEngine;
 
 
@@ -12,7 +12,8 @@ public class QuadMovementController : MonoBehaviourBase
 
   #region Private Fields
   private const float ANGLE_PER_CLICK = 90.0f;
-  private Task rotation_task = Task.CompletedTask;
+  private IEnumerator rotation_cor = null;
+  private bool rotation_cor_finished = true;
   private float target_rotation = 0.0f;
   private float rotation_time_left = 0.0f;
   private Vector3 cached_scale = Vector3.one;
@@ -48,11 +49,12 @@ public class QuadMovementController : MonoBehaviourBase
 
     onBeginRotate.Invoke( target_rotation );
 
-    if ( rotation_task.IsCompleted )
-      rotation_task = rotateHex();
+    if ( rotation_cor_finished )
+      rotation_cor = rotation_cor.startCoroutineAndStopPrev( rotateHex() );
 
-    async Task rotateHex()
+    IEnumerator rotateHex()
     {
+      rotation_cor_finished = false;
       while( rotation_time_left > myVariables.QUAD_ROTATION_TIME / 1.5 )
       {
         rotation_root.localRotation = Quaternion.Lerp(
@@ -69,8 +71,9 @@ public class QuadMovementController : MonoBehaviourBase
           break;
         }
 
-        await Task.Yield();
+        yield return null;
       }
+      rotation_cor_finished = true;
 
       rotation_root.localRotation = Quaternion.Euler( 0.0f, target_rotation, 0.0f );
       onRotate.Invoke();
@@ -79,7 +82,8 @@ public class QuadMovementController : MonoBehaviourBase
 
   private void forcestopRotation()
   {
-    rotation_task = Task.CompletedTask;
+    rotation_cor?.stop();
+    rotation_cor_finished = true;
     rotation_root.localRotation = Quaternion.Euler( 0.0f, target_rotation, 0.0f );
     cached_scale = Vector3.one;
     rotation_root.localScale = cached_scale;

@@ -128,5 +128,10 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
       curent_planet_controller.finishShowClose();
     }
   }
+
+  public Vector3 getCameraPos()
+  {
+    return main_camera.transform.position;
+  }
   #endregion
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 public class SectorController : MonoBehaviourBase
 {
   #region Serialized Fields
-  [SerializeField] private GameObject                      planet_sector_content = null;
+  [SerializeField] private PlanetSectorContentController   planet_sector_content = null;
   [SerializeField] private GameObject                      sector_content        = null;
   [SerializeField] private ClickableBase3D                 clickable_base        = null;
   [SerializeField] private SectorCameraContainerController camera_container      = null;
@@ -35,7 +35,7 @@ public class SectorController : MonoBehaviourBase
     clickable_base.onClick -= moveToSector;
     clickable_base.gameObject.SetActive( false );
 
-    planet_sector_content.SetActive( false );
+    planet_sector_content.deinit();
     sector_content.SetActive( true );
 
     foreach( LevelController level in level_controllers )
@@ -48,7 +48,7 @@ public class SectorController : MonoBehaviourBase
   public void startShowFar()
   {
     sector_content.SetActive( true );
-    planet_sector_content.SetActive( true );
+    planet_sector_content.init();
 
     camera_container.deinit();
     spawnManager.despawnScreenUI( ScreenUIId.SECTOR );
@@ -64,7 +64,7 @@ public class SectorController : MonoBehaviourBase
       level.hide();
 
     sector_content.SetActive( false );
-    planet_sector_content.SetActive( true );
+    planet_sector_content.init();
 
     camera_container.deinit();
     spawnManager.despawnScreenUI( ScreenUIId.SECTOR );
@@ -76,7 +76,7 @@ public class SectorController : MonoBehaviourBase
     clickable_base.gameObject.SetActive( false );
 
     sector_content.SetActive( false );
-    planet_sector_content.SetActive( false );
+    planet_sector_content.deinit();
 
     camera_container.deinit();
     spawnManager.despawnScreenUI( ScreenUIId.SECTOR );
@@ -88,6 +88,11 @@ public class SectorController : MonoBehaviourBase
       return;
 
     cameraController.moveCameraToSectorFromPlanet( this );
+  }
+
+  public void markSelected( bool state )
+  {
+    planet_sector_content.markSelected( state );
   }
   #endregion
 }

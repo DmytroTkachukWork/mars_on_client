@@ -21,7 +21,7 @@ public class QuadMovementController : MonoBehaviourBase
 
   #region Public Fields
   public event Action onRotate = delegate{};
-  public event Action<float> onBeginRotate = delegate{};
+  public event Action<float, bool> onBeginRotate = delegate{};
   #endregion
 
 
@@ -31,23 +31,22 @@ public class QuadMovementController : MonoBehaviourBase
     target_rotation = start_angle;
     rotation_root.localRotation = Quaternion.Euler( 0.0f, target_rotation, 0.0f );
     rotation_time_left = 0.0f;
-    clickable_basease.onClick += rotateOverTime;
+    clickable_basease.onClick -= rotateForvard;
+    clickable_basease.onClick += rotateForvard;
   }
 
   public void deinit()
   {
     forcestopRotation();
-    clickable_basease.onClick -= rotateOverTime;
+    clickable_basease.onClick -= rotateForvard;
   }
-  #endregion
 
-  #region Private Methods
-  private async void rotateOverTime()
+  public void rotateOverTime( bool is_reverce = false )
   {
     rotation_time_left = myVariables.QUAD_ROTATION_TIME;
-    target_rotation = target_rotation + ANGLE_PER_CLICK;
+    target_rotation = target_rotation + ( is_reverce ? -ANGLE_PER_CLICK : ANGLE_PER_CLICK );
 
-    onBeginRotate.Invoke( target_rotation );
+    onBeginRotate.Invoke( target_rotation, is_reverce );
 
     if ( rotation_cor_finished )
       rotation_cor = rotation_cor.startCoroutineAndStopPrev( rotateHex() );
@@ -79,7 +78,13 @@ public class QuadMovementController : MonoBehaviourBase
       onRotate.Invoke();
     }
   }
+  #endregion
 
+  #region Private Methods
+  private void rotateForvard()
+  {
+    rotateOverTime();
+  }
   private void forcestopRotation()
   {
     rotation_cor?.stop();

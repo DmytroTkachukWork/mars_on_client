@@ -3,7 +3,6 @@ using UnityEngine;
 public class ScreenMainUI : ScreenBaseUI
 {
   #region Serialized Fields
-  [SerializeField] private ButtonBase exit_button = null;
   [SerializeField] private ButtonBase reset_user_button = null;
   #endregion
 

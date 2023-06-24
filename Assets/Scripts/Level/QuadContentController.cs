@@ -16,7 +16,7 @@ public class QuadContentController : MonoBehaviourPoolable
   #region Public Fields
   public Transform conectorRoot => conector_root;
   public event Action onRotate = delegate{};
-  public event Action<QuadEntity> onBeginRotate = delegate{};
+  public event Action<QuadEntity, bool> onBeginRotate = delegate{};
   public QuadEntity quad_entity = null;
   #endregion
 
@@ -48,6 +48,11 @@ public class QuadContentController : MonoBehaviourPoolable
     movement_controller.onRotate -= () => onRotate.Invoke();
   }
 
+  public void rotateBack()
+  {
+    movement_controller.rotateOverTime( true );
+  }
+
   public virtual void paintConected( QuadResourceType resource_type = QuadResourceType.NONE, int origin_dir = 0, List<Pipe> next_pipes = null, Action<List<Pipe>> callback = null )
   {
     conector_controller.paintConected( resource_type, origin_dir, next_pipes, callback );
@@ -58,15 +63,14 @@ public class QuadContentController : MonoBehaviourPoolable
     base.onDespawn();
 
     deinit();
-    Debug.Log( "Quad despawned" );
   }
   #endregion
 
   #region Private Methods
-  private void updateState( float angle )
+  private void updateState( float angle, bool is_reverce )
   {
     quad_entity.curent_rotation = angle;
-    onBeginRotate.Invoke( quad_entity );
+    onBeginRotate.Invoke( quad_entity, is_reverce );
   }
   #endregion
 }

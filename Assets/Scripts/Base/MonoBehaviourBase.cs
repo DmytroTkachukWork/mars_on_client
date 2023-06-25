@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class MonoBehaviourBase : MonoBehaviour
 {
+  protected static LevelManager levelManager => Service<LevelManager>.get();
   protected static LevelsHolder levelsHolder => Service<LevelsHolder>.get();
   protected static PlayerDataManager playerDataManager => Service<PlayerDataManager>.get();
   protected static MyVariables myVariables => Service<MyVariables>.get();

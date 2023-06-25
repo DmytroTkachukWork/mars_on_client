@@ -31,9 +31,9 @@ public class WinLoseManager : MonoBehaviourBase
     counter_cor.stop();
   }
 
-  public void onBeginRotate()
+  public void onBeginRotate( bool is_reverse )
   {
-    cached_steps_left--;
+    cached_steps_left += is_reverse ? 1 : -1;
     (spawnManager.getOrSpawnScreenUI( ScreenUIId.LEVEL ) as ScreenLevelUI ).updateStepsCount( cached_steps_left );
 
     if ( cached_steps_left < 0 )

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class FieldManager : MonoBehaviourBase
@@ -13,8 +14,9 @@ public class FieldManager : MonoBehaviourBase
   private Vector3 cached_position = Vector3.zero;
   private QuadContentController[,] quad_matrix = null;
   private int cached_steps_to_lose = 0;
-  private event Action onBeginRotate = delegate{};
+  private event Action<bool> onBeginRotate = delegate{};
   private PipeTree pipe_tree = null;
+  private Stack<QuadContentController> undo_stack = null;
   #endregion
 
 
@@ -23,6 +25,9 @@ public class FieldManager : MonoBehaviourBase
   {
     deinit();
 
+    levelManager.startLevel( this );
+
+    undo_stack = new Stack<QuadContentController>();
     this.level_quad_matrix = level_quad_matrix;
     cached_steps_to_lose = level_quad_matrix.max_steps_to_lose;
     quad_matrix = new QuadContentController[level_quad_matrix.matrix_size.x, level_quad_matrix.matrix_size.y];
@@ -83,6 +88,7 @@ public class FieldManager : MonoBehaviourBase
   {
     spawnManager.despawnAllConectors();
     spawnManager.despawnAllQuads();
+    undo_stack?.Clear();
   }
 
   public void unsubscrube()
@@ -103,14 +109,37 @@ public class FieldManager : MonoBehaviourBase
       quad.onBeginRotate -= handleQuadRotation;
     }
   }
+
+  public void undoAction()
+  {
+    if ( undo_stack.Count == 0 )
+      return;
+
+    QuadContentController undo_quad = undo_stack.Pop();
+    undo_quad.rotateBack();
+  }
   #endregion
 
   #region Private Methods
-  private void handleQuadRotation( QuadEntity quad_entity )
+  private void handleQuadRotation( QuadEntity quad_entity, bool is_reverce )
   {
-    onBeginRotate.Invoke();
-    pipe_tree.getPipe( quad_entity )?.controller?.paintConected();
+    if ( quad_entity == null )
+      return;
+
+    onBeginRotate.Invoke( is_reverce );
+    Pipe rotated_pipe = pipe_tree.getPipe( quad_entity );
+    rotated_pipe.controller?.paintConected();
     PathFinder.fastRepaint( quad_matrix, level_quad_matrix );
+
+    if ( is_reverce )
+      return;
+
+    QuadContentController quad = quad_matrix[ quad_entity.matrix_x, quad_entity.matrix_y ];
+    
+    if ( quad == null )
+      return;
+
+    undo_stack.Push( quad );
   }
 
   private void levelCore()

@@ -5,26 +5,33 @@ public class ScreenLevelUI : ScreenBaseUI
 {
   #region Serialized Fields
   [SerializeField] private ButtonBase exit_button = null;
+  [SerializeField] private ButtonBase undo_button = null;
   [SerializeField] private TMP_Text steps_to_lose_text = null;
   #endregion
 
   #region Public Methods
   public void init()
   {
-    steps_to_lose_text.text = string.Empty;
-    exit_button.onClick -= onExit;
+    deinit();
     exit_button.onClick += onExit;
+    undo_button.onClick += undoAction;
   }
 
   public void deinit()
   {
     exit_button.onClick -= onExit;
+    undo_button.onClick -= undoAction;
     steps_to_lose_text.text = string.Empty;
   }
 
   public void updateStepsCount( int count )
   {
     steps_to_lose_text.text = count.ToString();
+  }
+
+  public void undoAction()
+  {
+    levelManager.undoAction();
   }
 
   public override void onSpawn()

@@ -11,10 +11,12 @@ public class PlanetController : MonoBehaviourPoolable
 
   #region Public Fields
   public PlanetCameraContainerController cameraContainer => camera_container;
+  public SectorController curentSector => curent_sector;
   #endregion
 
   #region Private Fields
   private IEnumerator selecting_cor = null;
+  private SectorController curent_sector = null;
   #endregion
 
 
@@ -91,7 +93,8 @@ public class PlanetController : MonoBehaviourPoolable
   {
     Vector3 camera_pos =  cameraController.getCameraPos();
     float cached_distance = 0.0f;
-    SectorController cached_sector = null;
+    SectorController cached_sector = curent_sector;
+    curent_sector = null;
     float min_distance = float.MaxValue;
 
     foreach( SectorController sector in sector_controllers )
@@ -101,12 +104,30 @@ public class PlanetController : MonoBehaviourPoolable
 
       if ( cached_distance < min_distance )
       {
-        cached_sector = sector;
+        curent_sector = sector;
         min_distance = cached_distance;
       }
     }
 
-    cached_sector.markSelected( true );
+    curent_sector.markSelected( true );
+    if ( cached_sector != curent_sector )
+      ( spawnManager.getOrSpawnScreenUI( ScreenUIId.MAIN ) as ScreenMainUI ).updateCurentSectorID( curent_sector.sectorID + 1 );
+  }
+
+  public SectorController getNextSector()
+  {
+    if ( curent_sector.sectorID == sector_controllers.Length - 1 )
+      return null;
+
+    return sector_controllers[curent_sector.sectorID+1];
+  }
+
+  public SectorController getPrevSector()
+  {
+    if ( curent_sector.sectorID == 0 )
+      return null;
+
+    return sector_controllers[curent_sector.sectorID-1];
   }
   #endregion
 }

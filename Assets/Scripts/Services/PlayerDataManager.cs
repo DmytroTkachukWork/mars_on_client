@@ -50,6 +50,9 @@ public class PlayerDataManager : MonoBehaviourService<PlayerDataManager>
 
   public void saveProgress()
   {
+    curent_player_data.some_data = new SomeData();
+    curent_player_data.some_data.stars_count = new int[10];
+    curent_player_data.some_data.stars_count[0] = 199;
     PlayerDataSaver.savePlayerData( curent_player_data );
   }
 
@@ -60,6 +63,8 @@ public class PlayerDataManager : MonoBehaviourService<PlayerDataManager>
 
     if ( curent_player_data == null )
       curent_player_data = new PlayerData();
+    else
+      Debug.LogError( curent_player_data.some_data?.stars_count[0] );
   }
 
   public void resetProgress()

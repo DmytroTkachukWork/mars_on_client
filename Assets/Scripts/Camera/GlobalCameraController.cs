@@ -129,6 +129,26 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
     }
   }
 
+  public void rotateCameraToNextSector()
+  {
+    rotateCameraToSector( curent_planet_controller.getNextSector() );
+  }
+
+  public void rotateCameraToPrevSector()
+  {
+    rotateCameraToSector( curent_planet_controller.getPrevSector() );
+  }
+
+  public void rotateCameraToSector( SectorController sector_controller )
+  {
+    if ( sector_controller == null )
+      return;
+
+    Vector3 rot = sector_controller.transform.rotation.eulerAngles;
+    rot.x += 90.0f;  
+    curent_planet_controller.cameraContainer.rotateTo( Quaternion.Euler( rot ), my_variables.CAMERA_ROTATE_TIME );
+  }
+
   public Vector3 getCameraPos()
   {
     return main_camera.transform.position;

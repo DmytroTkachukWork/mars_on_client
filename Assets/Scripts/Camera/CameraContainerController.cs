@@ -82,6 +82,30 @@ public class CameraContainerController : MonoBehaviourBase
     clickable_base.dragEnabled = true;
     clickable_base.gameObject.SetActive( true );
   }
+
+  public void rotateTo( Quaternion rotation, float rotation_time )
+  {
+    drag_cor = drag_cor.startCoroutineAndStopPrev( impl() );
+
+    IEnumerator impl()
+    {
+      float cached_time = 0.0f;
+
+      while( cached_time <= rotation_time ) 
+      {
+        if ( !drag_cor_finished )
+          yield break;
+
+        cached_time += Time.deltaTime;
+        rotation_transform.rotation = Quaternion.Lerp(
+              rotation_transform.rotation
+            , rotation
+            , cached_time / rotation_time );
+
+        yield return null;
+      }
+    }
+  }
   #endregion
 
   #region Private Methods

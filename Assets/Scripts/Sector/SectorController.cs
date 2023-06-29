@@ -13,6 +13,7 @@ public class SectorController : MonoBehaviourBase
 
   #region Public Fields
   public SectorCameraContainerController cameraContainer => camera_container;
+  public int sectorID => sector_id;
   #endregion
 
 

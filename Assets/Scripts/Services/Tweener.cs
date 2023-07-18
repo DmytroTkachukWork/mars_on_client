@@ -60,6 +60,12 @@ public class Tweener : MonoBehaviourService<Tweener>
     func?.Invoke();
   }
 
+  public IEnumerator waitFrameAndDo( Action func )
+  {
+    yield return null;
+    func?.Invoke();
+  }
+
   public IEnumerator waitAndDoCycle( Action func, float cycle_time, float full_time, Action callback )
   {
     WaitForSeconds wait_for_seconds = new WaitForSeconds( cycle_time );

@@ -13,5 +13,6 @@ public enum ScreenUIId
   SECTOR = 2,
   LEVEL = 3,
   LEVEL_WIN = 4,
-  LEVEL_LOSE = 5
+  LEVEL_LOSE = 5,
+  LEVEL_PAUSE = 6
 }

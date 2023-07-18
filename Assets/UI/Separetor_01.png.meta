@@ -43,14 +43,14 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 1
+  spriteBorder: {x: 123, y: 0, z: 469, w: 0}
+  spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -129,18 +129,154 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
-    outline: []
+    sprites:
+    - serializedVersion: 2
+      name: Separetor_01_0
+      rect:
+        serializedVersion: 2
+        x: 326
+        y: 0
+        width: 208
+        height: 124
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51a6c21b01618fc4b9beff41f9e4997d
+      internalID: 728345857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Separetor_01_1
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 0
+        width: 433
+        height: 124
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d0ea16da7f7d37418ab02c0a545b7a0
+      internalID: 1215007453
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Separetor_01_2
+      rect:
+        serializedVersion: 2
+        x: 885
+        y: 0
+        width: 139
+        height: 124
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1cf67b0efbb3d204ca423d4af30a643a
+      internalID: -2067308399
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Separetor_01_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 25
+        height: 124
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a12a9e77ae2fb5644aa755ce98b1651c
+      internalID: 1438722629
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Separetor_01_4
+      rect:
+        serializedVersion: 2
+        x: 536
+        y: 0
+        width: 348
+        height: 124
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0babc4bd0645650469be80a6efc8b7c6
+      internalID: 1134960112
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Separetor_01_5
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 0
+        width: 79
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b53b99a8f6ead6a438a0beb4b66dec7c
+      internalID: -1455561092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline:
+    - - {x: -512, y: -62}
+      - {x: 512, y: -62}
+      - {x: 512, y: 62}
+      - {x: -512, y: 62}
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
-    internalID: 0
+    internalID: 1537655665
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Separetor_01_0: 728345857
+      Separetor_01_1: 1215007453
+      Separetor_01_2: -2067308399
+      Separetor_01_3: 1438722629
+      Separetor_01_4: 1134960112
+      Separetor_01_5: -1455561092
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

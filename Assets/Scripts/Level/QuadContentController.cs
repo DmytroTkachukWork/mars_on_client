@@ -35,7 +35,7 @@ public class QuadContentController : MonoBehaviourPoolable
 
     movement_controller.init( quad_entity.start_rotation );
     movement_controller.onBeginRotate += updateState;
-    movement_controller.onRotate += () => onRotate.Invoke();
+    movement_controller.onRotate += onRotateHandle;
   }
 
   public virtual void deinit()
@@ -45,7 +45,7 @@ public class QuadContentController : MonoBehaviourPoolable
 
     movement_controller.deinit();
     movement_controller.onBeginRotate -= updateState;
-    movement_controller.onRotate -= () => onRotate.Invoke();
+    movement_controller.onRotate -= onRotateHandle;
   }
 
   public void rotateBack()
@@ -53,7 +53,7 @@ public class QuadContentController : MonoBehaviourPoolable
     movement_controller.rotateOverTime( true );
   }
 
-  public virtual void paintConected( QuadResourceType resource_type = QuadResourceType.NONE, int origin_dir = 0, List<Pipe> next_pipes = null, Action<List<Pipe>> callback = null )
+  public virtual void paintConected( QuadResourceType resource_type = QuadResourceType.NONE, int origin_dir = 0, HashSet<Pipe> next_pipes = null, Action<HashSet<Pipe>> callback = null )
   {
     conector_controller.paintConected( resource_type, origin_dir, next_pipes, callback );
   }
@@ -71,6 +71,11 @@ public class QuadContentController : MonoBehaviourPoolable
   {
     quad_entity.curent_rotation = angle;
     onBeginRotate.Invoke( quad_entity, is_reverce );
+  }
+
+  private void onRotateHandle()
+  {
+    onRotate.Invoke();
   }
   #endregion
 }

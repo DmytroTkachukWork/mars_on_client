@@ -4,8 +4,8 @@ using UnityEngine;
 public class ScreenLevelUI : ScreenBaseUI
 {
   #region Serialized Fields
-  [SerializeField] private ButtonBase exit_button = null;
   [SerializeField] private ButtonBase undo_button = null;
+  [SerializeField] private ButtonBase pause_button = null;
   [SerializeField] private TMP_Text steps_to_lose_text = null;
   #endregion
 
@@ -13,14 +13,14 @@ public class ScreenLevelUI : ScreenBaseUI
   public void init()
   {
     deinit();
-    exit_button.onClick += onExit;
     undo_button.onClick += undoAction;
+    pause_button.onClick += pauseAction;
   }
 
   public void deinit()
   {
-    exit_button.onClick -= onExit;
     undo_button.onClick -= undoAction;
+    pause_button.onClick -= pauseAction;
     steps_to_lose_text.text = string.Empty;
   }
 
@@ -32,6 +32,11 @@ public class ScreenLevelUI : ScreenBaseUI
   public void undoAction()
   {
     levelManager.undoAction();
+  }
+
+  public void pauseAction()
+  {
+    spawnManager.getOrSpawnScreenUI( ScreenUIId.LEVEL_PAUSE );
   }
 
   public override void onSpawn()
@@ -48,13 +53,4 @@ public class ScreenLevelUI : ScreenBaseUI
     deinit();
   }
   #endregion
-
-  #region Private Methods
-  private void onExit()
-  {
-    Debug.LogError( "onExit" );
-    cameraController.moveCameraToSectorFromLevel();
-    spawnManager.despawnScreenUI( ScreenUIId.LEVEL );
-  }
-  #endregion 
 }

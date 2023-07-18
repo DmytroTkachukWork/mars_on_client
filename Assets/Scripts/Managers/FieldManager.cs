@@ -17,35 +17,39 @@ public class FieldManager : MonoBehaviourBase
   private event Action<bool> onBeginRotate = delegate{};
   private PipeTree pipe_tree = null;
   private Stack<QuadContentController> undo_stack = null;
+  private bool has_win = false;
   #endregion
 
 
   #region Public Mathods
-  public void init( LevelQuadMatrix level_quad_matrix )
+  public void init( LevelQuadMatrix level_quad_matrix = null )
   {
     deinit();
 
     levelManager.startLevel( this );
 
     undo_stack = new Stack<QuadContentController>();
-    this.level_quad_matrix = level_quad_matrix;
-    cached_steps_to_lose = level_quad_matrix.max_steps_to_lose;
-    quad_matrix = new QuadContentController[level_quad_matrix.matrix_size.x, level_quad_matrix.matrix_size.y];
 
-    for ( int i = 0; i < level_quad_matrix.matrix_size.x; i++ )
+    if ( level_quad_matrix != null )
+      this.level_quad_matrix = level_quad_matrix;
+
+    cached_steps_to_lose = this.level_quad_matrix.max_steps_to_lose;
+    quad_matrix = new QuadContentController[this.level_quad_matrix.matrix_size.x, this.level_quad_matrix.matrix_size.y];
+
+    for ( int i = 0; i < this.level_quad_matrix.matrix_size.x; i++ )
     {
-      for ( int j = 0; j < level_quad_matrix.matrix_size.y; j++ )
+      for ( int j = 0; j < this.level_quad_matrix.matrix_size.y; j++ )
       {
-        int index = level_quad_matrix.matrix_size.y * i + j;
+        int index = this.level_quad_matrix.matrix_size.y * i + j;
 
-        if ( level_quad_matrix.quad_entities[index].role_type == QuadRoleType.NONE )
+        if ( this.level_quad_matrix.quad_entities[index].role_type == QuadRoleType.NONE )
           continue;
 
         cached_position.x = transform.localPosition.x + myVariables.QUAD_DISTANCE * j;
         cached_position.z = transform.localPosition.z - myVariables.QUAD_DISTANCE * i;
 
-        QuadRoleType role_type = level_quad_matrix.quad_entities[index].role_type;
-        QuadConectionType type = level_quad_matrix.quad_entities[index].connection_type;
+        QuadRoleType role_type = this.level_quad_matrix.quad_entities[index].role_type;
+        QuadConectionType type = this.level_quad_matrix.quad_entities[index].connection_type;
         
         quad_matrix[i, j] = spawnManager.spawnQuad( cached_position, transform, role_type );
         quad_matrix[i, j].transform.localPosition = cached_position;
@@ -54,25 +58,27 @@ public class FieldManager : MonoBehaviourBase
         ConectorController conector = spawnManager.spawnConector( quad_matrix[i, j].conectorRoot );
         conector.init( type );
 
-        level_quad_matrix.quad_entities[index].matrix_x = i;
-        level_quad_matrix.quad_entities[index].matrix_y = j;
+        this.level_quad_matrix.quad_entities[index].matrix_x = i;
+        this.level_quad_matrix.quad_entities[index].matrix_y = j;
 
-        quad_matrix[i, j].init( level_quad_matrix.quad_entities[index], conector );
+        quad_matrix[i, j].init( this.level_quad_matrix.quad_entities[index], conector );
         quad_matrix[i, j].onRotate += continuePainting;
         quad_matrix[i, j].onBeginRotate += handleQuadRotation;
       }
     }
 
-    pipe_tree = PathFinder.getPipeTree( quad_matrix, level_quad_matrix );
+    pipe_tree = PathFinder.getPipeTreeNew( quad_matrix, this.level_quad_matrix );
     continuePainting();
 
-    if ( level_quad_matrix.lose_type == LevelLoseType.NONE )
+    spawnManager.getOrSpawnScreenUI( ScreenUIId.LEVEL );
+
+    if ( this.level_quad_matrix.lose_type == LevelLoseType.NONE )
       return;
 
-    win_lose_manager.init( level_quad_matrix );
+    win_lose_manager.init( this.level_quad_matrix );
     win_lose_manager.onLose += handleLose;
 
-    if ( level_quad_matrix.lose_type == LevelLoseType.ROTATIONS_COUNT )
+    if ( this.level_quad_matrix.lose_type == LevelLoseType.ROTATIONS_COUNT )
       onBeginRotate += win_lose_manager.onBeginRotate;
 
     ( spawnManager.getOrSpawnScreenUI( ScreenUIId.LEVEL ) as ScreenLevelUI ).updateStepsCount( cached_steps_to_lose );
@@ -80,6 +86,7 @@ public class FieldManager : MonoBehaviourBase
 
   public void deinit()
   {
+    has_win = false;
     despawnMatrix();
     unsubscrube();
   }
@@ -107,6 +114,7 @@ public class FieldManager : MonoBehaviourBase
 
       quad.onRotate -= continuePainting;
       quad.onBeginRotate -= handleQuadRotation;
+      quad.deinit();
     }
   }
 
@@ -144,18 +152,35 @@ public class FieldManager : MonoBehaviourBase
 
   private void levelCore()
   {
-    pipe_tree.starter_pipe.controller.paintConected( pipe_tree.starter_pipe.pipe_resource, pipe_tree.starter_pipe.inner_dir, pipe_tree.starter_pipe.children, paintMe );
+    bool has_checked = false;
+    pipe_tree.starter_pipe.controller.paintConected( pipe_tree.starter_pipe.pipe_resource, pipe_tree.starter_pipe.inner_dirs.FirstOrDefault(), pipe_tree.starter_pipe.children, paintMe );
 
-    void paintMe( List<Pipe> next_pipes_to_paint )
+    void paintMe( HashSet<Pipe> next_pipes_to_paint )
     {
       if ( next_pipes_to_paint == null )
         return;
 
+      if ( next_pipes_to_paint.Count == 0 )
+      {
+        if ( has_checked )
+        return;
+
+        has_checked = true;
+        tweener.waitFrameAndDo( impl ).start();
+        return;
+      }
+
       foreach( Pipe pipe in next_pipes_to_paint )
       {
-        pipe.controller.paintConected( pipe.pipe_resource, pipe.inner_dir, pipe.children, paintMe );
-        if ( pipe.quad.role_type == QuadRoleType.FINISHER )
-          handleWin();
+        tweener.waitFrameAndDo( () => pipe.controller.paintConected( pipe.pipe_resource, pipe.inner_dirs.FirstOrDefault(), pipe.children, paintMe ) ).start();
+      }
+    }
+
+    void impl()
+    {
+      if ( PathFinder.isAllPipesConected( pipe_tree ) )
+      {
+        handleWin();
       }
     }
   }
@@ -173,6 +198,10 @@ public class FieldManager : MonoBehaviourBase
 
   private void handleWin()
   {
+    if ( has_win )
+      return;
+
+    has_win = true;
     unsubscrube();
     spawnManager.despawnScreenUI( ScreenUIId.LEVEL );
     ( spawnManager.getOrSpawnScreenUI( ScreenUIId.LEVEL_WIN ) as ScreenWinUI ).init( null );
@@ -182,7 +211,7 @@ public class FieldManager : MonoBehaviourBase
 
   private void continuePainting()
   {
-    pipe_tree = PathFinder.getPipeTree( quad_matrix, level_quad_matrix );
+    pipe_tree = PathFinder.getPipeTreeNew( quad_matrix, level_quad_matrix );
     levelCore();
   }
   #endregion

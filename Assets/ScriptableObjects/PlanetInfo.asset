@@ -31,3 +31,14 @@ MonoBehaviour:
       stars_count: 0
     - level_matrix: {fileID: 11400000, guid: d07073e019150c644a326f9f97b0d2d8, type: 2}
       stars_count: 0
+  - levels_info:
+    - level_matrix: {fileID: 11400000, guid: 95aaf5394180c7d4c9866cc5f1a0a756, type: 2}
+      stars_count: 0
+    - level_matrix: {fileID: 11400000, guid: 54a170802dcc4fd4680e2638faafe9e2, type: 2}
+      stars_count: 0
+    - level_matrix: {fileID: 11400000, guid: 6aeac085608d2364384c9db9536a3478, type: 2}
+      stars_count: 0
+    - level_matrix: {fileID: 11400000, guid: 603087d14db678a4db2a9d1fefc01cd6, type: 2}
+      stars_count: 0
+    - level_matrix: {fileID: 11400000, guid: 0f0062d0410123d4f8af11aaa4f9d4a7, type: 2}
+      stars_count: 0

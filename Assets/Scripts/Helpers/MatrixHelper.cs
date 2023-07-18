@@ -15,23 +15,23 @@ public static class MatrixHelper
 
   public static int[] getMatrix( QuadConectionType type )
   {
-    int[] matrix_none = new int[4]{ 0, 0, 0, 0 };
-    int[] matrix_long = new int[4]{ 0, 1, 0, 1 };
-    int[] matrix_corn = new int[4]{ 1, 1, 0, 0 };
-    int[] matrix_lncr = new int[4]{ 1, 1, 0, 1 };
-    int[] matrix_twcr = new int[4]{ 1, 1, 2, 2 };
-    int[] matrix_crst = new int[4]{ 1, 1, 1, 1 };
-    int[] matrix_one  = new int[4]{ 1, 0, 0, 0 };
+    //int[] matrix_none = new int[4]{ 0, 0, 0, 0 };
+    //int[] matrix_long = new int[4]{ 0, 1, 0, 1 };
+    //int[] matrix_corn = new int[4]{ 1, 1, 0, 0 };
+    //int[] matrix_lncr = new int[4]{ 1, 1, 0, 1 };
+    //int[] matrix_twcr = new int[4]{ 1, 1, 2, 2 };
+    //int[] matrix_crst = new int[4]{ 1, 1, 1, 1 };
+    //int[] matrix_one  = new int[4]{ 1, 0, 0, 0 };
     switch( type )
     {
-    case QuadConectionType.LONG:        return matrix_long;
-    case QuadConectionType.CORNER:      return matrix_corn;
-    case QuadConectionType.LONG_CORNER: return matrix_lncr;
-    case QuadConectionType.TWO_CORNERS: return matrix_twcr;
-    case QuadConectionType.CRIST:       return matrix_crst;
-    case QuadConectionType.ONE:         return matrix_one;
+    case QuadConectionType.LONG:        return new int[4]{ 0, 1, 0, 1 };
+    case QuadConectionType.CORNER:      return new int[4]{ 1, 1, 0, 0 };
+    case QuadConectionType.LONG_CORNER: return new int[4]{ 1, 1, 0, 1 };
+    case QuadConectionType.TWO_CORNERS: return new int[4]{ 1, 1, 2, 2 };
+    case QuadConectionType.CRIST:       return new int[4]{ 1, 1, 1, 1 };
+    case QuadConectionType.ONE:         return new int[4]{ 1, 0, 0, 0 };
     case QuadConectionType.NONE:
-    default:                            return matrix_none;
+    default:                            return new int[4]{ 0, 0, 0, 0 };
     }
   }
 

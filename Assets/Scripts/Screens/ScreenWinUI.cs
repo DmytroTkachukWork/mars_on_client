@@ -6,7 +6,8 @@ public class ScreenWinUI : ScreenBaseUI
 {
   #region Serilized Fields
   [SerializeField] private CanvasGroup canvas_group = null;
-  [SerializeField] private ButtonBase full_button = null;
+  [SerializeField] private ButtonBase exit_button = null;
+  [SerializeField] private ButtonBase replay_button = null;
   #endregion
 
   #region Private Fields
@@ -17,22 +18,18 @@ public class ScreenWinUI : ScreenBaseUI
   #region Public Methods
   public void init( Action callback = null )
   {
-    full_button.onClick += onDespawn;
-    my_cor = my_cor.startCoroutineAndStopPrev( tweener.tweenFloat( ( value ) => canvas_group.alpha = value, 0.0f, 1.0f, myVariables.LEVEL_WIN_FADE_TIME, callback == null ? moveCamera : callback ) );
-  }
-
-  public void moveCamera()
-  {
-    spawnManager.despawnScreenUI( ScreenUIId.LEVEL );
-    cameraController.moveCameraToSectorFromLevel();
+    exit_button.onClick -= exitLevel;
+    exit_button.onClick += exitLevel;
+    replay_button.onClick -= replayLevel;
+    replay_button.onClick += replayLevel;
+    my_cor = my_cor.startCoroutineAndStopPrev( tweener.tweenFloat( ( value ) => canvas_group.alpha = value, 0.0f, 1.0f, myVariables.LEVEL_WIN_FADE_TIME, callback ) );
   }
 
   public void deinit()
   {
-    full_button.onClick -= onDespawn;
+    exit_button.onClick -= exitLevel;
+    replay_button.onClick -= replayLevel;
     my_cor?.stop();
-    moveCamera();
-    spawnManager.getOrSpawnScreenUI( ScreenUIId.SECTOR );
   }
 
   public override void onDespawn()
@@ -40,6 +37,23 @@ public class ScreenWinUI : ScreenBaseUI
     base.onDespawn();
 
     deinit();
+  }
+  #endregion
+
+  #region Private Methods
+  private void replayLevel()
+  {
+    spawnManager.despawnScreenUI( ScreenUIId.LEVEL );
+    spawnManager.despawnScreenUI( ScreenUIId.LEVEL_WIN );
+    levelManager.restartLevel();
+  }
+
+  private void exitLevel()
+  {
+    spawnManager.despawnScreenUI( ScreenUIId.LEVEL );
+    spawnManager.despawnScreenUI( ScreenUIId.LEVEL_WIN );
+    cameraController.moveCameraToSectorFromLevel();
+    spawnManager.getOrSpawnScreenUI( ScreenUIId.SECTOR );
   }
   #endregion
 }

@@ -5,6 +5,12 @@ using UnityEngine;
 
 public class PathFinder
 {
+  private static Vector2Int[] dirs = new Vector2Int[4]{ 
+        new Vector2Int(-1, 0)
+      , new Vector2Int(0, 1)
+      , new Vector2Int(1, 0)
+      , new Vector2Int(0, -1)
+      };
 
   public static void fastRepaint( QuadContentController[,] quad_matrix, LevelQuadMatrix level_quad_matrix )
   {
@@ -54,7 +60,7 @@ public class PathFinder
 
       if ( !checked_quads.Add( curent_quad ) && curent_quad_entity.connection_type != QuadConectionType.TWO_CORNERS && curent_quad_entity.role_type == QuadRoleType.PLAYABLE ) // wasnt pessed previuslly
       {
-        if ( curent_quad_entity.recource_type != resource_type )
+        //if ( curent_quad_entity.recource_type != resource_type )
           return;
       }
 
@@ -79,12 +85,6 @@ public class PathFinder
 
   private static Vector2Int getNextPosV( int dir )
   {
-    Vector2Int[] dirs = new Vector2Int[4]{ 
-        new Vector2Int(-1, 0)
-      , new Vector2Int(0, 1)
-      , new Vector2Int(1, 0)
-      , new Vector2Int(0, -1)
-      };
     return dirs[dir];
   }
 
@@ -98,6 +98,7 @@ public class PathFinder
 
   public static PipeTree getPipeTree( QuadContentController[,] quad_matrix, LevelQuadMatrix level_quad_matrix )
   {
+    HashSet<QuadEntity> checked_entities = new HashSet<QuadEntity>();
     PipeTree pipe_tree = new PipeTree();
     IEnumerable<QuadEntity> starters = level_quad_matrix.quad_entities.Where( x => x.role_type == QuadRoleType.STARTER );
     IEnumerable<QuadEntity> finishers = level_quad_matrix.quad_entities.Where( x => x.role_type == QuadRoleType.FINISHER );
@@ -118,9 +119,10 @@ public class PathFinder
       QuadEntity curent_quad_entity = level_quad_matrix.quad_entities[level_quad_matrix.matrix_size.y * x + y];
 
       curent_quad_entity.recource_type = resource_type;
-      pipe_tree.getPipe( curent_quad_entity ).inner_dir = curent_quad_entity.getOriginDir( inner_dir );
-      pipe_tree.getPipe( curent_quad_entity ).pipe_resource = resource_type;
-      pipe_tree.getPipe( curent_quad_entity ).controller = quad_matrix[x, y];
+      Pipe curent_pipe = pipe_tree.getPipe( curent_quad_entity );
+      curent_pipe.inner_dirs.Add( curent_quad_entity.getOriginDir( inner_dir ) );
+      curent_pipe.pipe_resource = resource_type;
+      curent_pipe.controller = quad_matrix[x, y];
 
       inner_dir = inverse4( inner_dir );
       List<int> next_dirs = curent_quad_entity.getNextConections( inner_dir );
@@ -140,8 +142,113 @@ public class PathFinder
         if ( next_entity.recource_type != QuadResourceType.NONE && next_entity.recource_type != curent_quad_entity.recource_type )
           continue;
 
-        pipe_tree.getPipe( curent_quad_entity ).addChildren( pipe_tree.getPipe( next_entity ) );
-        moveNext( dir, vector_dir.x + x, vector_dir.y + y, resource_type );
+        Pipe next_pipe = pipe_tree.getPipe( next_entity );
+
+        if ( next_pipe.inner_dirs.Contains( next_entity.getOriginDir( dir ) ) )
+          continue;
+
+        curent_pipe.addChildren( next_pipe );
+        if ( next_entity.connection_type == QuadConectionType.LONG_CORNER )
+          moveNext( dir, vector_dir.x + x, vector_dir.y + y, resource_type );
+        else if ( checked_entities.Add( next_entity ) )
+          moveNext( dir, vector_dir.x + x, vector_dir.y + y, resource_type );
+      }
+    }
+  }
+
+  public static PipeTree getPipeTreeNew( QuadContentController[,] quad_matrix, LevelQuadMatrix level_quad_matrix )
+  {
+    HashSet<QuadEntity> checked_entities = new HashSet<QuadEntity>();
+    PipeTree pipe_tree = new PipeTree();
+    IEnumerable<QuadEntity> starters = level_quad_matrix.quad_entities.Where( x => x.role_type == QuadRoleType.STARTER );
+    IEnumerable<QuadEntity> finishers = level_quad_matrix.quad_entities.Where( x => x.role_type == QuadRoleType.FINISHER );
+    TreeExecutor tree_executor = new TreeExecutor();
+
+    foreach( QuadEntity starter in starters )
+    {
+      pipe_tree.starter_pipe = pipe_tree.getPipe( starter );
+      QuadResourceType starter_resource = starter.recource_type;
+      List<int> dirs = starter.getNextConections( 5 );
+
+      foreach( int dir in dirs )
+      {
+        tree_executor.addAction( () => moveNext( dir, starter.matrix_x, starter.matrix_y, starter_resource ) );
+      }
+    }
+    tree_executor.execute();
+    return pipe_tree;
+
+    void moveNext( int inner_dir, int x, int y, QuadResourceType resource_type )
+    {
+      QuadEntity curent_quad_entity = level_quad_matrix.quad_entities[level_quad_matrix.matrix_size.y * x + y];
+
+      curent_quad_entity.recource_type = resource_type;
+      Pipe curent_pipe = pipe_tree.getPipe( curent_quad_entity );
+      curent_pipe.inner_dirs.Add( curent_quad_entity.getOriginDir( inner_dir ) );
+      curent_pipe.pipe_resource = resource_type;
+      curent_pipe.controller = quad_matrix[x, y];
+
+      inner_dir = inverse4( inner_dir );
+      List<int> next_dirs = curent_quad_entity.getNextConections( inner_dir );
+
+      foreach( int dir in next_dirs )
+      {
+        Vector2Int vector_dir = getNextPosV( dir );
+
+        int next_idx = (level_quad_matrix.matrix_size.y * (vector_dir.x + x)) + vector_dir.y + y;
+        if ( next_idx >= level_quad_matrix.quad_entities.Length || next_idx < 0 )
+          continue;
+
+        QuadEntity next_entity = level_quad_matrix.quad_entities[next_idx];
+        if ( !next_entity.canBeAccessedFrom( dir ) )
+          continue;
+
+        if ( next_entity.recource_type != QuadResourceType.NONE && next_entity.recource_type != curent_quad_entity.recource_type )
+          continue;
+
+        Pipe next_pipe = pipe_tree.getPipe( next_entity );
+
+        if ( next_pipe.inner_dirs.Contains( next_entity.getOriginDir( dir ) ) )
+          continue;
+
+        curent_pipe.addChildren( next_pipe );
+
+        if ( checked_entities.Add( next_entity ) )
+          tree_executor.addAction( () => moveNext( dir, vector_dir.x + x, vector_dir.y + y, resource_type ) );
+      }
+    }
+  }
+
+  public static bool isAllPipesConected( PipeTree pipe_tree )
+  {
+    HashSet<Pipe> checked_pipes = new HashSet<Pipe>();
+    bool is_all_pipes_conected = true;
+    bool is_finisher_conected = false;
+
+    checkPipe( pipe_tree.starter_pipe.children );
+
+    return is_all_pipes_conected && is_finisher_conected;
+
+    void checkPipe( HashSet<Pipe> next_pipes_to_paint )
+    {
+      if ( next_pipes_to_paint == null )
+        return;
+
+      foreach( Pipe pipe in next_pipes_to_paint )
+      {
+        if ( !checked_pipes.Add( pipe ) )
+          break;
+
+        if ( pipe.quad.role_type == QuadRoleType.FINISHER )
+          is_finisher_conected = true;
+        else
+          checkPipe( pipe.children );
+
+        if ( pipe.children.Count == 0 && pipe.quad.role_type != QuadRoleType.FINISHER )
+          is_all_pipes_conected = false;
+
+        if ( pipe.quad.connection_type == QuadConectionType.LONG_CORNER && pipe.children.Count < 2 )
+          is_all_pipes_conected = false;
       }
     }
   }
@@ -150,7 +257,7 @@ public class PathFinder
 public class PipeTree
 {
   public Pipe starter_pipe = null;
-  public List<Pipe> all_pipes = new List<Pipe>();
+  public HashSet<Pipe> all_pipes = new HashSet<Pipe>();
 
   public Pipe getPipe( QuadEntity quad )
   {
@@ -174,13 +281,13 @@ public class PipeTree
 
 public class Pipe
 {
-  public List<Pipe> ancestors = new List<Pipe>();
-  public List<Pipe> children = new List<Pipe>();
+  public HashSet<Pipe> ancestors = new HashSet<Pipe>();
+  public HashSet<Pipe> children = new HashSet<Pipe>();
   public QuadEntity quad = null;
   public QuadContentController controller = null;
   public bool is_pained = false;
   public QuadResourceType pipe_resource = QuadResourceType.NONE;
-  public int inner_dir = 0;
+  public List<int> inner_dirs = new List<int>();
   
   public Pipe( QuadEntity quad )
   {

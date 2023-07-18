@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4568037302888456879
 MonoBehaviour:
@@ -55,4 +55,5 @@ MonoBehaviour:
   screen_level_ui: {fileID: 4474804752419511675, guid: 5164fc53391971844a338195b460839a, type: 3}
   screen_win_ui: {fileID: 1030586960811523614, guid: 6b2dc71f94e575a4da4dc76643a19c81, type: 3}
   screen_lose_ui: {fileID: 8928876153441121439, guid: b37bec215e45d2442a187c5f1a684405, type: 3}
+  screen_pause_ui: {fileID: 5877811043260653192, guid: a9951cbf498910f488f4e59f237825f4, type: 3}
   planet_controller: {fileID: 5975697908701501734, guid: 79373529ae2f6444a839e497a833ed31, type: 3}

@@ -360,6 +360,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 17406e29cba53ff45b40ceb09d1e1075, type: 2}
+    - target: {fileID: -4723266679792896011, guid: cfc7966e6075dd54b8660df0fb20512a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 17406e29cba53ff45b40ceb09d1e1075, type: 2}
     - target: {fileID: 919132149155446097, guid: cfc7966e6075dd54b8660df0fb20512a, type: 3}
       propertyPath: m_Name
       value: Conector_OneSide

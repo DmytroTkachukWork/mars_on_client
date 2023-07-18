@@ -27,11 +27,11 @@ public class PlayerDataManager : MonoBehaviourService<PlayerDataManager>
 
   public void handleLevelWin( int sector_num, int level_num )
   {
-    if ( sector_num != curent_player_data.curent_sector_num && level_num != curent_player_data.curent_level_num)
+    if ( sector_num <= curent_player_data.curent_sector_num && level_num <= curent_player_data.curent_level_num )
       return;
 
-    if ( sector_num >= planet_info.sectors_info.Length )
-      return;
+    //if ( sector_num >= planet_info.sectors_info.Length )
+    //  return;
 
     level_num++;
 
@@ -50,9 +50,6 @@ public class PlayerDataManager : MonoBehaviourService<PlayerDataManager>
 
   public void saveProgress()
   {
-    curent_player_data.some_data = new SomeData();
-    curent_player_data.some_data.stars_count = new int[10];
-    curent_player_data.some_data.stars_count[0] = 199;
     PlayerDataSaver.savePlayerData( curent_player_data );
   }
 
@@ -70,6 +67,8 @@ public class PlayerDataManager : MonoBehaviourService<PlayerDataManager>
   public void resetProgress()
   {
     curent_player_data = new PlayerData();
+    curent_player_data.curent_sector_num = planet_info.sectors_info.Length - 1;
+    curent_player_data.curent_level_num = planet_info.sectors_info[curent_player_data.curent_sector_num].levels_info.Length - 1;
     saveProgress();
   }
 }

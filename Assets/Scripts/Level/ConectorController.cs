@@ -42,7 +42,7 @@ public class ConectorController : MonoBehaviourPoolable
       pair.conector_pipes_controller.gameObject.SetActive( false );
   }
 
-  public void paintConected( QuadResourceType resource_type, int origin_dir, List<Pipe> next_pipes = null, Action<List<Pipe>> callback = null )
+  public void paintConected( QuadResourceType resource_type, int origin_dir, HashSet<Pipe> next_pipes = null, Action<HashSet<Pipe>> callback = null )
   {
     curent_conector_pipes_controller.paintConectedCor( resource_type, origin_dir, next_pipes, callback );
   }

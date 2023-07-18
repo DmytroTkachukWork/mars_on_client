@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviourService<LevelManager>
@@ -16,4 +17,14 @@ public class LevelManager : MonoBehaviourService<LevelManager>
     curent_field_manager.undoAction();
   }
   
+  public void stopLevel()
+  {
+    curent_field_manager?.deinit();
+  }
+
+  public void restartLevel()
+  {
+    curent_field_manager?.deinit();
+    curent_field_manager?.init();
+  }
 }

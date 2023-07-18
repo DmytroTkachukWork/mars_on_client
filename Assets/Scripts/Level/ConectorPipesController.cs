@@ -17,12 +17,12 @@ public class ConectorPipesController : MonoBehaviour
   #region Private Fields
   private IEnumerator paint_cor = null;
   private QuadResourceType _resource_type = QuadResourceType.NONE;
-  private List<Pipe> cached_pipes = null;
+  private HashSet<Pipe> cached_pipes = null;
   #endregion
 
 
   #region Public Methods
-  public void paintConectedCor( QuadResourceType resource_type, int inner_dir = 0, List<Pipe> next_pipes = null, Action<List<Pipe>> callback = null )
+  public void paintConectedCor( QuadResourceType resource_type, int inner_dir = 0, HashSet<Pipe> next_pipes = null, Action<HashSet<Pipe>> callback = null )
   {
     cached_pipes = next_pipes;
 

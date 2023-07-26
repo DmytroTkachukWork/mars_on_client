@@ -32,6 +32,7 @@ Transform:
   - {fileID: 2251939483481678265}
   - {fileID: 2946105019444936766}
   - {fileID: 9043078808180446834}
+  - {fileID: 8403698870070870565}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -53,6 +54,7 @@ MonoBehaviour:
   - {fileID: 6352321617140928132}
   - {fileID: 0}
   - {fileID: 989147592590874824}
+  pipe_resource_controller: {fileID: 5573072331874642820}
 --- !u!1001 &1786458429865805394
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -215,6 +217,83 @@ MonoBehaviour:
 Transform:
   m_CorrespondingSourceObject: {fileID: 6030554111517195915, guid: 4001085a348817e439d3218879a46ab4, type: 3}
   m_PrefabInstance: {fileID: 3373105139982641401}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &3429070663380407526
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1246502489219930506}
+    m_Modifications:
+    - target: {fileID: 6559895284114888387, guid: c3e33d5f50cdb8f4a970103506bf831a, type: 3}
+      propertyPath: m_RootOrder
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6559895284114888387, guid: c3e33d5f50cdb8f4a970103506bf831a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6559895284114888387, guid: c3e33d5f50cdb8f4a970103506bf831a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6559895284114888387, guid: c3e33d5f50cdb8f4a970103506bf831a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6559895284114888387, guid: c3e33d5f50cdb8f4a970103506bf831a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6559895284114888387, guid: c3e33d5f50cdb8f4a970103506bf831a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6559895284114888387, guid: c3e33d5f50cdb8f4a970103506bf831a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6559895284114888387, guid: c3e33d5f50cdb8f4a970103506bf831a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6559895284114888387, guid: c3e33d5f50cdb8f4a970103506bf831a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6559895284114888387, guid: c3e33d5f50cdb8f4a970103506bf831a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6559895284114888387, guid: c3e33d5f50cdb8f4a970103506bf831a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7519708364811878235, guid: c3e33d5f50cdb8f4a970103506bf831a, type: 3}
+      propertyPath: m_Name
+      value: PipeResourceController_TwoSides
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c3e33d5f50cdb8f4a970103506bf831a, type: 3}
+--- !u!114 &5573072331874642820 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7115975876691541858, guid: c3e33d5f50cdb8f4a970103506bf831a, type: 3}
+  m_PrefabInstance: {fileID: 3429070663380407526}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe1dd77af0b97314fb445bc42f5c6651, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &8403698870070870565 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6559895284114888387, guid: c3e33d5f50cdb8f4a970103506bf831a, type: 3}
+  m_PrefabInstance: {fileID: 3429070663380407526}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8886305634883092149
 PrefabInstance:

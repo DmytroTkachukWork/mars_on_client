@@ -10,7 +10,6 @@ public class ScreenLoseUI : ScreenBaseUI
   #endregion
 
   #region Private Fields
-  private MyTask my_task = null;
   private IEnumerator tween_cor = null;
   #endregion
 
@@ -31,7 +30,6 @@ public class ScreenLoseUI : ScreenBaseUI
   public void deinit()
   {
     full_button.onClick -= onDespawn;
-    my_task?.stop();
     tween_cor.stop();
     moveCamera();
     spawnManager.getOrSpawnScreenUI( ScreenUIId.SECTOR );

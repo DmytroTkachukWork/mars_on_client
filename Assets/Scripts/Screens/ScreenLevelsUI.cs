@@ -36,7 +36,6 @@ public class ScreenLevelsUI : ScreenBaseUI
 
   private void onExit()
   {
-    Debug.LogError( "onExit" );
     cameraController.moveCameraToPlanet();
   }
   #endregion 

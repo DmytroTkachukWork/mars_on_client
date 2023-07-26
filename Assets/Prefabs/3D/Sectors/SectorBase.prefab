@@ -179,6 +179,7 @@ MonoBehaviour:
   clickable_base: {fileID: 8233160317534384499}
   camera_container: {fileID: 3437427910551097477}
   level_controllers: []
+  sector_id: 0
 --- !u!1001 &1186680457175820756
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -278,7 +279,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9052643331032222581, guid: 4af0f9ebb01f1a149b26a1eb178c8546, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -32.5
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 9052643331032222581, guid: 4af0f9ebb01f1a149b26a1eb178c8546, type: 3}
       propertyPath: m_LocalPosition.y
@@ -286,7 +287,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9052643331032222581, guid: 4af0f9ebb01f1a149b26a1eb178c8546, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 31.8
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9052643331032222581, guid: 4af0f9ebb01f1a149b26a1eb178c8546, type: 3}
       propertyPath: m_LocalRotation.w

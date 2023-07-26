@@ -8,8 +8,12 @@ public static class PlayerDataSaver
 
   public static void savePlayerData( PlayerData player_data )
   {
+    if ( player_data == null )
+      return;
+
     BinaryFormatter formater = new BinaryFormatter();
     FileStream file_stream = new FileStream( path, FileMode.Create );
+
     formater.Serialize( file_stream, player_data );
     file_stream.Close();
   }

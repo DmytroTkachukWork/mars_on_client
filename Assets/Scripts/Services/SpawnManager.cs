@@ -19,6 +19,7 @@ public class SpawnManager : MonoBehaviourService<SpawnManager>
   [SerializeField] private ScreenLoseUI screen_lose_ui = null;
   [SerializeField] private ScreenPauseUI screen_pause_ui = null;
   [SerializeField] private PlanetController planet_controller = null;
+  [SerializeField] private ResourceEntityController resource_entity_controller = null;
   #endregion
 
   #region Private Fields
@@ -35,6 +36,7 @@ public class SpawnManager : MonoBehaviourService<SpawnManager>
   private MultiPool<ConectorController> conectors_pool = new MultiPool<ConectorController>();
   private MultiPool<QuadContentController> start_points_pool = new MultiPool<QuadContentController>();
   private MultiPool<QuadContentController> finish_points_pool = new MultiPool<QuadContentController>();
+  private MultiPool<ResourceEntityController> resource_entity_controller_pool = new MultiPool<ResourceEntityController>();
   #endregion
 
 
@@ -58,6 +60,11 @@ public class SpawnManager : MonoBehaviourService<SpawnManager>
   public PlanetController spawnPlanet()
   {
     return planet_controller_pool.spawn( planet_controller, screen_3d );
+  }
+
+  public ResourceEntityController spawnRec( Transform root_transform )
+  {
+    return resource_entity_controller_pool.spawn( resource_entity_controller, root_transform );
   }
 
   public ScreenBaseUI getOrSpawnScreenUI( ScreenUIId screen_id )

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -18,6 +19,7 @@ public class FieldManager : MonoBehaviourBase
   private PipeTree pipe_tree = null;
   private Stack<QuadContentController> undo_stack = null;
   private bool has_win = false;
+  private List<IEnumerator> runing_cors = new List<IEnumerator>();
   #endregion
 
 
@@ -153,6 +155,8 @@ public class FieldManager : MonoBehaviourBase
   private void levelCore()
   {
     bool has_checked = false;
+    stopCors();
+
     pipe_tree.starter_pipe.controller.paintConected( pipe_tree.starter_pipe.pipe_resource, pipe_tree.starter_pipe.inner_dirs.FirstOrDefault(), pipe_tree.starter_pipe.children, paintMe );
 
     void paintMe( HashSet<Pipe> next_pipes_to_paint )
@@ -166,13 +170,16 @@ public class FieldManager : MonoBehaviourBase
         return;
 
         has_checked = true;
-        tweener.waitFrameAndDo( impl ).start();
+        stopCors();
+        impl();
         return;
       }
 
       foreach( Pipe pipe in next_pipes_to_paint )
       {
-        tweener.waitFrameAndDo( () => pipe.controller.paintConected( pipe.pipe_resource, pipe.inner_dirs.FirstOrDefault(), pipe.children, paintMe ) ).start();
+        IEnumerator cor = tweener.waitFrameAndDo( () => pipe.controller.paintConected( pipe.pipe_resource, pipe.inner_dirs.FirstOrDefault(), pipe.children, paintMe ) );
+        runing_cors.Add( cor );
+        cor.start();
       }
     }
 
@@ -182,6 +189,14 @@ public class FieldManager : MonoBehaviourBase
       {
         handleWin();
       }
+    }
+
+    void stopCors()
+    {
+      foreach( IEnumerator cor in runing_cors )
+      cor?.stop();
+
+      runing_cors.Clear();
     }
   }
 
@@ -204,8 +219,14 @@ public class FieldManager : MonoBehaviourBase
     has_win = true;
     unsubscrube();
     spawnManager.despawnScreenUI( ScreenUIId.LEVEL );
-    ( spawnManager.getOrSpawnScreenUI( ScreenUIId.LEVEL_WIN ) as ScreenWinUI ).init( null );
-    playerDataManager.handleLevelWin( level_quad_matrix.sector_id, level_quad_matrix.level_id );
+
+
+    ushort stars_count = getStarsCount( win_lose_manager.getCurentStepsCount(), level_quad_matrix.max_steps_to_lose );
+    bool receive_card = playerDataManager.canReceiveCard( level_quad_matrix.sector_id, level_quad_matrix.level_id);
+
+    ( spawnManager.getOrSpawnScreenUI( ScreenUIId.LEVEL_WIN ) as ScreenWinUI ).init( stars_count, receive_card );
+
+    playerDataManager.handleLevelWin( level_quad_matrix.sector_id, level_quad_matrix.level_id, stars_count );
   }
 
 
@@ -213,6 +234,19 @@ public class FieldManager : MonoBehaviourBase
   {
     pipe_tree = PathFinder.getPipeTreeNew( quad_matrix, level_quad_matrix );
     levelCore();
+  }
+
+  private ushort getStarsCount( int maden_steps, int max_steps )
+  {
+    float persent = (float)maden_steps / (float)max_steps;
+
+    if ( persent >= 0.5f )
+      return 3;
+
+    if ( persent >= 0.25f )
+      return 2;
+
+    return 1;
   }
   #endregion
 }

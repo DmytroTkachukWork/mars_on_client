@@ -8,6 +8,8 @@ public class ScreenWinUI : ScreenBaseUI
   [SerializeField] private CanvasGroup canvas_group = null;
   [SerializeField] private ButtonBase exit_button = null;
   [SerializeField] private ButtonBase replay_button = null;
+  [SerializeField] private GameObject[] stars = null;
+  [SerializeField] private GameObject card = null;
   #endregion
 
   #region Private Fields
@@ -16,13 +18,24 @@ public class ScreenWinUI : ScreenBaseUI
 
   
   #region Public Methods
-  public void init( Action callback = null )
+  public void init( ushort stars_count, bool can_receive_card )
   {
-    exit_button.onClick -= exitLevel;
+    if ( stars_count > 3 )
+      return;
+
+    deinit();
     exit_button.onClick += exitLevel;
-    replay_button.onClick -= replayLevel;
     replay_button.onClick += replayLevel;
-    my_cor = my_cor.startCoroutineAndStopPrev( tweener.tweenFloat( ( value ) => canvas_group.alpha = value, 0.0f, 1.0f, myVariables.LEVEL_WIN_FADE_TIME, callback ) );
+
+    for ( ushort i = 0; i < stars.Length; i++ )
+      stars[i].SetActive( false );
+
+    for ( ushort i = 0; i < stars_count; i++ )
+      stars[i].SetActive( true );
+
+    card.SetActive( can_receive_card );
+
+    my_cor = my_cor.startCoroutineAndStopPrev( tweener.tweenFloat( ( value ) => canvas_group.alpha = value, 0.0f, 1.0f, myVariables.LEVEL_WIN_FADE_TIME, null ) );
   }
 
   public void deinit()

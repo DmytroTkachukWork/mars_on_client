@@ -39,7 +39,7 @@ public class ConectorController : MonoBehaviourPoolable
   public void deinit()
   {
     foreach( ConectorTypePair pair in conector_type_pairs )
-      pair.conector_pipes_controller.gameObject.SetActive( false );
+      pair.conector_pipes_controller.deinit();
   }
 
   public void paintConected( QuadResourceType resource_type, int origin_dir, HashSet<Pipe> next_pipes = null, Action<HashSet<Pipe>> callback = null )

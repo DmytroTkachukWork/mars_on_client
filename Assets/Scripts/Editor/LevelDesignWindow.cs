@@ -59,8 +59,6 @@ public class LevelDesignWindow : EditorWindow
       matrix.matrix_size = matrix_local.matrix_size;
 
       matrix.quad_entities = new QuadEntity[matrix_local.quad_entities.Length];
-
-      Debug.LogError( $"{matrix.quad_entities.Length} {matrix_local.quad_entities.Length}" );
       matrix_local.quad_entities.CopyTo( matrix.quad_entities, 0 );
       AssetDatabase.SaveAssetIfDirty( matrix_local );
       AssetDatabase.SaveAssets();

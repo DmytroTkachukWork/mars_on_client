@@ -53,7 +53,8 @@ MonoBehaviour:
   screen_main_ui: {fileID: 3686711228738388, guid: 6d715893a1dfc4b46a94cd4063d803c7, type: 3}
   screen_levels_ui: {fileID: 438251574226702944, guid: bcb4e99cb8eb57a439f08d2081221c9c, type: 3}
   screen_level_ui: {fileID: 4474804752419511675, guid: 5164fc53391971844a338195b460839a, type: 3}
-  screen_win_ui: {fileID: 1030586960811523614, guid: 6b2dc71f94e575a4da4dc76643a19c81, type: 3}
+  screen_win_ui: {fileID: 4236087424881558296, guid: 6b2dc71f94e575a4da4dc76643a19c81, type: 3}
   screen_lose_ui: {fileID: 8928876153441121439, guid: b37bec215e45d2442a187c5f1a684405, type: 3}
   screen_pause_ui: {fileID: 5877811043260653192, guid: a9951cbf498910f488f4e59f237825f4, type: 3}
   planet_controller: {fileID: 5975697908701501734, guid: 79373529ae2f6444a839e497a833ed31, type: 3}
+  resource_entity_controller: {fileID: 1027942996147051177, guid: 86b1f9f9b079a744c9e1a0d47a60f8a2, type: 3}

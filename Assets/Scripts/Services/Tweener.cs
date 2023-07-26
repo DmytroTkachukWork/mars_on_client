@@ -28,6 +28,23 @@ public class Tweener : MonoBehaviourService<Tweener>
     callback?.Invoke();
   }
 
+  public IEnumerator tweenVector( Action<Vector3> func, Vector3 start_value, Vector3 finish_value, float time, Action callback, CurveType curve_type = CurveType.NONE )
+  {
+    float time_spend = 0.0f;
+    float progress = 0.0f;
+
+    while( time_spend <= time ) 
+    {
+      progress = culcCurve( curve_type, time_spend / time );
+
+      func.Invoke( Vector3.Lerp( start_value, finish_value, progress ) );
+      time_spend += Time.deltaTime;
+      yield return null;
+    }
+    func.Invoke( finish_value );
+    callback?.Invoke();
+  }
+
   public IEnumerator tweenTransform( Transform curtent_transform, Transform target_transform, float time, Action callback = null, CurveType curve_type = CurveType.NONE )
   {
     Vector3 pos = curtent_transform.position;
@@ -107,48 +124,6 @@ public class Tweener : MonoBehaviourService<Tweener>
       curent_progress = getCurve( curve_type ).Evaluate( curent_progress );
 
     return curent_progress;
-  }
-}
-
-public class MyTask
-{
-  #region Public Fields
-  public Task curent_task = Task.CompletedTask;
-  public bool cencel_token = false;
-  #endregion
-
-  #region Public Methods
-  public void init()
-  {
-    cencel_token = false;
-  }
-
-  public void stop()
-  {
-    cencel_token = true;
-  }
-  #endregion
-}
-
-public class MyTaskPool
-{
-  private List<MyTask> tasks_pool = new List<MyTask>();
-
-  public MyTask get()
-  {
-    foreach( MyTask task in tasks_pool )
-    {
-      if ( !task.curent_task.IsCompleted )
-        continue;
-
-      task.init();
-      return task;
-    }
-
-    MyTask new_task = new MyTask();
-    new_task.init();
-    tasks_pool.Add( new_task );
-    return new_task;
   }
 }
 

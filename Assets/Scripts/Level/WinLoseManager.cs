@@ -39,6 +39,11 @@ public class WinLoseManager : MonoBehaviourBase
     if ( cached_steps_left < 0 )
       onLose.Invoke();
   }
+  
+  public ushort getCurentStepsCount()
+  {
+    return (ushort)cached_steps_left;
+  }
   #endregion
 
   #region Private Methods

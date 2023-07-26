@@ -25,6 +25,6 @@ public class LevelManager : MonoBehaviourService<LevelManager>
   public void restartLevel()
   {
     curent_field_manager?.deinit();
-    curent_field_manager?.init();
+    Service<Tweener>.get().waitFrameAndDo( () => curent_field_manager?.init() ).start();
   }
 }

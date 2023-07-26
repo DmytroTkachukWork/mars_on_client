@@ -33,6 +33,7 @@ Transform:
   - {fileID: 6877164498329208751}
   - {fileID: 2797293339252062123}
   - {fileID: 629923971198229120}
+  - {fileID: 6519463697235049266}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -54,6 +55,7 @@ MonoBehaviour:
   - {fileID: 6202770901937027345}
   - {fileID: 0}
   - {fileID: 8680865021967504442}
+  pipe_resource_controller: {fileID: 5030056097225577490}
 --- !u!1001 &918819742143740196
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -208,6 +210,83 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6425a10e588da994e843b2ea67722af7, type: 3}
   m_PrefabInstance: {fileID: 2826997085776397857}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &5334686602938965082
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1951280363499099298}
+    m_Modifications:
+    - target: {fileID: 1184821101067872104, guid: e1e30a4103834024ebcb2caab81347d6, type: 3}
+      propertyPath: m_RootOrder
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1184821101067872104, guid: e1e30a4103834024ebcb2caab81347d6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1184821101067872104, guid: e1e30a4103834024ebcb2caab81347d6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1184821101067872104, guid: e1e30a4103834024ebcb2caab81347d6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1184821101067872104, guid: e1e30a4103834024ebcb2caab81347d6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1184821101067872104, guid: e1e30a4103834024ebcb2caab81347d6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1184821101067872104, guid: e1e30a4103834024ebcb2caab81347d6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1184821101067872104, guid: e1e30a4103834024ebcb2caab81347d6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1184821101067872104, guid: e1e30a4103834024ebcb2caab81347d6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1184821101067872104, guid: e1e30a4103834024ebcb2caab81347d6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1184821101067872104, guid: e1e30a4103834024ebcb2caab81347d6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2531977815327313648, guid: e1e30a4103834024ebcb2caab81347d6, type: 3}
+      propertyPath: m_Name
+      value: PipeResourceController_ThreeSides
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e1e30a4103834024ebcb2caab81347d6, type: 3}
+--- !u!114 &5030056097225577490 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1136811931867105352, guid: e1e30a4103834024ebcb2caab81347d6, type: 3}
+  m_PrefabInstance: {fileID: 5334686602938965082}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4de60ac7729fdc64eb0d8e8239fa9a0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &6519463697235049266 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1184821101067872104, guid: e1e30a4103834024ebcb2caab81347d6, type: 3}
+  m_PrefabInstance: {fileID: 5334686602938965082}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6560941467945591819
 PrefabInstance:

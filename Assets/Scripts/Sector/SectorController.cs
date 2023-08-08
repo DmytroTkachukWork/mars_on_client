@@ -46,6 +46,12 @@ public class SectorController : MonoBehaviourBase
     spawnManager.getOrSpawnScreenUI( ScreenUIId.SECTOR );
   }
 
+  public void showCloseVisual()
+  {
+    planet_sector_content.deinit();
+    sector_content.SetActive( true );
+  }
+
   public void startShowFar()
   {
     sector_content.SetActive( true );
@@ -94,6 +100,16 @@ public class SectorController : MonoBehaviourBase
   public void markSelected( bool state )
   {
     planet_sector_content.markSelected( state );
+  }
+
+  public LevelController getNextLevel( LevelController curent_level )
+  {
+    for ( int i = 0; i < level_controllers.Length - 1; i++ )
+    {
+      if ( level_controllers[i] == curent_level )
+        return level_controllers[i + 1];
+    }
+    return null;
   }
   #endregion
 }

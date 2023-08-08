@@ -8,6 +8,7 @@ public class ScreenWinUI : ScreenBaseUI
   [SerializeField] private CanvasGroup canvas_group = null;
   [SerializeField] private ButtonBase exit_button = null;
   [SerializeField] private ButtonBase replay_button = null;
+  [SerializeField] private ButtonBase continue_button = null;
   [SerializeField] private GameObject[] stars = null;
   [SerializeField] private GameObject card = null;
   #endregion
@@ -26,6 +27,7 @@ public class ScreenWinUI : ScreenBaseUI
     deinit();
     exit_button.onClick += exitLevel;
     replay_button.onClick += replayLevel;
+    continue_button.onClick += continueNextLevel;
 
     for ( ushort i = 0; i < stars.Length; i++ )
       stars[i].SetActive( false );
@@ -42,6 +44,7 @@ public class ScreenWinUI : ScreenBaseUI
   {
     exit_button.onClick -= exitLevel;
     replay_button.onClick -= replayLevel;
+    continue_button.onClick -= continueNextLevel;
     my_cor?.stop();
   }
 
@@ -67,6 +70,13 @@ public class ScreenWinUI : ScreenBaseUI
     spawnManager.despawnScreenUI( ScreenUIId.LEVEL_WIN );
     cameraController.moveCameraToSectorFromLevel();
     spawnManager.getOrSpawnScreenUI( ScreenUIId.SECTOR );
+  }
+
+  private void continueNextLevel()
+  {
+    spawnManager.despawnScreenUI( ScreenUIId.LEVEL );
+    spawnManager.despawnScreenUI( ScreenUIId.LEVEL_WIN );
+    cameraController.teleportCameraToNextLevel();
   }
   #endregion
 }

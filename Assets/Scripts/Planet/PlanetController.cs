@@ -55,6 +55,7 @@ public class PlanetController : MonoBehaviourPoolable
   public void hide( SectorController curent_sector )
   {
     stopSelectingSectors();
+    this.curent_sector = curent_sector;
     planet_content.SetActive( false );
 
     camera_container.deinit();

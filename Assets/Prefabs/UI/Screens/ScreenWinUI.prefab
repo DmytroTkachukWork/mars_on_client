@@ -763,6 +763,7 @@ MonoBehaviour:
   canvas_group: {fileID: 3796233617939011441}
   exit_button: {fileID: 6848404968615512992}
   replay_button: {fileID: 3820010849268859325}
+  continue_button: {fileID: 2271713701794391344}
   stars:
   - {fileID: 2563948911374408476}
   - {fileID: 4860792340404161756}
@@ -1760,6 +1761,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1af2c4abfdd1514f9a94a287c67b86d, type: 3}
+--- !u!114 &2271713701794391344 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7561254198916986592, guid: b1af2c4abfdd1514f9a94a287c67b86d, type: 3}
+  m_PrefabInstance: {fileID: 8604205370651907024}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f926ce06e3fb79545a128e6144580923, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &3138185196949494237 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6693850969956370957, guid: b1af2c4abfdd1514f9a94a287c67b86d, type: 3}

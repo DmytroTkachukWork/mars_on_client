@@ -107,6 +107,80 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
     }
   }
 
+  public bool teleportCameraToNextLevel()
+  {
+    if ( curent_level_controller == null || curent_sector_controller == null )
+      return false;
+
+    LevelController next_level_controller = curent_sector_controller.getNextLevel( curent_level_controller );
+
+    if ( next_level_controller == null )
+    {
+      teleportCameraToNextSectorFromPlanet();
+      return false;
+    }
+
+    curent_level_controller = next_level_controller;
+
+    main_camera.transform.SetParent( curent_level_controller.cameraContainer.cameraRoot );
+    main_camera.transform.localPosition = new Vector3( 0.0f, 0.0f, -60.0f );
+    curent_sector_controller.cameraContainer.deinit();
+    curent_sector_controller.showCloseVisual();
+
+    curent_level_controller.startShowClose();
+
+    camera_tweener = camera_tweener.startCoroutineAndStopPrev( tweener.tweenTransform(
+        main_camera.transform
+      , curent_level_controller.cameraContainer.cameraRoot
+      , my_variables.CAMERA_MOVE_TIME
+      , callback
+      , CurveType.EASE_IN_OUT
+    ) );
+
+    return true;
+
+    void callback()
+    {
+      curent_sector_controller.hide();
+      curent_level_controller?.finishShowClose();
+    }
+  }
+
+  public bool teleportCameraToNextSectorFromPlanet()
+  {
+    if ( curent_sector_controller == null )
+      return false;
+
+    SectorController next_sector = curent_planet_controller.getNextSector();
+
+    if ( next_sector == null )
+      return false;
+
+    curent_sector_controller = next_sector;
+
+    main_camera.transform.SetParent( curent_sector_controller.cameraContainer.cameraRoot );
+    main_camera.transform.localPosition = new Vector3( 0.0f, 0.0f, -300.0f );
+
+    curent_planet_controller.startHide();
+    curent_sector_controller.startShowClose();
+
+    camera_tweener = camera_tweener.startCoroutineAndStopPrev( tweener.tweenTransform(
+        main_camera.transform
+      , curent_sector_controller.cameraContainer.cameraRoot
+      , my_variables.CAMERA_MOVE_TIME
+      , callback
+      , CurveType.EASE_IN_OUT
+    ) );
+
+    return true;
+
+    void callback()
+    {
+      curent_planet_controller.hide( curent_sector_controller );
+      curent_sector_controller.finishShowClose();
+    }
+  }
+
   public void moveCameraToPlanet()
   {
     main_camera.transform.SetParent( curent_planet_controller.cameraContainer.cameraRoot );

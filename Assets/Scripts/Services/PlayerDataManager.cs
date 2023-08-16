@@ -65,6 +65,9 @@ public class PlayerDataManager : MonoBehaviourService<PlayerDataManager>
   {
     curent_player_data = PlayerDataSaver.loadPlayerData();
 
+    if ( curent_player_data == null )//to fix WebGL bug
+      resetProgress();
+
     if ( curent_player_data.progress_data.sectors_data.Length == 0 )//to fix WebGL bug
       resetProgress();
   }

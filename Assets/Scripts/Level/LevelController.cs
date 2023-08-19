@@ -27,6 +27,7 @@ public class LevelController : MonoBehaviourBase
 
     level_content.SetActive( true );
     sector_level_content.SetActive( true );
+    smoke.SetActive( false );
 
     spawnManager.despawnScreenUI( ScreenUIId.SECTOR );
     (spawnManager.getOrSpawnScreenUI( ScreenUIId.LEVEL ) as ScreenLevelUI ).init();
@@ -38,6 +39,7 @@ public class LevelController : MonoBehaviourBase
     camera_container.init();
     sector_level_content.SetActive( false );
     level_content.SetActive( true );
+    smoke.SetActive( false );
   }
 
   public void startShowFar()

@@ -123,7 +123,9 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
     curent_level_controller = next_level_controller;
 
     main_camera.transform.SetParent( curent_level_controller.cameraContainer.cameraRoot );
-    main_camera.transform.localPosition = new Vector3( 0.0f, 0.0f, -60.0f );
+    main_camera.transform.localPosition = new Vector3( 0.0f, 0.0f, -10.0f );
+    main_camera.transform.localRotation = Quaternion.identity;
+
     curent_sector_controller.cameraContainer.deinit();
     curent_sector_controller.showCloseVisual();
 
@@ -160,6 +162,7 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
 
     main_camera.transform.SetParent( curent_sector_controller.cameraContainer.cameraRoot );
     main_camera.transform.localPosition = new Vector3( 0.0f, 0.0f, -300.0f );
+    main_camera.transform.localRotation = Quaternion.identity;
 
     curent_planet_controller.startHide();
     curent_sector_controller.startShowClose();

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class SectorController : MonoBehaviourBase
@@ -11,9 +12,14 @@ public class SectorController : MonoBehaviourBase
   [SerializeField] private int                             sector_id             = 0;
   #endregion
 
+  #region Private Fields
+  private bool cached_mark_selected = true;
+  #endregion
+
   #region Public Fields
   public SectorCameraContainerController cameraContainer => camera_container;
   public int sectorID => sector_id;
+  public event Action<bool> onMarkSelected = delegate{};
   #endregion
 
 
@@ -91,14 +97,26 @@ public class SectorController : MonoBehaviourBase
 
   public void moveToSector()
   {
-    if ( !playerDataManager.hasAccessToSector( sector_id ) )
-      return;
+    if ( cached_mark_selected )
+    {
+      if ( !playerDataManager.hasAccessToSector( sector_id ) )
+        return;
 
-    cameraController.moveCameraToSectorFromPlanet( this );
+      cameraController.moveCameraToSectorFromPlanet( this );
+      return;
+    }
+
+    cameraController.rotateCameraToSector( this );
   }
 
   public void markSelected( bool state )
   {
+    if ( cached_mark_selected == state )
+      return;
+
+    cached_mark_selected = state;
+
+    onMarkSelected.Invoke( state );
     planet_sector_content.markSelected( state );
   }
 

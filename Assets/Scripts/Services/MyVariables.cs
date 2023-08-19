@@ -12,4 +12,6 @@ public class MyVariables : MonoBehaviourService<MyVariables>
   [SerializeField] public float QUAD_ROTATION_TIME = 0.9f;
   [SerializeField] public float PIPE_SCALE_TIME = 0.3f;
   [SerializeField] public float RESOURCE_ENTITY_SCALE_TIME = 0.1f;
+  [SerializeField] public float SECTOR_INFO_OFFSET_FACTOR = 600.0f;
+  [SerializeField] public float SECTOR_INFO_SCALE_FACTOR = 1000.0f;
 }

@@ -18,6 +18,8 @@ public class SpawnManager : MonoBehaviourService<SpawnManager>
   [SerializeField] private ScreenWinUI screen_win_ui = null;
   [SerializeField] private ScreenLoseUI screen_lose_ui = null;
   [SerializeField] private ScreenPauseUI screen_pause_ui = null;
+  [SerializeField] private SectorInfoUI sector_info_ui = null;
+  
   [SerializeField] private PlanetController planet_controller = null;
   [SerializeField] private ResourceEntityController resource_entity_controller = null;
   #endregion
@@ -32,6 +34,7 @@ public class SpawnManager : MonoBehaviourService<SpawnManager>
   private SinglePool<ScreenPauseUI> screen_pause_ui_pool = new SinglePool<ScreenPauseUI>();
   private SinglePool<PlanetController> planet_controller_pool = new SinglePool<PlanetController>();
 
+  private MultiPool<SectorInfoUI> sector_info_ui_pool = new MultiPool<SectorInfoUI>();
   private MultiPool<QuadContentController> quads_pool = new MultiPool<QuadContentController>();
   private MultiPool<ConectorController> conectors_pool = new MultiPool<ConectorController>();
   private MultiPool<QuadContentController> start_points_pool = new MultiPool<QuadContentController>();
@@ -67,6 +70,13 @@ public class SpawnManager : MonoBehaviourService<SpawnManager>
     return resource_entity_controller_pool.spawn( resource_entity_controller, root_transform );
   }
 
+  public SectorInfoUI getOrSpawnSectorInfoUI( SectorController sector )
+  {
+    SectorInfoUI inst = sector_info_ui_pool.spawn( sector_info_ui, screen_ui );
+    inst.init( sector );
+    return inst;
+  }
+
   public ScreenBaseUI getOrSpawnScreenUI( ScreenUIId screen_id )
   {
     switch( screen_id )
@@ -92,6 +102,11 @@ public class SpawnManager : MonoBehaviourService<SpawnManager>
     case ScreenUIId.LEVEL_LOSE:  screen_lose_ui_pool.despawn(); break;
     case ScreenUIId.LEVEL_PAUSE: screen_pause_ui_pool.despawn(); break;
     }
+  }
+
+  public void despawnAllSectorInfoUI()
+  {
+    sector_info_ui_pool.despawnAll();
   }
 
   public void despawnAllQuads()

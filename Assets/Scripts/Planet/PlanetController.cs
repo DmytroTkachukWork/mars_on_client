@@ -45,11 +45,16 @@ public class PlanetController : MonoBehaviourPoolable
     camera_container.init();
     spawnManager.getOrSpawnScreenUI( ScreenUIId.MAIN );
     startSelectingSectors();
+
+    //spawn sector info
+    foreach( SectorController sector in sector_controllers )
+      spawnManager.getOrSpawnSectorInfoUI( sector );
   }
 
   public void startHide()
   {
     spawnManager.despawnScreenUI( ScreenUIId.MAIN );
+    spawnManager.despawnAllSectorInfoUI();
   }
 
   public void hide( SectorController curent_sector )

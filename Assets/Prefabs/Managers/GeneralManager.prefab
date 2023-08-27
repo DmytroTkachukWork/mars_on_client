@@ -136,6 +136,39 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  wave_curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.3034973
+      inSlope: -0.017954288
+      outSlope: -0.017954288
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.12593527
+    - serializedVersion: 3
+      time: 0.7122786
+      value: 0.66796017
+      inSlope: 1.9233747
+      outSlope: 1.9233747
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: -2.0045526
+      outSlope: -2.0045526
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.056977987
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &7294185280965450628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,7 +183,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CAMERA_MOVE_TIME: 1
   CAMERA_TELEPORT_TIME: 0.01
-  CAMERA_ROTATE_TIME: 1.5
+  CAMERA_ROTATE_TIME: 0.9
   QUAD_DISTANCE: 1.15
   WIN_CHECK_DELAY: 0.2
   LEVEL_WIN_FADE_TIME: 1
@@ -158,8 +191,8 @@ MonoBehaviour:
   QUAD_ROTATION_TIME: 0.9
   PIPE_SCALE_TIME: 0.3
   RESOURCE_ENTITY_SCALE_TIME: 0.1
-  SCALE_FACTOR_TEST: 600
-  SCALE_FACTOR_TEST2: 1000
+  SECTOR_INFO_OFFSET_FACTOR: 600
+  SECTOR_INFO_SCALE_FACTOR: 1000
 --- !u!114 &4442888143216407734
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -137,7 +137,7 @@ public class PlayerDataManager : MonoBehaviourService<PlayerDataManager>
     return cards_count;
   }
 
-  public int getCurentProgress()
+  public int getCurentProgressPercent()
   {
     ushort max_progress = getMaxCardsCount();
     ushort curent_progress = 0;
@@ -159,6 +159,20 @@ public class PlayerDataManager : MonoBehaviourService<PlayerDataManager>
   public bool canReceiveCard( int sector, int level )
   {
     return !curent_player_data.progress_data.sectors_data[sector].levels_data[level].is_card_received;
+  }
+
+  public int getProgressBySector( int sector_id )
+  {
+    if ( sector_id < 0 || sector_id >= planet_info.sectors_info.Length )
+      return 0;
+
+    if ( curent_player_data.curent_sector_num < sector_id )
+      return 0;
+
+    if ( curent_player_data.curent_sector_num > sector_id )
+      return 100;
+
+    return Mathf.FloorToInt( (float)curent_player_data.curent_level_num / (float)planet_info.sectors_info[sector_id].levels_info.Length * 100.0f );
   }
 }
 

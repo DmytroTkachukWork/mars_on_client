@@ -23,6 +23,7 @@ public class SectorInfoUI : MonoBehaviourPoolable
     pos_cor.start();
 
     sector_number.text = $"0{sector.sectorID+1}";
+    percent.text = $"{playerDataManager.getProgressBySector( sector.sectorID )}%";
   }
 
   public void deinit()

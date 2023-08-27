@@ -85,7 +85,7 @@ public class CameraContainerController : MonoBehaviourBase
 
   public void rotateTo( Quaternion rotation, float rotation_time )
   {
-    drag_cor = drag_cor.startCoroutineAndStopPrev( impl() );
+    drag_cor = drag_cor.startCoroutineAndStopPrev( tweener.tweenRotation( rotation_transform, rotation, rotation_time, null, CurveType.EASE_IN_OUT ) );
 
     IEnumerator impl()
     {

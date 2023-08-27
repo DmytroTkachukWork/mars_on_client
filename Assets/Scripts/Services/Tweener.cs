@@ -9,6 +9,7 @@ public class Tweener : MonoBehaviourService<Tweener>
   [SerializeField] private AnimationCurve ease_in_curve = null;
   [SerializeField] private AnimationCurve ease_out_curve = null;
   [SerializeField] private AnimationCurve ease_in_out_curve = null;
+  [SerializeField] private AnimationCurve wave_curve = null;
 
 
   public IEnumerator tweenFloat( Action<float> func, float start_value, float finish_value, float time, Action callback, CurveType curve_type = CurveType.NONE )
@@ -71,6 +72,27 @@ public class Tweener : MonoBehaviourService<Tweener>
     callback?.Invoke();
   }
 
+  public IEnumerator tweenRotation( Transform curtent_transform, Quaternion rotation, float time, Action callback = null, CurveType curve_type = CurveType.NONE )
+  {
+    Vector3 pos = curtent_transform.position;
+    Quaternion rot = curtent_transform.rotation;
+    Vector3 scale = curtent_transform.localScale;
+
+    float time_spend = 0.0f;
+    float progress = 0.0f;
+    while( time_spend <= time ) 
+    {
+      yield return null;
+      time_spend += Time.deltaTime;
+      progress = culcCurve( curve_type, time_spend / time );
+
+      curtent_transform.rotation = Quaternion.Lerp( rot, rotation, progress );
+    }
+
+    curtent_transform.rotation = rotation;
+    callback?.Invoke();
+  }
+
   public IEnumerator waitAndDo( Action func, float time )
   {
     yield return new WaitForSeconds( time );
@@ -114,6 +136,7 @@ public class Tweener : MonoBehaviourService<Tweener>
     case CurveType.EASE_IN : return ease_in_curve;
     case CurveType.EASE_OUT : return ease_out_curve;
     case CurveType.EASE_IN_OUT : return ease_in_out_curve;
+    case CurveType.WAVE : return wave_curve;
     default : return null;
     }
   }
@@ -132,5 +155,6 @@ public enum CurveType
   NONE = 0,
   EASE_IN = 1,
   EASE_OUT = 2,
-  EASE_IN_OUT = 3
+  EASE_IN_OUT = 3,
+  WAVE = 4
 }

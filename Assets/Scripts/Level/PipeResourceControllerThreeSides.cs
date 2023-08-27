@@ -56,14 +56,14 @@ public class PipeResourceControllerThreeSides : PipeResourceController
     {
       ResourceEntityController rec = spawnManager.spawnRec( roots[i] );
       spawned_rec.Add( rec );
-      yield return rec.playAnim();
+      yield return rec.playAnim( (float)i / (float)roots.Length );
     }
 
     void implAsync( Transform[] roots, int i )
     {
       ResourceEntityController rec = spawnManager.spawnRec( roots[i] );
       spawned_rec.Add( rec );
-      rec.playAnimAsync();
+      rec.playAnimAsync( (float)i / (float)roots.Length );
     }
   }
 }

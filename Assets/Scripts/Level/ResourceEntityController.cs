@@ -32,17 +32,27 @@ public class ResourceEntityController : MonoBehaviourPoolable
     base.onDespawn();
   }
 
-  public IEnumerator playAnim()
+  public IEnumerator playAnim( float filling_percent )
   {
-    anim_cor?.stop();
-    anim_cor = tweener.tweenVector( ( value ) => root_transform.localScale = value, Vector3.zero, Vector3.one, myVariables.RESOURCE_ENTITY_SCALE_TIME, null );
+    play( filling_percent );
     yield return anim_cor;
   }
 
-  public void playAnimAsync()
+  public void playAnimAsync( float filling_percent )
+  {
+    play( filling_percent );
+    anim_cor.start();
+  }
+
+  private void play( float filling_percent )
   {
     anim_cor?.stop();
-    anim_cor = tweener.tweenVector( ( value ) => root_transform.localScale = value, Vector3.zero, Vector3.one, myVariables.RESOURCE_ENTITY_SCALE_TIME, null );
-    anim_cor.start();
+    anim_cor = tweener.tweenVector( 
+        ( value ) => root_transform.localScale = value
+      , Vector3.zero
+      , Vector3.one
+      , myVariables.RESOURCE_ENTITY_SCALE_TIME * tweener.getCurve( CurveType.WAVE ).Evaluate( filling_percent )
+      , null
+    );
   }
 }

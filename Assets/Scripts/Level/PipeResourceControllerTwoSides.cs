@@ -26,7 +26,7 @@ public class PipeResourceControllerTwoSides : PipeResourceController
     {
       ResourceEntityController rec = spawnManager.spawnRec( resource_entity_roots[i] );
       spawned_rec.Add( rec );
-      yield return rec.playAnim();
+      yield return rec.playAnim( (float)i / (float)resource_entity_roots.Length );
     }
   }
 }

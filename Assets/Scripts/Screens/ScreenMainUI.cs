@@ -108,7 +108,7 @@ public class ScreenMainUI : ScreenBaseUI
 
   private void updateProgress()
   {
-    int curent_progress = playerDataManager.getCurentProgress();
+    int curent_progress = playerDataManager.getCurentProgressPercent();
 
     progress_text.text = "PROGRESS " + curent_progress.ToString() + "%";
   }

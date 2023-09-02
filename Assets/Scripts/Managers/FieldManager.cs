@@ -204,8 +204,8 @@ public class FieldManager : MonoBehaviourBase
   {
     unsubscrube();
 
-    foreach ( QuadContentController quad in quad_matrix )
-      quad?.paintConected();
+    //foreach ( QuadContentController quad in quad_matrix )
+    //  quad?.paintConected();
 
     spawnManager.despawnScreenUI( ScreenUIId.LEVEL );
     ( spawnManager.getOrSpawnScreenUI( ScreenUIId.LEVEL_LOSE ) as ScreenLoseUI ).init();

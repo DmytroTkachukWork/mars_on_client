@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ScreenPauseUI : ScreenBaseUI
 {
@@ -8,6 +7,7 @@ public class ScreenPauseUI : ScreenBaseUI
   [SerializeField] private ButtonBase exit_button = null;
   [SerializeField] private ButtonBase replay_button = null;
   [SerializeField] private ButtonBase continue_button = null;
+  [SerializeField] private RawImage   background_raw_image = null;
   #endregion
 
 
@@ -19,6 +19,9 @@ public class ScreenPauseUI : ScreenBaseUI
     exit_button.onClick += onExitClick;
     replay_button.onClick += onReplayClick;
     continue_button.onClick += onContinueClick;
+
+    StartCoroutine( blurScreenshot.takeScreenshot( background_raw_image, false ) );
+    background_raw_image.color = Color.white;
   }
 
   public void deinit()
@@ -27,6 +30,8 @@ public class ScreenPauseUI : ScreenBaseUI
     exit_button.onClick -= onExitClick;
     replay_button.onClick -= onReplayClick;
     continue_button.onClick -= onContinueClick;
+
+    background_raw_image.color = Color.clear;
   }
 
   public override void onSpawn()

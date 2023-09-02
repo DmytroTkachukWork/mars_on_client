@@ -5,6 +5,9 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
 {
   #region Serialized Fields
   [SerializeField] private Camera main_camera = null;
+  [SerializeField] private CameraConfigs planet_camera_configs = null;
+  [SerializeField] private CameraConfigs sector_camera_configs = null;
+  [SerializeField] private CameraConfigs level_camera_configs = null;
   #endregion
 
   #region Private Fields
@@ -40,6 +43,7 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
 
     curent_planet_controller.startHide();
     curent_sector_controller.startShowClose();
+    applyCameraConfigs( LocationType.SECTOR );
 
     camera_tweener = camera_tweener.startCoroutineAndStopPrev( tweener.tweenTransform(
         main_camera.transform
@@ -64,6 +68,7 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
     main_camera.transform.SetParent( curent_sector_controller.cameraContainer.cameraRoot );
 
     curent_sector_controller.startShowClose();
+    applyCameraConfigs( LocationType.SECTOR );
 
     camera_tweener = camera_tweener.startCoroutineAndStopPrev( tweener.tweenTransform(
         main_camera.transform
@@ -91,6 +96,7 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
     curent_sector_controller.cameraContainer.deinit();
 
     curent_level_controller.startShowClose();
+    applyCameraConfigs( LocationType.LEVEL );
 
     camera_tweener = camera_tweener.startCoroutineAndStopPrev( tweener.tweenTransform(
         main_camera.transform
@@ -130,6 +136,7 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
     curent_sector_controller.showCloseVisual();
 
     curent_level_controller.startShowClose();
+    applyCameraConfigs( LocationType.LEVEL );
 
     camera_tweener = camera_tweener.startCoroutineAndStopPrev( tweener.tweenTransform(
         main_camera.transform
@@ -166,6 +173,44 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
 
     curent_planet_controller.startHide();
     curent_sector_controller.startShowClose();
+    applyCameraConfigs( LocationType.SECTOR );
+
+    camera_tweener = camera_tweener.startCoroutineAndStopPrev( tweener.tweenTransform(
+        main_camera.transform
+      , curent_sector_controller.cameraContainer.cameraRoot
+      , my_variables.CAMERA_MOVE_TIME
+      , callback
+      , CurveType.EASE_IN_OUT
+    ) );
+
+    return true;
+
+    void callback()
+    {
+      curent_planet_controller.hide( curent_sector_controller );
+      curent_sector_controller.finishShowClose();
+    }
+  }
+
+  public bool teleportCameraToSectorFromPlanet( bool is_next )
+  {
+    if ( curent_sector_controller == null )
+      return false;
+
+    SectorController sector_to_teleport_to = is_next ? curent_planet_controller.getNextSector() : curent_planet_controller.getPrevSector();
+
+    if ( sector_to_teleport_to == null )
+      return false;
+
+    curent_sector_controller = sector_to_teleport_to;
+
+    main_camera.transform.SetParent( curent_sector_controller.cameraContainer.cameraRoot );
+    main_camera.transform.localPosition = new Vector3( 0.0f, 0.0f, -300.0f );
+    main_camera.transform.localRotation = Quaternion.identity;
+
+    curent_planet_controller.startHide();
+    curent_sector_controller.startShowClose();
+    applyCameraConfigs( LocationType.SECTOR );
 
     camera_tweener = camera_tweener.startCoroutineAndStopPrev( tweener.tweenTransform(
         main_camera.transform
@@ -190,6 +235,7 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
 
     curent_planet_controller.startShowClose();
     curent_sector_controller?.startShowFar();
+    applyCameraConfigs( LocationType.PLANET );
 
     camera_tweener = camera_tweener.startCoroutineAndStopPrev( tweener.tweenTransform(
         main_camera.transform
@@ -231,4 +277,50 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
     return main_camera.transform.position;
   }
   #endregion
+
+  #region Private Methods
+  private void applyCameraConfigs( LocationType location_type )
+  {
+    CameraConfigs cached_configs = null;
+
+    switch( location_type )
+    {
+    case LocationType.PLANET: cached_configs = planet_camera_configs; break;
+    case LocationType.SECTOR: cached_configs = sector_camera_configs; break;
+    case LocationType.LEVEL: cached_configs = level_camera_configs; break;
+    }
+
+    tweener.tweenFloat(
+        ( value ) => main_camera.fieldOfView = value
+      , main_camera.fieldOfView
+      , cached_configs.cameraFov
+      , my_variables.CAMERA_CONFIG_APPLY_TIME
+      , null
+    ).start();
+
+    tweener.tweenFloat(
+        ( value ) => RenderSettings.fogStartDistance = value
+      , RenderSettings.fogStartDistance
+      , cached_configs.fogStartDistance
+      , my_variables.CAMERA_CONFIG_APPLY_TIME
+      , null
+    ).start();
+
+    tweener.tweenFloat(
+        ( value ) => RenderSettings.fogEndDistance = value
+      , RenderSettings.fogEndDistance
+      , cached_configs.fogEndDistance
+      , my_variables.CAMERA_CONFIG_APPLY_TIME
+      , null
+    ).start();
+
+    tweener.tweenColor(
+        ( value ) => RenderSettings.fogColor = value
+      , RenderSettings.fogColor
+      , cached_configs.fogColor
+      , my_variables.CAMERA_CONFIG_APPLY_TIME
+      , null
+    ).start();
+  }
+  #endregion 
 }

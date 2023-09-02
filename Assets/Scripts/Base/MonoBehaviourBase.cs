@@ -9,4 +9,5 @@ public class MonoBehaviourBase : MonoBehaviour
   protected static Tweener tweener => Service<Tweener>.get();
   protected static SpawnManager spawnManager => Service<SpawnManager>.get();
   protected static GlobalCameraController cameraController => Service<GlobalCameraController>.get();
+  protected static BlurScreenshot blurScreenshot => Service<BlurScreenshot>.get();
 }

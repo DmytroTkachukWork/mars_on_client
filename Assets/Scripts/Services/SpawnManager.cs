@@ -13,7 +13,7 @@ public class SpawnManager : MonoBehaviourService<SpawnManager>
   [SerializeField] private QuadContentController finish_point = null;
   [SerializeField] private ConectorController conector_prefab = null;
   [SerializeField] private ScreenMainUI screen_main_ui = null;
-  [SerializeField] private ScreenLevelsUI screen_levels_ui = null;
+  [SerializeField] private ScreenSectorUI screen_sector_ui = null;
   [SerializeField] private ScreenLevelUI screen_level_ui = null;
   [SerializeField] private ScreenWinUI screen_win_ui = null;
   [SerializeField] private ScreenLoseUI screen_lose_ui = null;
@@ -27,7 +27,7 @@ public class SpawnManager : MonoBehaviourService<SpawnManager>
   #region Private Fields
 
   private SinglePool<ScreenMainUI> screen_main_ui_pool = new SinglePool<ScreenMainUI>();
-  private SinglePool<ScreenLevelsUI> screen_levels_ui_pool = new SinglePool<ScreenLevelsUI>();
+  private SinglePool<ScreenSectorUI> screen_sector_ui_pool = new SinglePool<ScreenSectorUI>();
   private SinglePool<ScreenLevelUI> screen_level_ui_pool = new SinglePool<ScreenLevelUI>();
   private SinglePool<ScreenWinUI> screen_win_ui_pool = new SinglePool<ScreenWinUI>();
   private SinglePool<ScreenLoseUI> screen_lose_ui_pool = new SinglePool<ScreenLoseUI>();
@@ -82,7 +82,7 @@ public class SpawnManager : MonoBehaviourService<SpawnManager>
     switch( screen_id )
     {
     case ScreenUIId.MAIN:        return screen_main_ui_pool.spawn( screen_main_ui, screen_ui );
-    case ScreenUIId.SECTOR:      return screen_levels_ui_pool.spawn( screen_levels_ui, screen_ui );
+    case ScreenUIId.SECTOR:      return screen_sector_ui_pool.spawn( screen_sector_ui, screen_ui );
     case ScreenUIId.LEVEL:       return screen_level_ui_pool.spawn( screen_level_ui, screen_ui );
     case ScreenUIId.LEVEL_WIN:   return screen_win_ui_pool.spawn( screen_win_ui, screen_ui );
     case ScreenUIId.LEVEL_LOSE:  return screen_lose_ui_pool.spawn( screen_lose_ui, screen_ui );
@@ -96,7 +96,7 @@ public class SpawnManager : MonoBehaviourService<SpawnManager>
     switch( screen_id )
     {
     case ScreenUIId.MAIN:        screen_main_ui_pool.despawn(); break;
-    case ScreenUIId.SECTOR:      screen_levels_ui_pool.despawn(); break;
+    case ScreenUIId.SECTOR:      screen_sector_ui_pool.despawn(); break;
     case ScreenUIId.LEVEL:       screen_level_ui_pool.despawn(); break;
     case ScreenUIId.LEVEL_WIN:   screen_win_ui_pool.despawn(); break;
     case ScreenUIId.LEVEL_LOSE:  screen_lose_ui_pool.despawn(); break;

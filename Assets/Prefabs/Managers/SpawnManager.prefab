@@ -51,10 +51,10 @@ MonoBehaviour:
   finish_point: {fileID: 6584436764095314171, guid: f03f3aed03d91d04d9beda09224607e7, type: 3}
   conector_prefab: {fileID: 2090682681928290002, guid: 8577fb7078644534b80485ddd7168405, type: 3}
   screen_main_ui: {fileID: 3686711228738388, guid: 6d715893a1dfc4b46a94cd4063d803c7, type: 3}
-  screen_levels_ui: {fileID: 438251574226702944, guid: bcb4e99cb8eb57a439f08d2081221c9c, type: 3}
+  screen_sector_ui: {fileID: 5938948372259575983, guid: bf93949131807b9429871001d93bc63d, type: 3}
   screen_level_ui: {fileID: 4474804752419511675, guid: 5164fc53391971844a338195b460839a, type: 3}
   screen_win_ui: {fileID: 4236087424881558296, guid: 6b2dc71f94e575a4da4dc76643a19c81, type: 3}
-  screen_lose_ui: {fileID: 8928876153441121439, guid: b37bec215e45d2442a187c5f1a684405, type: 3}
+  screen_lose_ui: {fileID: 4582854078919809292, guid: b37bec215e45d2442a187c5f1a684405, type: 3}
   screen_pause_ui: {fileID: 5877811043260653192, guid: a9951cbf498910f488f4e59f237825f4, type: 3}
   sector_info_ui: {fileID: -1550022421934472934, guid: 947edd9a4f97bf3479ebe9da2cc36b8e, type: 3}
   planet_controller: {fileID: 5975697908701501734, guid: 79373529ae2f6444a839e497a833ed31, type: 3}

@@ -38,7 +38,7 @@ Transform:
   - {fileID: 4347987030026105030}
   - {fileID: 673063802077073580}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5162753812525160854
 MonoBehaviour:
@@ -184,10 +184,11 @@ MonoBehaviour:
   CAMERA_MOVE_TIME: 1
   CAMERA_TELEPORT_TIME: 0.01
   CAMERA_ROTATE_TIME: 0.9
+  CAMERA_CONFIG_APPLY_TIME: 0.6
   QUAD_DISTANCE: 1.15
   WIN_CHECK_DELAY: 0.2
   LEVEL_WIN_FADE_TIME: 1
-  LEVEL_LOSE_FADE_TIME: 5.5
+  LEVEL_LOSE_FADE_TIME: 1
   QUAD_ROTATION_TIME: 0.9
   PIPE_SCALE_TIME: 0.3
   RESOURCE_ENTITY_SCALE_TIME: 0.1
@@ -219,6 +220,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   main_camera: {fileID: 0}
+  planet_camera_configs: {fileID: 11400000, guid: ebfc2e62f5c10b64a9a84886d1406ce9, type: 2}
+  sector_camera_configs: {fileID: 11400000, guid: 1ca92642c60c0d64e8fc538c1785ffc9, type: 2}
+  level_camera_configs: {fileID: 11400000, guid: 31735c641f918364ea4c45522faf1fb6, type: 2}
 --- !u!114 &8514071759861656119
 MonoBehaviour:
   m_ObjectHideFlags: 0

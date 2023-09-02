@@ -1,6 +1,6 @@
-using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ScreenWinUI : ScreenBaseUI
 {
@@ -11,6 +11,7 @@ public class ScreenWinUI : ScreenBaseUI
   [SerializeField] private ButtonBase continue_button = null;
   [SerializeField] private GameObject[] stars = null;
   [SerializeField] private GameObject card = null;
+  [SerializeField] private RawImage background_raw_image = null;
   #endregion
 
   #region Private Fields
@@ -37,6 +38,9 @@ public class ScreenWinUI : ScreenBaseUI
 
     card.SetActive( can_receive_card );
 
+    StartCoroutine( blurScreenshot.takeScreenshot( background_raw_image, false ) );
+    background_raw_image.color = Color.white;
+
     my_cor = my_cor.startCoroutineAndStopPrev( tweener.tweenFloat( ( value ) => canvas_group.alpha = value, 0.0f, 1.0f, myVariables.LEVEL_WIN_FADE_TIME, null ) );
   }
 
@@ -46,6 +50,7 @@ public class ScreenWinUI : ScreenBaseUI
     replay_button.onClick -= replayLevel;
     continue_button.onClick -= continueNextLevel;
     my_cor?.stop();
+    background_raw_image.color = Color.clear;
   }
 
   public override void onDespawn()

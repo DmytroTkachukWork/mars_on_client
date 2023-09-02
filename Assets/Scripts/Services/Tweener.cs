@@ -29,6 +29,23 @@ public class Tweener : MonoBehaviourService<Tweener>
     callback?.Invoke();
   }
 
+  public IEnumerator tweenColor( Action<Color> func, Color start_value, Color finish_value, float time, Action callback, CurveType curve_type = CurveType.NONE )
+  {
+    float time_spend = 0.0f;
+    float progress = 0.0f;
+
+    while( time_spend <= time ) 
+    {
+      progress = culcCurve( curve_type, time_spend / time );
+
+      func.Invoke( Color.Lerp( start_value, finish_value, progress ) );
+      time_spend += Time.deltaTime;
+      yield return null;
+    }
+    func.Invoke( finish_value );
+    callback?.Invoke();
+  }
+
   public IEnumerator tweenVector( Action<Vector3> func, Vector3 start_value, Vector3 finish_value, float time, Action callback, CurveType curve_type = CurveType.NONE )
   {
     float time_spend = 0.0f;

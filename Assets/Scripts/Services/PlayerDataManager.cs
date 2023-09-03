@@ -16,6 +16,15 @@ public class PlayerDataManager : MonoBehaviourService<PlayerDataManager>
       return true;
 
     return sector_num == curent_player_data.curent_sector_num &&
+      level_num <= curent_player_data.curent_level_num;
+  }
+
+  public bool isLevelComplited( int sector_num, int level_num )
+  {
+    if ( sector_num < curent_player_data.curent_sector_num )
+      return true;
+
+    return sector_num == curent_player_data.curent_sector_num &&
       level_num < curent_player_data.curent_level_num;
   }
 
@@ -68,6 +77,12 @@ public class PlayerDataManager : MonoBehaviourService<PlayerDataManager>
     if ( curent_player_data == null )//to fix WebGL bug
       resetProgress();
 
+    if ( curent_player_data.progress_data == null )//to fix WebGL bug
+      resetProgress();
+
+    if ( curent_player_data.progress_data.sectors_data == null )//to fix WebGL bug
+      resetProgress();
+
     if ( curent_player_data.progress_data.sectors_data.Length == 0 )//to fix WebGL bug
       resetProgress();
   }
@@ -97,6 +112,17 @@ public class PlayerDataManager : MonoBehaviourService<PlayerDataManager>
     }
 
     return stars_count;
+  }
+
+  public ushort getStarsCount( int sector_num, int level_num )
+  {
+    if ( sector_num >= curent_player_data.progress_data.sectors_data.Length )
+      return 0;
+
+    if ( level_num >= curent_player_data.progress_data.sectors_data[sector_num].levels_data.Length )
+      return 0;
+
+    return curent_player_data.progress_data.sectors_data[sector_num].levels_data[level_num].stars_count;
   }
 
   public ushort getCurentStarsCount()

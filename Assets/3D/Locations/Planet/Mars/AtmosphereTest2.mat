@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Atmosphere_Mat
-  m_Shader: {fileID: 4800000, guid: 1a15d31437307904183fc3b78b9c3c48, type: 3}
+  m_Name: AtmosphereTest2
+  m_Shader: {fileID: 4800000, guid: ed2fd2af5f940aa46a4c56d965968be6, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -61,30 +61,32 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Atmosphere_Circle: 0.116
-    - _Atmosphere_Intensity: 15
-    - _Atmosphere_Sharpness: 0.364
-    - _Atmosphere_Size: 0.01
-    - _Atmospherepower: 15
     - _BumpScale: 1
-    - _Cutoff: 0.5
+    - _Cutoff: 0.53
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _Float0: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _GlowFresnelPower: 2.92
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
+    - _Opacity: 0.48
+    - _OpacityMask: 0.99
     - _Parallax: 0.02
+    - _Power: 9.11
+    - _Scale_2: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _SubstracrFresnelPower: 7.42
     - _UVSec: 0
     - _ZWrite: 1
     - __dirty: 0
     m_Colors:
-    - _Atmosphere_Color: {r: 0.6981132, g: 0.28822508, b: 0.14159843, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color0: {r: 0.5943396, g: 0.22484346, b: 0.08130119, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []

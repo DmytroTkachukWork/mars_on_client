@@ -16,6 +16,8 @@ public class LevelController : MonoBehaviourBase
 
   #region Public Fields
   public LevelCameraContainerController cameraContainer => camera_container;
+  public int levelID => level_id;
+  public int sectorID => sector_id;
   #endregion
 
 
@@ -29,7 +31,6 @@ public class LevelController : MonoBehaviourBase
     sector_level_content.SetActive( true );
     smoke.SetActive( false );
 
-    spawnManager.despawnScreenUI( ScreenUIId.SECTOR );
     (spawnManager.getOrSpawnScreenUI( ScreenUIId.LEVEL ) as ScreenLevelUI ).init();
     initLevel();
   }
@@ -50,7 +51,7 @@ public class LevelController : MonoBehaviourBase
     camera_container.deinit();
     spawnManager.despawnScreenUI( ScreenUIId.LEVEL );
 
-    smoke.SetActive( !playerDataManager.hasAccessToLevel( sector_id, level_id ) );
+    smoke.SetActive( !playerDataManager.isLevelComplited( sector_id, level_id ) );
     field_manager.deinit();
   }
 

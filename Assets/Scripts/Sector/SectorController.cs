@@ -6,6 +6,7 @@ public class SectorController : MonoBehaviourBase
   #region Serialized Fields
   [SerializeField] private PlanetSectorContentController   planet_sector_content = null;
   [SerializeField] private GameObject                      sector_content        = null;
+  [SerializeField] private GameObject                      line_renderer         = null;
   [SerializeField] private ClickableBase3D                 clickable_base        = null;
   [SerializeField] private SectorCameraContainerController camera_container      = null;
   [SerializeField] private LevelController[]               level_controllers     = null;
@@ -35,6 +36,8 @@ public class SectorController : MonoBehaviourBase
       level.startShowFar();
 
     spawnManager.despawnScreenUI( ScreenUIId.SECTOR );
+    spawnManager.despawnAllLevelInfoUI();
+    line_renderer.SetActive( false );
   }
 
   public void finishShowClose()
@@ -46,10 +49,14 @@ public class SectorController : MonoBehaviourBase
     sector_content.SetActive( true );
 
     foreach( LevelController level in level_controllers )
+    {
       level.finishShowFar();
+      spawnManager.getOrSpawnLevelInfoUI( level );
+    }
 
     camera_container.init();
     spawnManager.getOrSpawnScreenUI( ScreenUIId.SECTOR );
+    line_renderer.SetActive( true );
   }
 
   public void showCloseVisual()
@@ -65,6 +72,8 @@ public class SectorController : MonoBehaviourBase
 
     camera_container.deinit();
     spawnManager.despawnScreenUI( ScreenUIId.SECTOR );
+    spawnManager.despawnAllLevelInfoUI();
+    line_renderer.SetActive( false );
   }
   
   public void finishShowFar()
@@ -81,6 +90,8 @@ public class SectorController : MonoBehaviourBase
 
     camera_container.deinit();
     spawnManager.despawnScreenUI( ScreenUIId.SECTOR );
+    spawnManager.despawnAllLevelInfoUI();
+    line_renderer.SetActive( false );
   }
 
   public void hide()
@@ -93,20 +104,20 @@ public class SectorController : MonoBehaviourBase
 
     camera_container.deinit();
     spawnManager.despawnScreenUI( ScreenUIId.SECTOR );
+    spawnManager.despawnAllLevelInfoUI();
+    line_renderer.SetActive( false );
   }
 
   public void moveToSector()
   {
     if ( cached_mark_selected )
     {
-      if ( !playerDataManager.hasAccessToSector( sector_id ) )
-        return;
-
       cameraController.moveCameraToSectorFromPlanet( this );
       return;
     }
 
     cameraController.rotateCameraToSector( this );
+    spawnManager.despawnAllLevelInfoUI();
   }
 
   public void markSelected( bool state )

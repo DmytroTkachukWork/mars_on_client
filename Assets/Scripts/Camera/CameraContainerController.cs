@@ -85,25 +85,11 @@ public class CameraContainerController : MonoBehaviourBase
 
   public void rotateTo( Quaternion rotation, float rotation_time )
   {
-    drag_cor = drag_cor.startCoroutineAndStopPrev( tweener.tweenRotation( rotation_transform, rotation, rotation_time, null, CurveType.EASE_IN_OUT ) );
+    drag_cor = drag_cor.startCoroutineAndStopPrev( tweener.tweenRotation( rotation_transform, rotation, rotation_time, callback, CurveType.EASE_IN_OUT ) );
 
-    IEnumerator impl()
+    void callback()
     {
-      float cached_time = 0.0f;
-
-      while( cached_time <= rotation_time ) 
-      {
-        if ( !drag_cor_finished )
-          yield break;
-
-        cached_time += Time.deltaTime;
-        rotation_transform.rotation = Quaternion.Lerp(
-              rotation_transform.rotation
-            , rotation
-            , cached_time / rotation_time );
-
-        yield return null;
-      }
+      target_rotation = rotation.eulerAngles;
     }
   }
   #endregion

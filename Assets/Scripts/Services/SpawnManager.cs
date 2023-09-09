@@ -12,6 +12,7 @@ public class SpawnManager : MonoBehaviourService<SpawnManager>
   [SerializeField] private QuadContentController start_point = null;
   [SerializeField] private QuadContentController finish_point = null;
   [SerializeField] private ConectorController conector_prefab = null;
+  [SerializeField] private WaterFallController waterfall_controller = null;
   [SerializeField] private ScreenMainUI screen_main_ui = null;
   [SerializeField] private ScreenSectorUI screen_sector_ui = null;
   [SerializeField] private ScreenLevelUI screen_level_ui = null;
@@ -19,6 +20,7 @@ public class SpawnManager : MonoBehaviourService<SpawnManager>
   [SerializeField] private ScreenLoseUI screen_lose_ui = null;
   [SerializeField] private ScreenPauseUI screen_pause_ui = null;
   [SerializeField] private SectorInfoUI sector_info_ui = null;
+  [SerializeField] private LevelInfoUI level_info_ui = null;
   
   [SerializeField] private PlanetController planet_controller = null;
   [SerializeField] private ResourceEntityController resource_entity_controller = null;
@@ -35,8 +37,10 @@ public class SpawnManager : MonoBehaviourService<SpawnManager>
   private SinglePool<PlanetController> planet_controller_pool = new SinglePool<PlanetController>();
 
   private MultiPool<SectorInfoUI> sector_info_ui_pool = new MultiPool<SectorInfoUI>();
+  private MultiPool<LevelInfoUI> level_info_ui_pool = new MultiPool<LevelInfoUI>();
   private MultiPool<QuadContentController> quads_pool = new MultiPool<QuadContentController>();
   private MultiPool<ConectorController> conectors_pool = new MultiPool<ConectorController>();
+  private MultiPool<WaterFallController> waterfall_controller_pool = new MultiPool<WaterFallController>();
   private MultiPool<QuadContentController> start_points_pool = new MultiPool<QuadContentController>();
   private MultiPool<QuadContentController> finish_points_pool = new MultiPool<QuadContentController>();
   private MultiPool<ResourceEntityController> resource_entity_controller_pool = new MultiPool<ResourceEntityController>();
@@ -60,6 +64,13 @@ public class SpawnManager : MonoBehaviourService<SpawnManager>
     return conectors_pool.spawn( conector_prefab, root_transform );
   }
 
+  public WaterFallController spawnWaterFall( Transform position, Quaternion rotation )
+  {
+    WaterFallController spawned_waterfall = waterfall_controller_pool.spawn( waterfall_controller, position );
+    spawned_waterfall.transform.localRotation = rotation;
+    return spawned_waterfall;
+  }
+
   public PlanetController spawnPlanet()
   {
     return planet_controller_pool.spawn( planet_controller, screen_3d );
@@ -74,6 +85,13 @@ public class SpawnManager : MonoBehaviourService<SpawnManager>
   {
     SectorInfoUI inst = sector_info_ui_pool.spawn( sector_info_ui, screen_ui );
     inst.init( sector );
+    return inst;
+  }
+
+  public LevelInfoUI getOrSpawnLevelInfoUI( LevelController level )
+  {
+    LevelInfoUI inst = level_info_ui_pool.spawn( level_info_ui, screen_ui );
+    inst.init( level );
     return inst;
   }
 
@@ -109,6 +127,11 @@ public class SpawnManager : MonoBehaviourService<SpawnManager>
     sector_info_ui_pool.despawnAll();
   }
 
+  public void despawnAllLevelInfoUI()
+  {
+    level_info_ui_pool.despawnAll();
+  }
+
   public void despawnAllQuads()
   {
     quads_pool.despawnAll();
@@ -119,6 +142,11 @@ public class SpawnManager : MonoBehaviourService<SpawnManager>
   public void despawnAllConectors()
   {
     conectors_pool.despawnAll();
+  }
+
+  public void despawnAllWaterfalls()
+  {
+    waterfall_controller_pool.despawnAll();
   }
   #endregion
 }

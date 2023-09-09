@@ -101,3 +101,11 @@ public enum QuadResourceType
   WATER = 1,
   AIR = 2
 }
+
+public enum QuadDirection
+{
+  TOP = 0,
+  RIGHT = 1,
+  BOTTOM = 2,
+  LEFT = 3
+}

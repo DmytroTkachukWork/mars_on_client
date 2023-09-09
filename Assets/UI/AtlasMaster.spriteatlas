@@ -50,7 +50,10 @@ SpriteAtlas:
     cachedData: {fileID: 0}
     packedSpriteRenderDataKeys:
     - 33df0430b8ee1884895e7599bc48757d: 21300000
+    - 7fab4d70b10da3e439bbac9646f7f45d: 21300000
+    - f8dc74b1f3cc94c9c9016e43703bce87: 21300000
     - 0198a953e86c8f9489425f22e8014b95: 21300000
+    - 284002b3ea6f12d4bbc531e7b5d18799: 21300000
     - c88a6c84257de9f4087a8acf71a01d5d: 21300000
     - e14515d41ad5d1f4e8215dc2da030f54: 21300000
     - d74d74e46af540042b388faf41754df0: 21300000
@@ -63,17 +66,22 @@ SpriteAtlas:
     - 21d8061653b34864da367230053913db: 728345857
     - 47757c07b81d6524aa3703bf5437e700: 21300000
     - dbb25f39add41604aa61e673bf4fc723: 21300000
+    - f93e384a26193534491c95ad5e8911a3: 21300000
     - 508e745a701214f4b97a1142dcf912e4: 21300000
     - 3a9ec4cb99906b54891e635fa8b687a8: 21300000
     - 7eac5cdb83199554687ea15a6f75437b: 21300000
     - 7000b4bd38ba0ad4fbacb1bfa54cc60b: 21300000
     - 4d75c92e78cb35948a5d4cb337ae1549: 21300000
+    - 2b3cbb9e10ef81547a62ae8157221ce9: 21300000
     - 165378cef036174449849a19b7653b0f: 21300000
     - 943dfb0faafb63b45b9123f7de1456dc: 21300000
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 33df0430b8ee1884895e7599bc48757d, type: 3}
+  - {fileID: 21300000, guid: 7fab4d70b10da3e439bbac9646f7f45d, type: 3}
+  - {fileID: 21300000, guid: f8dc74b1f3cc94c9c9016e43703bce87, type: 3}
   - {fileID: 21300000, guid: 0198a953e86c8f9489425f22e8014b95, type: 3}
+  - {fileID: 21300000, guid: 284002b3ea6f12d4bbc531e7b5d18799, type: 3}
   - {fileID: 21300000, guid: c88a6c84257de9f4087a8acf71a01d5d, type: 3}
   - {fileID: 21300000, guid: e14515d41ad5d1f4e8215dc2da030f54, type: 3}
   - {fileID: 21300000, guid: d74d74e46af540042b388faf41754df0, type: 3}
@@ -86,16 +94,21 @@ SpriteAtlas:
   - {fileID: 728345857, guid: 21d8061653b34864da367230053913db, type: 3}
   - {fileID: 21300000, guid: 47757c07b81d6524aa3703bf5437e700, type: 3}
   - {fileID: 21300000, guid: dbb25f39add41604aa61e673bf4fc723, type: 3}
+  - {fileID: 21300000, guid: f93e384a26193534491c95ad5e8911a3, type: 3}
   - {fileID: 21300000, guid: 508e745a701214f4b97a1142dcf912e4, type: 3}
   - {fileID: 21300000, guid: 3a9ec4cb99906b54891e635fa8b687a8, type: 3}
   - {fileID: 21300000, guid: 7eac5cdb83199554687ea15a6f75437b, type: 3}
   - {fileID: 21300000, guid: 7000b4bd38ba0ad4fbacb1bfa54cc60b, type: 3}
   - {fileID: 21300000, guid: 4d75c92e78cb35948a5d4cb337ae1549, type: 3}
+  - {fileID: 21300000, guid: 2b3cbb9e10ef81547a62ae8157221ce9, type: 3}
   - {fileID: 21300000, guid: 165378cef036174449849a19b7653b0f, type: 3}
   - {fileID: 21300000, guid: 943dfb0faafb63b45b9123f7de1456dc, type: 3}
   m_PackedSpriteNamesToIndex:
   - Chenge cector button
+  - Mission number frame
+  - Frame
   - Leaf icon
+  - Slide indicator bable
   - Facts frame
   - Separetor_02
   - Replay mission button
@@ -108,11 +121,13 @@ SpriteAtlas:
   - Separetor_01_0
   - Sound button
   - FACTS smal icon
+  - Slide  indicator circle
   - Next mission button
   - All missions button
   - Cloud button
   - Move icon
   - Back button
+  - Mission complete indicator
   - AD button
   - Pause button
   m_RenderDataMap: {}

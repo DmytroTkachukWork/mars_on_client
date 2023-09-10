@@ -61,10 +61,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Atmosphere_Circle: 0.116
+    - _Atmosphere_Circle: 0.2
     - _Atmosphere_Intensity: 15
-    - _Atmosphere_Sharpness: 0.364
-    - _Atmosphere_Size: 0.01
+    - _Atmosphere_Sharpness: 0.295
+    - _Atmosphere_Size: 0
     - _Atmospherepower: 15
     - _BumpScale: 1
     - _Cutoff: 0.5

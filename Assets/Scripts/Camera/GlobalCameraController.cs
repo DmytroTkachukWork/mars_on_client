@@ -94,6 +94,7 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
 
     main_camera.transform.SetParent( curent_level_controller.cameraContainer.cameraRoot );
     curent_sector_controller.cameraContainer.deinit();
+    curent_sector_controller.startShowFar();
 
     curent_level_controller.startShowClose();
     applyCameraConfigs( LocationType.LEVEL );
@@ -296,6 +297,7 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
       , cached_configs.cameraFov
       , my_variables.CAMERA_CONFIG_APPLY_TIME
       , null
+      , CurveType.EASE_IN_OUT
     ).start();
 
     tweener.tweenFloat(
@@ -304,6 +306,7 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
       , cached_configs.fogStartDistance
       , my_variables.CAMERA_CONFIG_APPLY_TIME
       , null
+      , CurveType.EASE_IN_OUT
     ).start();
 
     tweener.tweenFloat(
@@ -312,6 +315,7 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
       , cached_configs.fogEndDistance
       , my_variables.CAMERA_CONFIG_APPLY_TIME
       , null
+      , CurveType.EASE_IN_OUT
     ).start();
 
     tweener.tweenColor(
@@ -320,6 +324,7 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
       , cached_configs.fogColor
       , my_variables.CAMERA_CONFIG_APPLY_TIME
       , null
+      , CurveType.EASE_IN_OUT
     ).start();
   }
   #endregion 

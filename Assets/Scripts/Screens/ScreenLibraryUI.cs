@@ -13,24 +13,35 @@ public class ScreenLibraryUI : ScreenBaseUI
   [SerializeField] private CardController[] card_controllers = null;
   #endregion
 
+  #region Private Fields
+  private int cached_start_page_number = 0;
+  #endregion
+
 
   #region Public Methods
-  public void init()
+  public void init( int start_page_number = 0 )
   {
     deinit();
-    exit_button.onClick += onExit;
-    
+
+    cached_start_page_number = start_page_number;
 
     updateStarsCount();
     updateCardsCount();
     updateProgress();
 
+    exit_button.onClick += onExit;
+    next_page_button.onClick += goToNextPage;
+    prev_page_button.onClick += goToPrevPage;
+
     for( int i = 0; i < card_controllers.Length; i++ )
     {
-      if ( i >= playerDataManager.getCurentCardsCount() )
-        break;
+      if ( i + start_page_number >= playerDataManager.getCurentCardsCount() )
+      {
+        card_controllers[i].deinit();
+        continue;
+      }
 
-      card_controllers[i].init( cardManager.getCardInfoByIndex( i+1 ), ScreenUIId.LIBRARY );
+      card_controllers[i].init( cardManager.getCardInfoByIndex( i + start_page_number + 1 ), ScreenUIId.LIBRARY );
       card_controllers[i].onCardClick += onCardClicked;
     }
   }
@@ -44,6 +55,8 @@ public class ScreenLibraryUI : ScreenBaseUI
     }
 
     exit_button.onClick -= onExit;
+    next_page_button.onClick -= goToNextPage;
+    prev_page_button.onClick -= goToPrevPage;
   }
 
   public override void onSpawn()
@@ -89,6 +102,22 @@ public class ScreenLibraryUI : ScreenBaseUI
     int curent_progress = playerDataManager.getCurentProgressPercent();
 
     progress_text.text = "PROGRESS " + curent_progress.ToString() + "%";
+  }
+
+  private void goToNextPage()
+  {
+    if( cached_start_page_number + 10 >= playerDataManager.getCurentCardsCount() )
+      return;
+
+    init( cached_start_page_number + 10 );
+  }
+
+  private void goToPrevPage()
+  {
+    if ( cached_start_page_number <= 0 )
+      return;
+
+    init( cached_start_page_number - 10 );
   }
 
   private void onExit()

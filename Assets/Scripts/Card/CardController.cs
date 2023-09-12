@@ -48,6 +48,7 @@ public class CardController : MonoBehaviourBase
     cached_card_info = null;
     card_avatar.enabled = false;
     card_avatar.sprite = null;
+    number_text.text = "00";
     self_button.onClick -= onCardClickAction;
   }
 

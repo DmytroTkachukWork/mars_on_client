@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   card_number: 6
   header_text: Second Fact
-  body_text: Mars lost its magnetosphere 4 billion years ago, possibly because of
-    numerous asteroid strikes, so the solar wind interacts directly with the Martian
+  body_text: 6_Mars lost its magnetosphere 4 billion years ago, possibly because
+    of numerous asteroid strikes, so the solar wind interacts directly with the Martian
     ionosphere, lowering the atmospheric density by stripping away atoms from the
     outer layer.
   card_avatar: {fileID: 21300000, guid: de11c8d824620454a861fe082d02c79b, type: 3}

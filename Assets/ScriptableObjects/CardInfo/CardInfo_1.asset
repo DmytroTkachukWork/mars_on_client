@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   card_number: 1
   header_text: First Fact
-  body_text: Mars is the fourth planet and the furthest terrestrial planet from the
-    Sun. The reddish color of its surface is due to finely grained iron(III) oxide
-    dust in the soil, giving it the nickname "the Red Planet".
+  body_text: 1_Mars is the fourth planet and the furthest terrestrial planet from
+    the Sun. The reddish color of its surface is due to finely grained iron(III)
+    oxide dust in the soil, giving it the nickname "the Red Planet".
   card_avatar: {fileID: 21300000, guid: e81b8461bb0a2524f9ccd3f3fb5bba0c, type: 3}
   card_lendscape: {fileID: 21300000, guid: 96065616dafdd8745ab09045e765c5bd, type: 3}

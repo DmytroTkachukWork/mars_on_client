@@ -139,7 +139,7 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
     curent_level_controller = next_level_controller;
 
     main_camera.transform.SetParent( curent_level_controller.cameraContainer.cameraRoot );
-    main_camera.transform.localPosition = new Vector3( 0.0f, 0.0f, -10.0f );
+    main_camera.transform.localPosition = new Vector3( 0.0f, 0.0f, my_variables.CAMERA_LEVEL_START_TELEPORT_DISTANCE );
     main_camera.transform.localRotation = Quaternion.identity;
 
     curent_sector_controller.cameraContainer.deinit();
@@ -215,7 +215,7 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
     curent_sector_controller = sector_to_teleport_to;
 
     main_camera.transform.SetParent( curent_sector_controller.cameraContainer.cameraRoot );
-    main_camera.transform.localPosition = new Vector3( 0.0f, 0.0f, -300.0f );
+    main_camera.transform.localPosition = new Vector3( 0.0f, 0.0f, my_variables.CAMERA_SECTOR_START_TELEPORT_DISTANCE );
     main_camera.transform.localRotation = Quaternion.identity;
 
     curent_planet_controller.startHide();

@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ScreenWinUI : ScreenBaseUI
 {
@@ -10,7 +11,8 @@ public class ScreenWinUI : ScreenBaseUI
   [SerializeField] private ButtonBase replay_button = null;
   [SerializeField] private ButtonBase continue_button = null;
   [SerializeField] private GameObject[] stars = null;
-  [SerializeField] private GameObject card = null;
+  [SerializeField] private TMP_Text level_number_text = null;
+  [SerializeField] private CardController card_controller = null;
   [SerializeField] private RawImage background_raw_image = null;
   #endregion
 
@@ -20,7 +22,7 @@ public class ScreenWinUI : ScreenBaseUI
 
   
   #region Public Methods
-  public void init( ushort stars_count, bool can_receive_card )
+  public void init( LevelQuadMatrix level, ushort stars_count, bool can_receive_card )
   {
     if ( stars_count > 3 )
       return;
@@ -36,7 +38,13 @@ public class ScreenWinUI : ScreenBaseUI
     for ( ushort i = 0; i < stars_count; i++ )
       stars[i].SetActive( true );
 
-    card.SetActive( can_receive_card );
+    card_controller.gameObject.SetActive( can_receive_card );
+
+    if ( can_receive_card )
+      card_controller.init( cardManager.getCardInfoByIndex( playerDataManager.getAbsoluteLevelNumber( level ) + 1 ), ScreenUIId.LEVEL_WIN, true );
+
+    string zero_string = level.level_id + 1 >= 10 ? "" : "0";
+    level_number_text.text = zero_string + (level.level_id + 1);
 
     StartCoroutine( blurScreenshot.takeScreenshot( background_raw_image, false ) );
     background_raw_image.color = Color.white;

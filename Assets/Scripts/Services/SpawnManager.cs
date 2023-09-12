@@ -14,6 +14,8 @@ public class SpawnManager : MonoBehaviourService<SpawnManager>
   [SerializeField] private ConectorController conector_prefab = null;
   [SerializeField] private WaterFallController waterfall_controller = null;
   [SerializeField] private ScreenMainUI screen_main_ui = null;
+  [SerializeField] private ScreenLibraryUI screen_library_ui = null;
+  [SerializeField] private ScreenCardUI screen_card_ui = null;
   [SerializeField] private ScreenSectorUI screen_sector_ui = null;
   [SerializeField] private ScreenLevelUI screen_level_ui = null;
   [SerializeField] private ScreenWinUI screen_win_ui = null;
@@ -29,6 +31,8 @@ public class SpawnManager : MonoBehaviourService<SpawnManager>
   #region Private Fields
 
   private SinglePool<ScreenMainUI> screen_main_ui_pool = new SinglePool<ScreenMainUI>();
+  private SinglePool<ScreenLibraryUI> screen_library_ui_pool = new SinglePool<ScreenLibraryUI>();
+  private SinglePool<ScreenCardUI> screen_card_ui_pool = new SinglePool<ScreenCardUI>();
   private SinglePool<ScreenSectorUI> screen_sector_ui_pool = new SinglePool<ScreenSectorUI>();
   private SinglePool<ScreenLevelUI> screen_level_ui_pool = new SinglePool<ScreenLevelUI>();
   private SinglePool<ScreenWinUI> screen_win_ui_pool = new SinglePool<ScreenWinUI>();
@@ -105,6 +109,8 @@ public class SpawnManager : MonoBehaviourService<SpawnManager>
     case ScreenUIId.LEVEL_WIN:   return screen_win_ui_pool.spawn( screen_win_ui, screen_ui );
     case ScreenUIId.LEVEL_LOSE:  return screen_lose_ui_pool.spawn( screen_lose_ui, screen_ui );
     case ScreenUIId.LEVEL_PAUSE: return screen_pause_ui_pool.spawn( screen_pause_ui, screen_ui );
+    case ScreenUIId.LIBRARY:     return screen_library_ui_pool.spawn( screen_library_ui, screen_ui );
+    case ScreenUIId.CARD:        return screen_card_ui_pool.spawn( screen_card_ui, screen_ui );
     default:                     return null;
     }
   }
@@ -119,6 +125,8 @@ public class SpawnManager : MonoBehaviourService<SpawnManager>
     case ScreenUIId.LEVEL_WIN:   screen_win_ui_pool.despawn(); break;
     case ScreenUIId.LEVEL_LOSE:  screen_lose_ui_pool.despawn(); break;
     case ScreenUIId.LEVEL_PAUSE: screen_pause_ui_pool.despawn(); break;
+    case ScreenUIId.LIBRARY:     screen_library_ui_pool.despawn(); break;
+    case ScreenUIId.CARD:        screen_card_ui_pool.despawn(); break;
     }
   }
 
@@ -142,6 +150,11 @@ public class SpawnManager : MonoBehaviourService<SpawnManager>
   public void despawnAllConectors()
   {
     conectors_pool.despawnAll();
+  }
+
+  public void despawnPlanet()
+  {
+    planet_controller_pool.despawn();
   }
 
   public void despawnAllWaterfalls()

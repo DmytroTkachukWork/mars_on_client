@@ -8,6 +8,7 @@ public class ScreenMainUI : ScreenBaseUI
   [SerializeField] private ButtonBase max_user_button = null;
   [SerializeField] private ButtonBase next_sector_button = null;
   [SerializeField] private ButtonBase prev_sector_button = null;
+  [SerializeField] private ButtonBase library_button = null;
   [SerializeField] private TMP_Text sector_id_text = null;
   [SerializeField] private TMP_Text stars_text = null;
   [SerializeField] private TMP_Text cards_text = null;
@@ -29,6 +30,7 @@ public class ScreenMainUI : ScreenBaseUI
     next_sector_button.onClick += selectNextSector;
     prev_sector_button.onClick += selectPrevtSector;
     max_user_button.onClick += setMaxUser;
+    library_button.onClick += openLibrary;
     
 
     updateStarsCount();
@@ -42,6 +44,7 @@ public class ScreenMainUI : ScreenBaseUI
     next_sector_button.onClick -= selectNextSector;
     prev_sector_button.onClick -= selectPrevtSector;
     max_user_button.onClick -= setMaxUser;
+    library_button.onClick -= openLibrary;
   }
 
   public void selectNextSector()
@@ -111,6 +114,13 @@ public class ScreenMainUI : ScreenBaseUI
     int curent_progress = playerDataManager.getCurentProgressPercent();
 
     progress_text.text = "PROGRESS " + curent_progress.ToString() + "%";
+  }
+
+  private void openLibrary()
+  {
+    spawnManager.despawnPlanet();
+    spawnManager.despawnScreenUI( ScreenUIId.MAIN );
+    spawnManager.getOrSpawnScreenUI( ScreenUIId.LIBRARY );
   }
   #endregion
 }

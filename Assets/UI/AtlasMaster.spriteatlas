@@ -74,6 +74,7 @@ SpriteAtlas:
     - 4d75c92e78cb35948a5d4cb337ae1549: 21300000
     - 2b3cbb9e10ef81547a62ae8157221ce9: 21300000
     - 165378cef036174449849a19b7653b0f: 21300000
+    - 32a9b7dec8ea9e843818c1f8fe06e2ff: 21300000
     - 943dfb0faafb63b45b9123f7de1456dc: 21300000
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -102,6 +103,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 4d75c92e78cb35948a5d4cb337ae1549, type: 3}
   - {fileID: 21300000, guid: 2b3cbb9e10ef81547a62ae8157221ce9, type: 3}
   - {fileID: 21300000, guid: 165378cef036174449849a19b7653b0f, type: 3}
+  - {fileID: 21300000, guid: 32a9b7dec8ea9e843818c1f8fe06e2ff, type: 3}
   - {fileID: 21300000, guid: 943dfb0faafb63b45b9123f7de1456dc, type: 3}
   m_PackedSpriteNamesToIndex:
   - Chenge cector button
@@ -129,6 +131,7 @@ SpriteAtlas:
   - Back button
   - Mission complete indicator
   - AD button
+  - BackgroundGradient
   - Pause button
   m_RenderDataMap: {}
   m_Tag: AtlasMaster

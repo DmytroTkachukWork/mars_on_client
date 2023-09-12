@@ -14,5 +14,7 @@ public enum ScreenUIId
   LEVEL = 3,
   LEVEL_WIN = 4,
   LEVEL_LOSE = 5,
-  LEVEL_PAUSE = 6
+  LEVEL_PAUSE = 6,
+  LIBRARY = 7,
+  CARD = 8
 }

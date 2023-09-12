@@ -20,13 +20,22 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
   #endregion
 
 
-  #region Public Methosd
+  #region Public Method
   public void init( PlanetController planet_controller )
   {
     my_variables = Service<MyVariables>.get();
     tweener = Service<Tweener>.get();
     curent_planet_controller = planet_controller;
     main_camera.transform.SetParent( curent_planet_controller.cameraContainer.cameraRoot );
+    main_camera.transform.localPosition = Vector3.zero;
+    main_camera.transform.localRotation = Quaternion.identity;
+  }
+
+  public void deinit()
+  {
+    camera_tweener.stop();
+    curent_planet_controller = null;
+    main_camera.transform.SetParent( this.transform );
     main_camera.transform.localPosition = Vector3.zero;
     main_camera.transform.localRotation = Quaternion.identity;
   }

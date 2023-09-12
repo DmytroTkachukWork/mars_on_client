@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e1af56a7b9dd834cb2c578772d6e7dc, type: 3}
+  m_Name: CardInfo_1
+  m_EditorClassIdentifier: 
+  card_number: 1
+  header_text: First Fact
+  body_text: Mars is the fourth planet and the furthest terrestrial planet from the
+    Sun. The reddish color of its surface is due to finely grained iron(III) oxide
+    dust in the soil, giving it the nickname "the Red Planet".
+  card_avatar: {fileID: 21300000, guid: e81b8461bb0a2524f9ccd3f3fb5bba0c, type: 3}
+  card_lendscape: {fileID: 21300000, guid: 96065616dafdd8745ab09045e765c5bd, type: 3}

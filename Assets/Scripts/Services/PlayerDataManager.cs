@@ -98,6 +98,16 @@ public class PlayerDataManager : MonoBehaviourService<PlayerDataManager>
     curent_player_data = new PlayerData( null, 0, 0, 0, planet_info );
     curent_player_data.curent_sector_num = planet_info.sectors_info.Length - 1;
     curent_player_data.curent_level_num = planet_info.sectors_info[curent_player_data.curent_sector_num].levels_info.Length - 1;
+
+    foreach( SectorData sector in curent_player_data.progress_data.sectors_data )
+    {
+      foreach( LevelData level in sector.levels_data )
+      {
+        level.is_card_received = true;
+        level.stars_count = 3;
+      }
+    }
+
     saveProgress();
   }
 
@@ -161,6 +171,19 @@ public class PlayerDataManager : MonoBehaviourService<PlayerDataManager>
     }
 
     return cards_count;
+  }
+
+  public int getAbsoluteLevelNumber( LevelQuadMatrix level_matrix )
+  {
+    int level_number = 0;
+
+    for( int i = 0; i < level_matrix.sector_id; i++ )
+    {
+      level_number += planet_info.sectors_info[i].levels_info.Length;
+    }
+    level_number += level_matrix.level_id;
+
+    return level_number;
   }
 
   public int getCurentProgressPercent()

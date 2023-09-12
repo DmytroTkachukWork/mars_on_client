@@ -382,18 +382,6 @@ PrefabInstance:
       propertyPath: main_camera
       value: 
       objectReference: {fileID: 1138478058}
-    - target: {fileID: 6515543822420324073, guid: e1e7bfdecf476dc45a6e34616a79c776, type: 3}
-      propertyPath: m_UiScaleMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6515543822420324073, guid: e1e7bfdecf476dc45a6e34616a79c776, type: 3}
-      propertyPath: m_ReferenceResolution.x
-      value: 1920
-      objectReference: {fileID: 0}
-    - target: {fileID: 6515543822420324073, guid: e1e7bfdecf476dc45a6e34616a79c776, type: 3}
-      propertyPath: m_ReferenceResolution.y
-      value: 1080
-      objectReference: {fileID: 0}
     - target: {fileID: 8041395641916725999, guid: e1e7bfdecf476dc45a6e34616a79c776, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -438,8 +426,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 2687892350865558851, guid: e1e7bfdecf476dc45a6e34616a79c776, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

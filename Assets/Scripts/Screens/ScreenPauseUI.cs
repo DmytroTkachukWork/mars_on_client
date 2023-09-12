@@ -15,7 +15,7 @@ public class ScreenPauseUI : ScreenBaseUI
   public void init()
   {
     deinit();
-    Time.timeScale = 0.0f;
+    levelManager.pauseLevel();
     exit_button.onClick += onExitClick;
     replay_button.onClick += onReplayClick;
     continue_button.onClick += onContinueClick;
@@ -26,7 +26,6 @@ public class ScreenPauseUI : ScreenBaseUI
 
   public void deinit()
   {
-    Time.timeScale = 1.0f;
     exit_button.onClick -= onExitClick;
     replay_button.onClick -= onReplayClick;
     continue_button.onClick -= onContinueClick;
@@ -66,6 +65,7 @@ public class ScreenPauseUI : ScreenBaseUI
 
   private void onContinueClick()
   {
+    levelManager.resumeLevel();
     spawnManager.despawnScreenUI( ScreenUIId.LEVEL_PAUSE );
   }
   #endregion

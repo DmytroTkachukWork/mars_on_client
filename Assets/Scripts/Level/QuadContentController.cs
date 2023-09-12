@@ -48,6 +48,14 @@ public class QuadContentController : MonoBehaviourPoolable
     movement_controller.onRotate -= onRotateHandle;
   }
 
+  public void pauseResumeClick( bool is_pause )
+  {
+    if ( is_pause )
+      movement_controller?.pauseClick();
+    else
+      movement_controller?.resumeClick();
+  }
+
   public void rotateBack()
   {
     movement_controller.rotateOverTime( true );

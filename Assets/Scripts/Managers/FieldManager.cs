@@ -128,6 +128,22 @@ public class FieldManager : MonoBehaviourBase
     QuadContentController undo_quad = undo_stack.Pop();
     undo_quad.rotateBack();
   }
+
+  public void pauseLevel()
+  {
+    win_lose_manager.pauseLevel();
+
+    foreach ( QuadContentController quad in quad_matrix )
+      quad?.pauseResumeClick( true );
+  }
+
+  public void resumeLevel()
+  {
+    win_lose_manager.resumeLevel();
+
+    foreach ( QuadContentController quad in quad_matrix )
+      quad?.pauseResumeClick( false );
+  }
   #endregion
 
   #region Private Methods
@@ -217,23 +233,23 @@ public class FieldManager : MonoBehaviourBase
       if ( cached_pipes == null )
         return;
 
-      Debug.LogError( "water " + cached_pipes.Count.ToString() );
+      //Debug.LogError( "water " + cached_pipes.Count.ToString() );
       foreach ( Pipe pipe in cached_pipes )
       {
-        Debug.LogError( $"connection_type {pipe.quad.connection_type}" );
+        //Debug.LogError( $"connection_type {pipe.quad.connection_type}" );
         int inner_dir = pipe.inner_dirs.FirstOrDefault();
-        Debug.LogError( $"inner_dir {inner_dir}" );
+        //Debug.LogError( $"inner_dir {inner_dir}" );
        //inner_dir = pipe.quad.getOriginDir( inner_dir );
        //Debug.LogError( $"pipe.quad.getOriginDir {inner_dir}" );
         
 
-        Debug.LogError( $"pipe.quad.getNextConections( inner_dir ) {pipe.quad.getNextConections( inner_dir ).Count}" ); 
+        //Debug.LogError( $"pipe.quad.getNextConections( inner_dir ) {pipe.quad.getNextConections( inner_dir ).Count}" ); 
         foreach( int dir in pipe.quad.getNextConections( inner_dir ) )
         {
-          Debug.LogError( $"dir {dir}" );
-          Debug.LogError( $"pipe.quad.getOriginDir {pipe.quad.getOriginDir( dir )}" );
+         // Debug.LogError( $"dir {dir}" );
+         // Debug.LogError( $"pipe.quad.getOriginDir {pipe.quad.getOriginDir( dir )}" );
           float angle = -90.0f * pipe.quad.getOriginDir( dir );
-          Debug.LogError( $"angle {angle}" );
+          //Debug.LogError( $"angle {angle}" );
           Vector3 rotation = new Vector3( 0.0f, angle, 0.0f );
           spawnManager.spawnWaterFall( pipe.controller.transform, Quaternion.Euler( rotation ) );
         }
@@ -270,9 +286,10 @@ public class FieldManager : MonoBehaviourBase
     ushort stars_count = getStarsCount( win_lose_manager.getCurentStepsCount(), level_quad_matrix.max_steps_to_lose );
     bool receive_card = playerDataManager.canReceiveCard( level_quad_matrix.sector_id, level_quad_matrix.level_id);
 
-    ( spawnManager.getOrSpawnScreenUI( ScreenUIId.LEVEL_WIN ) as ScreenWinUI ).init( stars_count, receive_card );
-
     playerDataManager.handleLevelWin( level_quad_matrix.sector_id, level_quad_matrix.level_id, stars_count );
+
+    ( spawnManager.getOrSpawnScreenUI( ScreenUIId.LEVEL_WIN ) as ScreenWinUI ).init( level_quad_matrix, stars_count, receive_card );
+
   }
 
 

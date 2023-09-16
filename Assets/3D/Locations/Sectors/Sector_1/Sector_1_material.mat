@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Sector_1_material
-  m_Shader: {fileID: -6465566751694194690, guid: 77ac14d53f5e52b49a955d7f6d2d7634, type: 3}
+  m_Shader: {fileID: 4800000, guid: ee7a7c1a2f264ae4da19445a8f3f4689, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -91,6 +91,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: faef9168955e7f947ad3e3859c1a4545, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Metalic:
+        m_Texture: {fileID: 2800000, guid: 6acdb92d1cd6ba240a3fd1a8b404300d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Metallic:
         m_Texture: {fileID: 2800000, guid: 6acdb92d1cd6ba240a3fd1a8b404300d, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -171,8 +175,13 @@ Material:
         m_Texture: {fileID: 2800000, guid: 4ad6404e7333653439fde1d8cb800fc4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AO_Power: 0
     - _AO_strange: 0
     - _AlphaDeflate: 0
     - _AmbientOcclusion: 1
@@ -197,6 +206,7 @@ Material:
     - _IntersectionThresholdMax: 0.09
     - _MaskMult: 1
     - _MaskPow: 1
+    - _MetalicPower: 0
     - _Metalic_Str: 0
     - _Metallic: 1.47
     - _Metallic0: 0

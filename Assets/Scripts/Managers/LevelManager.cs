@@ -22,6 +22,16 @@ public class LevelManager : MonoBehaviourService<LevelManager>
     curent_field_manager?.deinit();
   }
 
+  public void pauseLevel()
+  {
+    curent_field_manager?.pauseLevel();
+  }
+
+  public void resumeLevel()
+  {
+    curent_field_manager?.resumeLevel();
+  }
+
   public void restartLevel()
   {
     curent_field_manager?.deinit();

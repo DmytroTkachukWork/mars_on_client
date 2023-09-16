@@ -23,8 +23,30 @@ public class PlanetController : MonoBehaviourPoolable
   #region Public Methods
   public void init()
   {
+    cameraController.init( this );
     startShowClose();
     finishShowClose();
+  }
+
+  public void deinit()
+  {
+    selecting_cor.stop();
+    spawnManager.despawnAllSectorInfoUI();
+    cameraController.deinit();
+  }
+
+  public override void onSpawn()
+  {
+    base.onSpawn();
+
+    init();
+  }
+
+  public override void onDespawn()
+  {
+    deinit(); 
+
+    base.onDespawn();
   }
 
   public void startShowClose()

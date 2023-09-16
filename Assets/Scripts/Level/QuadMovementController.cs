@@ -41,6 +41,16 @@ public class QuadMovementController : MonoBehaviourBase
     clickable_basease.onClick -= rotateForvard;
   }
 
+  public void pauseClick()
+  {
+    clickable_basease.onClick -= rotateForvard;
+  }
+
+  public void resumeClick()
+  {
+    clickable_basease.onClick += rotateForvard;
+  }
+
   public void rotateOverTime( bool is_reverce = false )
   {
     rotation_time_left = myVariables.QUAD_ROTATION_TIME;

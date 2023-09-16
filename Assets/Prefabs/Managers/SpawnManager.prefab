@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4568037302888456879
 MonoBehaviour:
@@ -52,9 +52,11 @@ MonoBehaviour:
   conector_prefab: {fileID: 2090682681928290002, guid: 8577fb7078644534b80485ddd7168405, type: 3}
   waterfall_controller: {fileID: 8483913642776373479, guid: bf18543d79450fb469db592961117af3, type: 3}
   screen_main_ui: {fileID: 7324334170993605714, guid: 6d715893a1dfc4b46a94cd4063d803c7, type: 3}
+  screen_library_ui: {fileID: 8144222275825335080, guid: 4b7fa784aa926234fa440a176af27cd7, type: 3}
+  screen_card_ui: {fileID: 89029351796400009, guid: 9cf1a0161a3cfa243a7a9c4007a24a2b, type: 3}
   screen_sector_ui: {fileID: 5938948372259575983, guid: bf93949131807b9429871001d93bc63d, type: 3}
   screen_level_ui: {fileID: 4474804752419511675, guid: 5164fc53391971844a338195b460839a, type: 3}
-  screen_win_ui: {fileID: 4236087424881558296, guid: 6b2dc71f94e575a4da4dc76643a19c81, type: 3}
+  screen_win_ui: {fileID: 8293357415600662399, guid: 6b2dc71f94e575a4da4dc76643a19c81, type: 3}
   screen_lose_ui: {fileID: 4582854078919809292, guid: b37bec215e45d2442a187c5f1a684405, type: 3}
   screen_pause_ui: {fileID: 5877811043260653192, guid: a9951cbf498910f488f4e59f237825f4, type: 3}
   sector_info_ui: {fileID: -1550022421934472934, guid: 947edd9a4f97bf3479ebe9da2cc36b8e, type: 3}

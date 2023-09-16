@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 4541516977136244187}
   - component: {fileID: 8514071759861656119}
   - component: {fileID: 8827951521227065208}
+  - component: {fileID: 8975923314899897188}
   m_Layer: 0
   m_Name: GeneralManager
   m_TagString: Untagged
@@ -38,7 +39,7 @@ Transform:
   - {fileID: 4347987030026105030}
   - {fileID: 673063802077073580}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5162753812525160854
 MonoBehaviour:
@@ -185,6 +186,8 @@ MonoBehaviour:
   CAMERA_TELEPORT_TIME: 0.01
   CAMERA_ROTATE_TIME: 0.9
   CAMERA_CONFIG_APPLY_TIME: 0.6
+  CAMERA_SECTOR_START_TELEPORT_DISTANCE: -70
+  CAMERA_LEVEL_START_TELEPORT_DISTANCE: -10
   QUAD_DISTANCE: 1.15
   WIN_CHECK_DELAY: 0.2
   LEVEL_WIN_FADE_TIME: 1
@@ -248,6 +251,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dc4be29500c0cd488a53299f15270ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8975923314899897188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1806407465073043666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a734bac132f839b41b99f6235a773fac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  card_infos:
+  - {fileID: 11400000, guid: 06b0f6a9dffdb8a45a3fd4198524a403, type: 2}
+  - {fileID: 11400000, guid: 82499d2ef0af0a842843788d3e6d3c4d, type: 2}
+  - {fileID: 11400000, guid: bc62c52f7abab364fa6f0f1e78b343d8, type: 2}
+  - {fileID: 11400000, guid: 99a595ca16766424ba19265dacc79deb, type: 2}
+  - {fileID: 11400000, guid: 0945b0071b3272a49949aa0f76e0ee8a, type: 2}
+  - {fileID: 11400000, guid: 8c6ecd34ae111d34285fefc7e6fce545, type: 2}
+  - {fileID: 11400000, guid: ba1c5e4e748280540addc5746d9f410f, type: 2}
+  - {fileID: 11400000, guid: ae42648ddd9940045a8b4646628aa7bb, type: 2}
+  - {fileID: 11400000, guid: 4f0806aba216fa64ab961c46ff4c5535, type: 2}
+  - {fileID: 11400000, guid: ac507340eaa84434c85026ca7b36959f, type: 2}
+  - {fileID: 11400000, guid: 35400fe1094066c45a982a1116d996a1, type: 2}
+  - {fileID: 11400000, guid: a014f178cb99c294ab086ad344e722d7, type: 2}
+  - {fileID: 11400000, guid: 148e8b9d1d04df64aa2c12a6dad3da38, type: 2}
+  - {fileID: 11400000, guid: 2f0c915617218cf45987ef0be12b847e, type: 2}
 --- !u!1 &3705605676578492945
 GameObject:
   m_ObjectHideFlags: 0
@@ -443,10 +473,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3

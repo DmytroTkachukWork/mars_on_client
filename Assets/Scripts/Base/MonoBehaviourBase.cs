@@ -10,4 +10,5 @@ public class MonoBehaviourBase : MonoBehaviour
   protected static SpawnManager spawnManager => Service<SpawnManager>.get();
   protected static GlobalCameraController cameraController => Service<GlobalCameraController>.get();
   protected static BlurScreenshot blurScreenshot => Service<BlurScreenshot>.get();
+  protected static CardManager cardManager => Service<CardManager>.get();
 }

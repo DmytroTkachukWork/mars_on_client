@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using TMPro;
 
@@ -11,6 +12,7 @@ public class ScreenLibraryUI : ScreenBaseUI
   [SerializeField] private TMP_Text cards_text = null;
   [SerializeField] private TMP_Text progress_text = null;
   [SerializeField] private CardController[] card_controllers = null;
+  [SerializeField] private LibraryPageDotController[] page_controllers = null;
   #endregion
 
   #region Private Fields
@@ -32,6 +34,9 @@ public class ScreenLibraryUI : ScreenBaseUI
     exit_button.onClick += onExit;
     next_page_button.onClick += goToNextPage;
     prev_page_button.onClick += goToPrevPage;
+
+    for( int i = 0; i < page_controllers.Length; i++ )
+      page_controllers[i].init( (int)(start_page_number / 10) == i );
 
     for( int i = 0; i < card_controllers.Length; i++ )
     {

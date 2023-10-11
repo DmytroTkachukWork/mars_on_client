@@ -55,7 +55,7 @@ public class SectorController : MonoBehaviourBase
     }
 
     camera_container.init();
-    spawnManager.getOrSpawnScreenUI( ScreenUIId.SECTOR );
+    (spawnManager.getOrSpawnScreenUI( ScreenUIId.SECTOR )  as ScreenSectorUI).updateCurentSectorID( sectorID );
     line_renderer.SetActive( true );
   }
 

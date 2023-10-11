@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4568037302888456879
 MonoBehaviour:
@@ -53,6 +53,7 @@ MonoBehaviour:
   waterfall_controller: {fileID: 8483913642776373479, guid: bf18543d79450fb469db592961117af3, type: 3}
   screen_main_ui: {fileID: 7324334170993605714, guid: 6d715893a1dfc4b46a94cd4063d803c7, type: 3}
   screen_library_ui: {fileID: 8144222275825335080, guid: 4b7fa784aa926234fa440a176af27cd7, type: 3}
+  screen_sector_list_ui: {fileID: 1990718210543340293, guid: d07fe8d216b030a40a4a93d80c03f2c9, type: 3}
   screen_card_ui: {fileID: 89029351796400009, guid: 9cf1a0161a3cfa243a7a9c4007a24a2b, type: 3}
   screen_sector_ui: {fileID: 5938948372259575983, guid: bf93949131807b9429871001d93bc63d, type: 3}
   screen_level_ui: {fileID: 4474804752419511675, guid: 5164fc53391971844a338195b460839a, type: 3}

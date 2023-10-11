@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -40,10 +41,12 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
     main_camera.transform.localRotation = Quaternion.identity;
   }
 
-  public void moveCameraToSectorFromPlanet( SectorController sector = null )
+  public void moveCameraToSectorFromPlanet( SectorController sector = null, int sector_id = 0 )
   {
     if ( sector != null )
       curent_sector_controller = sector;
+    else
+      curent_sector_controller = curent_planet_controller.getSectorById( sector_id );
 
     if ( curent_sector_controller == null )
       return;
@@ -272,14 +275,19 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
     rotateCameraToSector( curent_planet_controller.getPrevSector() );
   }
 
-  public void rotateCameraToSector( SectorController sector_controller )
+  public void rotateCameraToSector( SectorController sector_controller, Action callback = null )
   {
     if ( sector_controller == null )
       return;
 
     Vector3 rot = sector_controller.transform.rotation.eulerAngles;
     rot.x += 90.0f;  
-    curent_planet_controller.cameraContainer.rotateTo( Quaternion.Euler( rot ), my_variables.CAMERA_ROTATE_TIME );
+    curent_planet_controller.cameraContainer.rotateTo( Quaternion.Euler( rot ), my_variables.CAMERA_ROTATE_TIME, callback );
+  }
+
+  public void rotateCameraToSector( int sector_id, Action callback = null )
+  {
+    rotateCameraToSector( curent_planet_controller.getSectorById( sector_id ), callback );
   }
 
   public Vector3 getCameraPos()

@@ -205,6 +205,16 @@ public class PlayerDataManager : MonoBehaviourService<PlayerDataManager>
     return Mathf.FloorToInt( ( (float)curent_progress / (float)max_progress ) * 100 );
   }
 
+  public int getCurentSectorNumber()
+  {
+    return curent_player_data.curent_sector_num;
+  }
+
+  public int getLastSectorNumber()
+  {
+    return planet_info.sectors_info.Length-1;
+  }
+
   public bool canReceiveCard( int sector, int level )
   {
     return !curent_player_data.progress_data.sectors_data[sector].levels_data[level].is_card_received;
@@ -222,6 +232,78 @@ public class PlayerDataManager : MonoBehaviourService<PlayerDataManager>
       return 100;
 
     return Mathf.FloorToInt( (float)curent_player_data.curent_level_num / (float)planet_info.sectors_info[sector_id].levels_info.Length * 100.0f );
+  }
+
+  public int getReceivedStarsCountBySector( int sector_id )
+  {
+    if ( sector_id >= planet_info.sectors_info.Length || sector_id < 0 )
+      return 0;
+
+    int received_stars_count = 0;
+
+    for( int i = 0; i < planet_info.sectors_info[sector_id].levels_info.Length; i++ )
+    {
+      received_stars_count += curent_player_data.progress_data.sectors_data[sector_id].levels_data[i].stars_count;
+    }
+
+    return received_stars_count;
+  }
+
+  public int getAllStarsCountBySector( int sector_id )
+  {
+    if ( sector_id >= planet_info.sectors_info.Length || sector_id < 0 )
+      return 0;
+
+    int all_stars_count = 0;
+
+    for( int i = 0; i < planet_info.sectors_info[sector_id].levels_info.Length; i++ )
+    {
+      all_stars_count += 3;
+    }
+
+    return all_stars_count;
+  }
+
+  public int getReceivedCardsCountBySector( int sector_id )
+  {
+    if ( sector_id >= planet_info.sectors_info.Length || sector_id < 0 )
+      return 0;
+
+    int received_cards_count = 0;
+
+    for( int i = 0; i < planet_info.sectors_info[sector_id].levels_info.Length; i++ )
+    {
+      received_cards_count += curent_player_data.progress_data.sectors_data[sector_id].levels_data[i].is_card_received ? 1 : 0;
+    }
+
+    return received_cards_count;
+  }
+
+  public int getAllCardsCountBySector( int sector_id )
+  {
+    if ( sector_id >= planet_info.sectors_info.Length || sector_id < 0 )
+      return 0;
+
+    int all_cards_count = 0;
+
+    for( int i = 0; i < planet_info.sectors_info[sector_id].levels_info.Length; i++ )
+    {
+      all_cards_count += 1;
+    }
+
+    return all_cards_count;
+  }
+
+  public float getLevelsProgressBySector( int sector_id )
+  {
+    if ( sector_id >= planet_info.sectors_info.Length || sector_id < 0 )
+      return 0;
+
+    float levels_progress = 0;
+
+    levels_progress = (float)getReceivedCardsCountBySector( sector_id ) / (float)getAllCardsCountBySector( sector_id );
+
+    return levels_progress;
   }
 }
 

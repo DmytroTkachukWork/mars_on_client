@@ -65,13 +65,17 @@ SpriteAtlas:
     - 21d8061653b34864da367230053913db: 1215007453
     - 21d8061653b34864da367230053913db: 728345857
     - 47757c07b81d6524aa3703bf5437e700: 21300000
+    - 7bf93df7ec9f62b4397f3af59be4b9a8: 21300000
+    - 47d12d788d6c0da429c80390259a062b: 21300000
     - dbb25f39add41604aa61e673bf4fc723: 21300000
     - f93e384a26193534491c95ad5e8911a3: 21300000
     - 508e745a701214f4b97a1142dcf912e4: 21300000
     - 3a9ec4cb99906b54891e635fa8b687a8: 21300000
     - 7eac5cdb83199554687ea15a6f75437b: 21300000
+    - a78b216d4e7ff6243858ee0e78c267ad: 21300000
     - 7000b4bd38ba0ad4fbacb1bfa54cc60b: 21300000
     - 4d75c92e78cb35948a5d4cb337ae1549: 21300000
+    - 677e516e02538424194a09b84e58efd8: 21300000
     - 2b3cbb9e10ef81547a62ae8157221ce9: 21300000
     - 165378cef036174449849a19b7653b0f: 21300000
     - 32a9b7dec8ea9e843818c1f8fe06e2ff: 21300000
@@ -94,13 +98,17 @@ SpriteAtlas:
   - {fileID: 1215007453, guid: 21d8061653b34864da367230053913db, type: 3}
   - {fileID: 728345857, guid: 21d8061653b34864da367230053913db, type: 3}
   - {fileID: 21300000, guid: 47757c07b81d6524aa3703bf5437e700, type: 3}
+  - {fileID: 21300000, guid: 7bf93df7ec9f62b4397f3af59be4b9a8, type: 3}
+  - {fileID: 21300000, guid: 47d12d788d6c0da429c80390259a062b, type: 3}
   - {fileID: 21300000, guid: dbb25f39add41604aa61e673bf4fc723, type: 3}
   - {fileID: 21300000, guid: f93e384a26193534491c95ad5e8911a3, type: 3}
   - {fileID: 21300000, guid: 508e745a701214f4b97a1142dcf912e4, type: 3}
   - {fileID: 21300000, guid: 3a9ec4cb99906b54891e635fa8b687a8, type: 3}
   - {fileID: 21300000, guid: 7eac5cdb83199554687ea15a6f75437b, type: 3}
+  - {fileID: 21300000, guid: a78b216d4e7ff6243858ee0e78c267ad, type: 3}
   - {fileID: 21300000, guid: 7000b4bd38ba0ad4fbacb1bfa54cc60b, type: 3}
   - {fileID: 21300000, guid: 4d75c92e78cb35948a5d4cb337ae1549, type: 3}
+  - {fileID: 21300000, guid: 677e516e02538424194a09b84e58efd8, type: 3}
   - {fileID: 21300000, guid: 2b3cbb9e10ef81547a62ae8157221ce9, type: 3}
   - {fileID: 21300000, guid: 165378cef036174449849a19b7653b0f, type: 3}
   - {fileID: 21300000, guid: 32a9b7dec8ea9e843818c1f8fe06e2ff, type: 3}
@@ -122,13 +130,17 @@ SpriteAtlas:
   - Separetor_01_1
   - Separetor_01_0
   - Sound button
+  - Mission_select_card_frame_2
+  - Mission_select_card_frame_1
   - FACTS smal icon
   - Slide  indicator circle
   - Next mission button
   - All missions button
   - Cloud button
+  - Mission_select_card_frame_3
   - Move icon
   - Back button
+  - Mission_select_card_frame_0
   - Mission complete indicator
   - AD button
   - BackgroundGradient

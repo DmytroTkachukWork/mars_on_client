@@ -16,5 +16,6 @@ public enum ScreenUIId
   LEVEL_LOSE = 5,
   LEVEL_PAUSE = 6,
   LIBRARY = 7,
-  CARD = 8
+  CARD = 8,
+  SECTOR_LIST = 9
 }

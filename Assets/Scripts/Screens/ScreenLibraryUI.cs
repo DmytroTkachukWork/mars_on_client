@@ -1,12 +1,10 @@
-using System;
 using UnityEngine;
 using TMPro;
 
 public class ScreenLibraryUI : ScreenBaseUI
 {
   #region Serialized Fields
-  [SerializeField] private ButtonBase next_page_button = null;
-  [SerializeField] private ButtonBase prev_page_button = null;
+  [SerializeField] private LeftRightButtonsController left_right_buttons = null;
   [SerializeField] private ButtonBase exit_button = null;
   [SerializeField] private TMP_Text stars_text = null;
   [SerializeField] private TMP_Text cards_text = null;
@@ -32,8 +30,11 @@ public class ScreenLibraryUI : ScreenBaseUI
     updateProgress();
 
     exit_button.onClick += onExit;
-    next_page_button.onClick += goToNextPage;
-    prev_page_button.onClick += goToPrevPage;
+
+    left_right_buttons.init( cached_start_page_number > 0, cached_start_page_number < page_controllers.Length - 1 );
+
+    left_right_buttons.onRightClick += goToNextPage;
+    left_right_buttons.onLeftClick += goToPrevPage;
 
     for( int i = 0; i < page_controllers.Length; i++ )
       page_controllers[i].init( (int)(start_page_number / 10) == i );
@@ -60,8 +61,8 @@ public class ScreenLibraryUI : ScreenBaseUI
     }
 
     exit_button.onClick -= onExit;
-    next_page_button.onClick -= goToNextPage;
-    prev_page_button.onClick -= goToPrevPage;
+    left_right_buttons.onRightClick-= goToNextPage;
+    left_right_buttons.onLeftClick -= goToPrevPage;
   }
 
   public override void onSpawn()
@@ -111,7 +112,7 @@ public class ScreenLibraryUI : ScreenBaseUI
 
   private void goToNextPage()
   {
-    if( cached_start_page_number + 10 >= playerDataManager.getCurentCardsCount() )
+    if( cached_start_page_number + 10 >= playerDataManager.getMaxCardsCount() )
       return;
 
     init( cached_start_page_number + 10 );

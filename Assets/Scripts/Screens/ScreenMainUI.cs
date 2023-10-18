@@ -6,9 +6,9 @@ public class ScreenMainUI : ScreenBaseUI
   #region Serialized Fields
   [SerializeField] private ButtonBase reset_user_button = null;
   [SerializeField] private ButtonBase max_user_button = null;
-  [SerializeField] private ButtonBase next_sector_button = null;
-  [SerializeField] private ButtonBase prev_sector_button = null;
+  [SerializeField] private LeftRightButtonsController left_right_buttons = null;
   [SerializeField] private ButtonBase library_button = null;
+  [SerializeField] private ButtonBase sector_list_button = null;
   [SerializeField] private TMP_Text sector_id_text = null;
   [SerializeField] private TMP_Text stars_text = null;
   [SerializeField] private TMP_Text cards_text = null;
@@ -27,10 +27,15 @@ public class ScreenMainUI : ScreenBaseUI
   {
     deinit();
     reset_user_button.onClick += resetUser;
-    next_sector_button.onClick += selectNextSector;
-    prev_sector_button.onClick += selectPrevtSector;
+
+    left_right_buttons.init( !isFirstSectorSelected(), !isLastSectorSelected() );
+
+    left_right_buttons.onRightClick += selectNextSector;
+    left_right_buttons.onLeftClick += selectPrevtSector;
+
     max_user_button.onClick += setMaxUser;
     library_button.onClick += openLibrary;
+    sector_list_button.onClick += openSectorList;
     
 
     updateStarsCount();
@@ -41,10 +46,11 @@ public class ScreenMainUI : ScreenBaseUI
   public void deinit()
   {
     reset_user_button.onClick -= resetUser;
-    next_sector_button.onClick -= selectNextSector;
-    prev_sector_button.onClick -= selectPrevtSector;
+    left_right_buttons.onRightClick -= selectNextSector;
+    left_right_buttons.onLeftClick -= selectPrevtSector;
     max_user_button.onClick -= setMaxUser;
     library_button.onClick -= openLibrary;
+    sector_list_button.onClick -= openSectorList;
   }
 
   public void selectNextSector()
@@ -60,7 +66,18 @@ public class ScreenMainUI : ScreenBaseUI
   public void updateCurentSectorID( int new_sector_id )
   {
     curent_sector_id = new_sector_id;
-    sector_id_text.text = sector_id_text_string_1 + curent_sector_id + sector_id_text_string_2;
+    sector_id_text.text = sector_id_text_string_1 + (curent_sector_id + 1) + sector_id_text_string_2;
+    left_right_buttons.init( !isFirstSectorSelected(), !isLastSectorSelected() );
+  }
+
+  public bool isFirstSectorSelected()
+  {
+    return curent_sector_id == 0;
+  }
+
+  public bool isLastSectorSelected()
+  {
+    return curent_sector_id == playerDataManager.getLastSectorNumber();
   }
 
   public override void onSpawn()
@@ -121,6 +138,13 @@ public class ScreenMainUI : ScreenBaseUI
     spawnManager.despawnPlanet();
     spawnManager.despawnScreenUI( ScreenUIId.MAIN );
     spawnManager.getOrSpawnScreenUI( ScreenUIId.LIBRARY );
+  }
+
+  private void openSectorList()
+  {
+    spawnManager.despawnPlanet();
+    spawnManager.despawnScreenUI( ScreenUIId.MAIN );
+    spawnManager.getOrSpawnScreenUI( ScreenUIId.SECTOR_LIST );
   }
   #endregion
 }

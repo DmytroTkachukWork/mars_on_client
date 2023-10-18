@@ -35,6 +35,11 @@ public class ButtonBase : MonoBehaviourBase
   {
     button.onClick.RemoveListener( onButtonClick );
   }
+
+  public void setInteractive( bool state )
+  {
+    button.interactable = state;
+  }
   #endregion
 
   #region Private Methods

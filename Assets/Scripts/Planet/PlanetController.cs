@@ -139,7 +139,7 @@ public class PlanetController : MonoBehaviourPoolable
 
     curent_sector.markSelected( true );
     if ( cached_sector != curent_sector )
-      ( spawnManager.getOrSpawnScreenUI( ScreenUIId.MAIN ) as ScreenMainUI ).updateCurentSectorID( curent_sector.sectorID + 1 );
+      ( spawnManager.getOrSpawnScreenUI( ScreenUIId.MAIN ) as ScreenMainUI ).updateCurentSectorID( curent_sector.sectorID );
   }
 
   public SectorController getNextSector()
@@ -156,6 +156,14 @@ public class PlanetController : MonoBehaviourPoolable
       return null;
 
     return sector_controllers[curent_sector.sectorID-1];
+  }
+
+  public SectorController getSectorById( int sector_id )
+  {
+    if ( sector_id >= sector_controllers.Length )
+      return null;
+
+    return sector_controllers[sector_id];
   }
   #endregion
 }

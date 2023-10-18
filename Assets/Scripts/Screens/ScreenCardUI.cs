@@ -5,8 +5,7 @@ using TMPro;
 public class ScreenCardUI : ScreenBaseUI
 {
   #region Serialized Fields
-  [SerializeField] private ButtonBase next_page_button = null;
-  [SerializeField] private ButtonBase prev_page_button = null;
+  [SerializeField] private LeftRightButtonsController left_right_buttons = null;
   [SerializeField] private Image landscape_image = null;
   [SerializeField] private TMP_Text card_text = null;
   [SerializeField] private ButtonBase exit_button = null;
@@ -30,11 +29,10 @@ public class ScreenCardUI : ScreenBaseUI
     card_text.text = cached_card_info.bodyText;
     landscape_image.sprite = cached_card_info.cardLendscape;
 
-    next_page_button.gameObject.SetActive( cached_prev_screen_ui_id == ScreenUIId.LIBRARY );
-    prev_page_button.gameObject.SetActive( cached_prev_screen_ui_id == ScreenUIId.LIBRARY );
+    left_right_buttons.init( getLeftInteraction(), getRightInteraction() );
 
-    next_page_button.onClick += goToNextCard;
-    prev_page_button.onClick += goToPrevCard;
+    left_right_buttons.onRightClick += goToNextCard;
+    left_right_buttons.onLeftClick  += goToPrevCard;
   }
 
   public void deinit()
@@ -44,8 +42,8 @@ public class ScreenCardUI : ScreenBaseUI
     landscape_image.sprite = null;
     exit_button.onClick -= onExit;
 
-    next_page_button.onClick -= goToNextCard;
-    prev_page_button.onClick -= goToPrevCard;
+    left_right_buttons.onRightClick -= goToNextCard;
+    left_right_buttons.onLeftClick  -= goToPrevCard;
   }
   #endregion
 
@@ -81,6 +79,16 @@ public class ScreenCardUI : ScreenBaseUI
       return;
 
     init( next_card_info, cached_prev_screen_ui_id );
+  }
+
+  private bool getLeftInteraction()
+  {
+    return cached_prev_screen_ui_id == ScreenUIId.LIBRARY && cached_card_info.cardNumber > 1;
+  }
+
+  private bool getRightInteraction()
+  {
+    return cached_prev_screen_ui_id == ScreenUIId.LIBRARY && cached_card_info.cardNumber < playerDataManager.getCurentCardsCount();
   }
   #endregion
 }

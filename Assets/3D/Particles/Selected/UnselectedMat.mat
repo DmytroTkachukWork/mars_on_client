@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SelectedMat
+  m_Name: UnselectedMat
   m_Shader: {fileID: -6465566751694194690, guid: e2e5aa254f9167542bef92f78df98de2, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -29,7 +29,7 @@ Material:
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3001
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
@@ -79,7 +79,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _BUILTIN_QueueControl: 0
-    - _BUILTIN_QueueOffset: 1
+    - _BUILTIN_QueueOffset: 0
     - _BlendOp: 0
     - _BumpScale: 1
     - _CameraFadingEnabled: 0
@@ -120,9 +120,9 @@ Material:
     m_Colors:
     - _BaseColor: {r: 0.8773585, g: 0.57579297, b: 0.012415428, a: 0}
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
-    - _Color: {r: 0.9339623, g: 0.60380745, b: 0.039649326, a: 1}
+    - _Color: {r: 0.4811321, g: 0.4811321, b: 0.4811321, a: 1}
     - _ColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
-    - _TintColor: {r: 1, g: 1, b: 1, a: 1}
+    - _TintColor: {r: 0.57547164, g: 0.57547164, b: 0.57547164, a: 1}
   m_BuildTextureStacks: []

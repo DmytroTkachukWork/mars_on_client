@@ -15,6 +15,7 @@ public class SpawnManager : MonoBehaviourService<SpawnManager>
   [SerializeField] private WaterFallController waterfall_controller = null;
   [SerializeField] private ScreenMainUI screen_main_ui = null;
   [SerializeField] private ScreenLibraryUI screen_library_ui = null;
+  [SerializeField] private ScreenSectorListUI screen_sector_list_ui = null;
   [SerializeField] private ScreenCardUI screen_card_ui = null;
   [SerializeField] private ScreenSectorUI screen_sector_ui = null;
   [SerializeField] private ScreenLevelUI screen_level_ui = null;
@@ -32,6 +33,7 @@ public class SpawnManager : MonoBehaviourService<SpawnManager>
 
   private SinglePool<ScreenMainUI> screen_main_ui_pool = new SinglePool<ScreenMainUI>();
   private SinglePool<ScreenLibraryUI> screen_library_ui_pool = new SinglePool<ScreenLibraryUI>();
+  private SinglePool<ScreenSectorListUI> screen_sector_list_ui_pool = new SinglePool<ScreenSectorListUI>();
   private SinglePool<ScreenCardUI> screen_card_ui_pool = new SinglePool<ScreenCardUI>();
   private SinglePool<ScreenSectorUI> screen_sector_ui_pool = new SinglePool<ScreenSectorUI>();
   private SinglePool<ScreenLevelUI> screen_level_ui_pool = new SinglePool<ScreenLevelUI>();
@@ -111,6 +113,7 @@ public class SpawnManager : MonoBehaviourService<SpawnManager>
     case ScreenUIId.LEVEL_PAUSE: return screen_pause_ui_pool.spawn( screen_pause_ui, screen_ui );
     case ScreenUIId.LIBRARY:     return screen_library_ui_pool.spawn( screen_library_ui, screen_ui );
     case ScreenUIId.CARD:        return screen_card_ui_pool.spawn( screen_card_ui, screen_ui );
+    case ScreenUIId.SECTOR_LIST: return screen_sector_list_ui_pool.spawn( screen_sector_list_ui, screen_ui );
     default:                     return null;
     }
   }
@@ -127,6 +130,7 @@ public class SpawnManager : MonoBehaviourService<SpawnManager>
     case ScreenUIId.LEVEL_PAUSE: screen_pause_ui_pool.despawn(); break;
     case ScreenUIId.LIBRARY:     screen_library_ui_pool.despawn(); break;
     case ScreenUIId.CARD:        screen_card_ui_pool.despawn(); break;
+    case ScreenUIId.SECTOR_LIST: screen_sector_list_ui_pool.despawn(); break;
     }
   }
 

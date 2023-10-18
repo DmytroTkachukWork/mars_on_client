@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -83,13 +84,14 @@ public class CameraContainerController : MonoBehaviourBase
     clickable_base.gameObject.SetActive( true );
   }
 
-  public void rotateTo( Quaternion rotation, float rotation_time )
+  public void rotateTo( Quaternion rotation, float rotation_time, Action callback = null )
   {
-    drag_cor = drag_cor.startCoroutineAndStopPrev( tweener.tweenRotation( rotation_transform, rotation, rotation_time, callback, CurveType.EASE_IN_OUT ) );
+    drag_cor = drag_cor.startCoroutineAndStopPrev( tweener.tweenRotation( rotation_transform, rotation, rotation_time, onFinish, CurveType.EASE_IN_OUT ) );
 
-    void callback()
+    void onFinish()
     {
       target_rotation = rotation.eulerAngles;
+      callback?.Invoke();
     }
   }
   #endregion

@@ -5,8 +5,7 @@ public class ScreenSectorUI : ScreenBaseUI
 {
   #region Serialized Fields
   [SerializeField] private ButtonBase exit_button = null;
-  [SerializeField] private ButtonBase next_sector_button = null;
-  [SerializeField] private ButtonBase prev_sector_button = null;
+  [SerializeField] private LeftRightButtonsController left_right_buttons = null;
   [SerializeField] private TMP_Text sector_id_text = null;
   [SerializeField] private TMP_Text stars_text = null;
   [SerializeField] private TMP_Text cards_text = null;
@@ -25,8 +24,11 @@ public class ScreenSectorUI : ScreenBaseUI
   {
     deinit();
     exit_button.onClick += onExit;
-    next_sector_button.onClick += selectNextSector;
-    prev_sector_button.onClick += selectPrevtSector;
+
+    left_right_buttons.init( !isFirstSectorSelected(), !isLastSectorSelected() );
+
+    left_right_buttons.onRightClick += selectNextSector;
+    left_right_buttons.onLeftClick  += selectPrevSector;
     
 
     updateStarsCount();
@@ -37,8 +39,8 @@ public class ScreenSectorUI : ScreenBaseUI
   public void deinit()
   {
     exit_button.onClick -= onExit;
-    next_sector_button.onClick -= selectNextSector;
-    prev_sector_button.onClick -= selectPrevtSector;
+    left_right_buttons.onRightClick -= selectNextSector;
+    left_right_buttons.onLeftClick  -= selectPrevSector;
   }
 
   public void selectNextSector()
@@ -47,7 +49,7 @@ public class ScreenSectorUI : ScreenBaseUI
     cameraController.teleportCameraToSectorFromPlanet( true );
   }
 
-  public void selectPrevtSector()
+  public void selectPrevSector()
   {
     cameraController.rotateCameraToPrevSector();
     cameraController.teleportCameraToSectorFromPlanet( false );
@@ -56,7 +58,18 @@ public class ScreenSectorUI : ScreenBaseUI
   public void updateCurentSectorID( int new_sector_id )
   {
     curent_sector_id = new_sector_id;
-    sector_id_text.text = sector_id_text_string_1 + curent_sector_id + sector_id_text_string_2;
+    sector_id_text.text = sector_id_text_string_1 + (curent_sector_id + 1) + sector_id_text_string_2;
+    left_right_buttons.init( !isFirstSectorSelected(), !isLastSectorSelected() );
+  }
+
+  public bool isFirstSectorSelected()
+  {
+    return curent_sector_id == 0;
+  }
+
+  public bool isLastSectorSelected()
+  {
+    return curent_sector_id == playerDataManager.getLastSectorNumber();
   }
 
   public override void onSpawn()

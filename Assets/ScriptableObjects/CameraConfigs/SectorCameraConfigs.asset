@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: SectorCameraConfigs
   m_EditorClassIdentifier: 
   camera_fov: 40
+  far_clip_plane: 1000
   fog_start_distance: 863
   fog_end_distance: 1900.61
   fog_color: {r: 0, g: 0, b: 0, a: 1}

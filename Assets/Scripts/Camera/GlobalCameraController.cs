@@ -30,6 +30,7 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
     main_camera.transform.SetParent( curent_planet_controller.cameraContainer.cameraRoot );
     main_camera.transform.localPosition = Vector3.zero;
     main_camera.transform.localRotation = Quaternion.identity;
+    applyCameraConfigs( LocationType.PLANET );
   }
 
   public void deinit()
@@ -312,6 +313,15 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
         ( value ) => main_camera.fieldOfView = value
       , main_camera.fieldOfView
       , cached_configs.cameraFov
+      , my_variables.CAMERA_CONFIG_APPLY_TIME
+      , null
+      , CurveType.EASE_IN_OUT
+    ).start();
+
+    tweener.tweenFloat(
+        ( value ) => main_camera.farClipPlane = value
+      , main_camera.farClipPlane
+      , cached_configs.farClipPlane
       , my_variables.CAMERA_CONFIG_APPLY_TIME
       , null
       , CurveType.EASE_IN_OUT

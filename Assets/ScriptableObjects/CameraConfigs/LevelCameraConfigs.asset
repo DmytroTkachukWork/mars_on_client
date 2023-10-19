@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: LevelCameraConfigs
   m_EditorClassIdentifier: 
   camera_fov: 20
+  far_clip_plane: 90
   fog_start_distance: 23
   fog_end_distance: 40
   fog_color: {r: 0.6784314, g: 0.3764706, b: 0.3764706, a: 1}

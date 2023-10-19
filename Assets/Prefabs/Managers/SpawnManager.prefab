@@ -63,4 +63,4 @@ MonoBehaviour:
   sector_info_ui: {fileID: -1550022421934472934, guid: 947edd9a4f97bf3479ebe9da2cc36b8e, type: 3}
   level_info_ui: {fileID: 6042207486357373783, guid: 61aa4975ac5f9754da96ceaa08f005e9, type: 3}
   planet_controller: {fileID: 5975697908701501734, guid: 79373529ae2f6444a839e497a833ed31, type: 3}
-  resource_entity_controller: {fileID: 1027942996147051177, guid: 86b1f9f9b079a744c9e1a0d47a60f8a2, type: 3}
+  resource_entity_controller: {fileID: 2118355788038893812, guid: 86b1f9f9b079a744c9e1a0d47a60f8a2, type: 3}

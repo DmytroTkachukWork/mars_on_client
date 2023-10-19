@@ -15,13 +15,16 @@ public class BlurScreenshot : MonoBehaviourService<BlurScreenshot>
 
   private bool          use_grayscale             = false;
   private RenderTexture screenshot_render_texture = null;
+  private bool          is_rendering              = false;
   #endregion
 
 
   #region Unity Methods
   private void OnRenderImage( RenderTexture source, RenderTexture destination )
   {
-    UnityEngine.Graphics.Blit( source, screenshot_render_texture, use_grayscale ? mat_grayscale_blur : mat_colored_blur );
+    if ( is_rendering )
+      UnityEngine.Graphics.Blit( source, screenshot_render_texture, use_grayscale ? mat_grayscale_blur : mat_colored_blur );
+
     UnityEngine.Graphics.Blit( source, destination, Vector2.one, Vector2.zero ); //rendering into the destination texture should be the last rendering operation
   }
   #endregion
@@ -38,11 +41,11 @@ public class BlurScreenshot : MonoBehaviourService<BlurScreenshot>
       raw_image.texture = screenshot_render_texture;
     }
 
-    this.enabled = true;
+    is_rendering = true;
 
     yield return null;
 
-    this.enabled = false;
+    is_rendering = false;
   }
   #endregion
 

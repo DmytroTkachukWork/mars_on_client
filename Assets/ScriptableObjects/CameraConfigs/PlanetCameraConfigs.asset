@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: PlanetCameraConfigs
   m_EditorClassIdentifier: 
   camera_fov: 60
+  far_clip_plane: 2000
   fog_start_distance: 863
   fog_end_distance: 1900.61
   fog_color: {r: 0, g: 0, b: 0, a: 1}

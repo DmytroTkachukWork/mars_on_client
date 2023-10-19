@@ -6,12 +6,14 @@ using UnityEngine;
 public class CameraConfigs : ScriptableObject
 {
   [SerializeField] private float camera_fov = 60.0f;
+  [SerializeField] private float far_clip_plane = 7000.0f;
   [SerializeField] private float fog_start_distance = 100.0f;
   [SerializeField] private float fog_end_distance = 100.0f;
   [SerializeField] private Color fog_color = Color.white;
 
 
   public float cameraFov => camera_fov;
+  public float farClipPlane => far_clip_plane;
   public float fogStartDistance => fog_start_distance;
   public float fogEndDistance => fog_end_distance;
   public Color fogColor => fog_color;

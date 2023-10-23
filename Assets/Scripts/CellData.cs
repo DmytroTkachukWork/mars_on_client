@@ -10,6 +10,7 @@ public class CellData
   [SerializeField]public CellRoleType role = CellRoleType.NONE;
   [SerializeField]public ResourceType resource_type = ResourceType.NONE;
   [SerializeField]public CellPipeType pipe_type = CellPipeType.NONE;
+  [SerializeField]public RotationStage curent_rotation = 0;
 
   public bool isConected = false;
   public CellPipeDirection[] all_diractions = null;
@@ -49,4 +50,12 @@ public enum CellRoleType
   PLAYABLE = 1,
   STARTER = 2,
   FINISHER = 3
+}
+
+public enum RotationStage
+{
+  ZERO = 0,
+  ONE90 = 1,
+  TWO180 = 2,
+  THREE270 = 3
 }

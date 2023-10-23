@@ -20,6 +20,7 @@ public class FieldManager : MonoBehaviourBase
   private Stack<QuadContentController> undo_stack = null;
   private bool has_win = false;
   private List<IEnumerator> runing_cors = new List<IEnumerator>();
+  private bool is_rotating = false;
   #endregion
 
 
@@ -91,6 +92,7 @@ public class FieldManager : MonoBehaviourBase
     has_win = false;
     despawnMatrix();
     unsubscrube();
+    spawnManager.despawnAllWaterfalls();
   }
 
   public void despawnMatrix()
@@ -154,6 +156,7 @@ public class FieldManager : MonoBehaviourBase
 
     spawnManager.despawnAllWaterfalls();
 
+    is_rotating = true;
     onBeginRotate.Invoke( is_reverce );
     Pipe rotated_pipe = pipe_tree.getPipe( quad_entity );
     rotated_pipe.controller?.paintConected();
@@ -233,25 +236,28 @@ public class FieldManager : MonoBehaviourBase
       if ( cached_pipes == null )
         return;
 
-      //Debug.LogError( "water " + cached_pipes.Count.ToString() );
+      Debug.LogError( "water " + cached_pipes.Count.ToString() );
       foreach ( Pipe pipe in cached_pipes )
       {
-        //Debug.LogError( $"connection_type {pipe.quad.connection_type}" );
+        Debug.LogError( $"connection_type {pipe.quad.connection_type}" );
         int inner_dir = pipe.inner_dirs.FirstOrDefault();
-        //Debug.LogError( $"inner_dir {inner_dir}" );
-       //inner_dir = pipe.quad.getOriginDir( inner_dir );
-       //Debug.LogError( $"pipe.quad.getOriginDir {inner_dir}" );
+        Debug.LogError( $"inner_dir {inner_dir}" );
+        Debug.LogError( $"pipe.quad.getOriginDir {pipe.quad.curent_rotation}" );
+        //if ( pipe.quad.curent_rotation % 360 != 270 )
+        //  inner_dir = MatrixHelper.inverse4( inner_dir );
+        //inner_dir = pipe.quad.getOriginDir( inner_dir );
+        Debug.LogError( $"pipe.quad.getOriginDir {inner_dir}" );
         
 
-        //Debug.LogError( $"pipe.quad.getNextConections( inner_dir ) {pipe.quad.getNextConections( inner_dir ).Count}" ); 
-        foreach( int dir in pipe.quad.getNextConections( inner_dir ) )
+        Debug.LogError( $"pipe.quad.getNextConections( inner_dir ) {pipe.quad.getLocalNextConections( inner_dir ).Count}" ); 
+        foreach( int dir in pipe.quad.getLocalNextConections( inner_dir ) )
         {
-         // Debug.LogError( $"dir {dir}" );
-         // Debug.LogError( $"pipe.quad.getOriginDir {pipe.quad.getOriginDir( dir )}" );
-          float angle = -90.0f * pipe.quad.getOriginDir( dir );
-          //Debug.LogError( $"angle {angle}" );
+          Debug.LogError( $"dir {dir}" );
+          Debug.LogError( $"pipe.quad.getOriginDir {pipe.quad.getOriginDir( dir )}" );
+          float angle = 90.0f * dir;
+          Debug.LogError( $"angle {angle}" );
           Vector3 rotation = new Vector3( 0.0f, angle, 0.0f );
-          spawnManager.spawnWaterFall( pipe.controller.transform, Quaternion.Euler( rotation ) );
+          spawnManager.spawnWaterFall( pipe.controller.conectorRoot, Quaternion.Euler( rotation ) );
         }
       }
     }
@@ -295,6 +301,7 @@ public class FieldManager : MonoBehaviourBase
 
   private void continuePainting()
   {
+    is_rotating = false;
     pipe_tree = PathFinder.getPipeTreeNew( quad_matrix, level_quad_matrix );
     levelCore();
   }

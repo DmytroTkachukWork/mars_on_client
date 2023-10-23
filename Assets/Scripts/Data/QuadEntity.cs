@@ -34,7 +34,7 @@ public class QuadEntity
 
   public int getOriginDir( int dir )
   {
-    int count = (int)((curent_rotation / 90)%4);
+    int count = (int)((Mathf.RoundToInt(curent_rotation) / 90)%4);
     dir = MatrixHelper.inverse4( dir );
     return (((4 - count) % 4) + dir ) % 4;
   }
@@ -42,6 +42,30 @@ public class QuadEntity
   public List<int> getNextConections( int dir )
   {
     int[] conection_matrix = MatrixHelper.rotateQuadByAngle( MatrixHelper.getMatrix( connection_type ), curent_rotation );
+    List<int> next_dirs = new List<int>();
+
+    for ( int i = 0; i < 4; i++ )
+    {
+      if ( i == dir || conection_matrix[i] == 0 )
+        continue;
+
+      if ( dir > 4 )
+      {
+        next_dirs.Add( i );
+        continue;
+      }
+
+      if ( conection_matrix[i] != conection_matrix[dir] && role_type != QuadRoleType.STARTER )//0
+        continue;
+
+      next_dirs.Add( i );
+    }
+    return next_dirs;
+  }
+
+  public List<int> getLocalNextConections( int dir )
+  {
+    int[] conection_matrix = MatrixHelper.getMatrix( connection_type );
     List<int> next_dirs = new List<int>();
 
     for ( int i = 0; i < 4; i++ )

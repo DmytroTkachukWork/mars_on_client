@@ -11,6 +11,9 @@ public class ConectorController : MonoBehaviourPoolable
   #region Private Fields
   private QuadConectionType conection_type = QuadConectionType.NONE;
   private ConectorPipesController curent_conector_pipes_controller = null;
+  private bool is_painting_finished = false;
+  private Action<HashSet<Pipe>> cached_callback = null;
+  private HashSet<Pipe> cached_pipes = null;
   #endregion
 
   #region Public Fields
@@ -42,9 +45,17 @@ public class ConectorController : MonoBehaviourPoolable
       pair.conector_pipes_controller.deinit();
   }
 
-  public void paintConected( QuadResourceType resource_type, int origin_dir, HashSet<Pipe> next_pipes = null, Action<HashSet<Pipe>> callback = null )
+  public bool paintConected( QuadResourceType resource_type, int origin_dir, HashSet<Pipe> next_pipes = null, Action<HashSet<Pipe>> callback = null )
   {
-    curent_conector_pipes_controller.paintConectedCor( resource_type, origin_dir, next_pipes, callback );
+    cached_pipes = next_pipes;
+    cached_callback = callback;
+    is_painting_finished = false;
+    return curent_conector_pipes_controller.paintConectedCor( resource_type, origin_dir, onPaintFinished ) && next_pipes != null;
+  }
+
+  public bool isAlreadyPainted( QuadResourceType resource_type )
+  {
+    return is_painting_finished;
   }
 
   public override void onDespawn()
@@ -52,6 +63,14 @@ public class ConectorController : MonoBehaviourPoolable
     base.onDespawn();
 
     deinit();
+  }
+  #endregion
+
+  #region Private Methods
+  private void onPaintFinished()
+  {
+    is_painting_finished = true;
+    cached_callback?.Invoke( cached_pipes );
   }
   #endregion
 }

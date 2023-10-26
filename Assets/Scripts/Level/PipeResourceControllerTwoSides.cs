@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PipeResourceControllerTwoSides : PipeResourceController
 {
-  protected override IEnumerator fillCoroutine( int inner_dir, Action<HashSet<Pipe>> callback )
+  protected override IEnumerator fillCoroutine( int inner_dir, Action callback )
   {
     is_painting_in_progress = true;
     if ( inner_dir == 1 )
@@ -20,7 +20,7 @@ public class PipeResourceControllerTwoSides : PipeResourceController
     }
 
     is_painting_in_progress = false;
-    callback?.Invoke( cached_pipes );
+    callback?.Invoke();
 
     IEnumerator impl( int i )
     {

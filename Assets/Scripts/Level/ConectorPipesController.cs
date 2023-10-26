@@ -21,9 +21,9 @@ public class ConectorPipesController : MonoBehaviourBase
     pipe_resource_controller?.deinit();
   }
 
-  public void paintConectedCor( QuadResourceType resource_type, int inner_dir = 0, HashSet<Pipe> next_pipes = null, Action<HashSet<Pipe>> callback = null )
+  public bool paintConectedCor( QuadResourceType resource_type, int inner_dir = 0, Action callback = null )
   {
-    pipe_resource_controller.fillRecource( resource_type, inner_dir, next_pipes, callback );
+    return pipe_resource_controller.fillRecource( resource_type, inner_dir, callback );
   }
   #endregion
 }

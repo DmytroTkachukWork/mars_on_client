@@ -22,7 +22,7 @@ public class ScreenLoseUI : ScreenBaseUI
   {
     deinit();
 
-    exit_button.onClick += onDespawn;
+    exit_button.onClick += onExit;
     replay_button.onClick += replayLevel;
 
     StartCoroutine( blurScreenshot.takeScreenshot( background_raw_image, false ) );
@@ -34,7 +34,7 @@ public class ScreenLoseUI : ScreenBaseUI
 
   public void deinit()
   {
-    exit_button.onClick -= onDespawn;
+    exit_button.onClick -= onExit;
     replay_button.onClick -= replayLevel;
     tween_cor.stop();
     background_raw_image.color = Color.clear;
@@ -54,6 +54,13 @@ public class ScreenLoseUI : ScreenBaseUI
     spawnManager.despawnScreenUI( ScreenUIId.LEVEL );
     spawnManager.despawnScreenUI( ScreenUIId.LEVEL_LOSE );
     levelManager.restartLevel();
+  }
+
+  private void onExit()
+  {
+    cameraController.moveCameraToSectorFromLevel();
+    spawnManager.despawnScreenUI( ScreenUIId.LEVEL_LOSE );
+    spawnManager.getOrSpawnScreenUI( ScreenUIId.SECTOR );
   }
   #endregion
 }

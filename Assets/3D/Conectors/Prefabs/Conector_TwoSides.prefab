@@ -114,7 +114,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: a5a8c198388a53840bcba364c8b33212, type: 2}
     - target: {fileID: 7920447861008282748, guid: f66a96bed040b504e868a31e0a69f670, type: 3}
       propertyPath: m_CastShadows
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7920447861008282748, guid: f66a96bed040b504e868a31e0a69f670, type: 3}
       propertyPath: m_ReceiveShadows

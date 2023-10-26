@@ -5,21 +5,20 @@ using UnityEngine;
 
 public class PipeResourceControllerOneSide : PipeResourceController
 {
-  public override void fillRecource( QuadResourceType resource_type, int inner_dir = 0, HashSet<Pipe> next_pipes = null, Action<HashSet<Pipe>> callback = null )
+  public override bool fillRecource( QuadResourceType resource_type, int inner_dir = 0, Action callback = null )
   {
-    cached_pipes = next_pipes;
-
     if ( _resource_type == resource_type )
     {
       if ( !is_painting_in_progress )
-        callback?.Invoke( cached_pipes );
+        callback?.Invoke();
 
-      return;
+      return true;
     }
 
     _resource_type = resource_type;
 
     fill_cor = fill_cor.startCoroutineAndStopPrev( impl() );
+    return false;
 
     IEnumerator impl()
     {
@@ -35,7 +34,7 @@ public class PipeResourceControllerOneSide : PipeResourceController
       }
 
       is_painting_in_progress = false;
-      callback?.Invoke( cached_pipes );
+      callback?.Invoke();
     }
   }
 }

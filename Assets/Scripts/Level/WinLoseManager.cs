@@ -8,10 +8,12 @@ public class WinLoseManager : MonoBehaviourBase
   private LevelQuadMatrix level_quad_matrix = null;
   private int cached_steps_left = 0;
   private IEnumerator counter_cor = null;
+  private bool is_level_finished = false;
   #endregion
 
   #region Public Fields
   public event Action onLose = delegate{};
+  public bool isLevelFinished => is_level_finished;
   #endregion
 
 
@@ -24,11 +26,13 @@ public class WinLoseManager : MonoBehaviourBase
     if ( level_quad_matrix.lose_type == LevelLoseType.TIME_LEFT )
       countToZero();
 
+    is_level_finished = false;
   }
 
   public void deinit()
   {
     counter_cor.stop();
+    is_level_finished = true;
   }
 
   public void pauseLevel()
@@ -47,8 +51,11 @@ public class WinLoseManager : MonoBehaviourBase
     cached_steps_left += is_reverse ? 1 : -1;
     (spawnManager.getOrSpawnScreenUI( ScreenUIId.LEVEL ) as ScreenLevelUI ).updateStepsCount( cached_steps_left );
 
-    if ( cached_steps_left < 0 )
-      onLose.Invoke();
+    if ( cached_steps_left >= 0 )
+      return;
+
+    onLose.Invoke();
+    is_level_finished = true;
   }
   
   public ushort getCurentStepsCount()

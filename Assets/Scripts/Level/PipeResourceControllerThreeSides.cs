@@ -9,7 +9,7 @@ public class PipeResourceControllerThreeSides : PipeResourceController
   [SerializeField] protected Transform[] from_1_roots = null;
   [SerializeField] protected Transform[] from_3_roots = null;
 
-  protected override IEnumerator fillCoroutine( int inner_dir, Action<HashSet<Pipe>> callback )
+  protected override IEnumerator fillCoroutine( int inner_dir, Action callback )
   {
     is_painting_in_progress = true;
 
@@ -50,7 +50,7 @@ public class PipeResourceControllerThreeSides : PipeResourceController
     }
 
     is_painting_in_progress = false;
-    callback?.Invoke( cached_pipes );
+    callback?.Invoke();
 
     IEnumerator impl( Transform[] roots, int i )
     {

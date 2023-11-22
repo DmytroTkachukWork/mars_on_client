@@ -177,29 +177,23 @@ public class FieldManager : MonoBehaviourBase
     HashSet<Pipe> cached_pipes = new HashSet<Pipe>(){pipe_tree.starter_pipe};
     bool has_checked = false;
     stopCors();
+    win_lose_manager.pauseLevel();
 
-    pipe_tree.starter_pipe.controller.paintConected( pipe_tree.starter_pipe.pipe_resource, pipe_tree.starter_pipe.inner_dirs.FirstOrDefault(), pipe_tree.starter_pipe.children, paintMe );
+    pipe_tree.starter_pipe.controller.paintConected( pipe_tree.starter_pipe, pipe_tree.starter_pipe.pipe_resource, pipe_tree.starter_pipe.inner_dirs.FirstOrDefault(), pipe_tree.starter_pipe.children, paintMe );
 
     void paintMe( HashSet<Pipe> next_pipes_to_paint )
     {
       if ( next_pipes_to_paint == null )
-      {
-        onWaterFall();
         return;
-      }
 
       if ( next_pipes_to_paint.Count == 0 )
       {
         if ( has_checked )
-        {
-          onWaterFall();
           return;
-        }
 
         has_checked = true;
         stopCors();
         impl();
-        onWaterFall();
         return;
       }
 
@@ -213,8 +207,8 @@ public class FieldManager : MonoBehaviourBase
 
       foreach( Pipe pipe in next_pipes_to_paint )
       {
-        //pipe.controller.despawnWaterFalls();
-        IEnumerator cor = tweener.waitNoneAndDo( () => pipe.controller.paintConected( pipe.pipe_resource, pipe.inner_dirs.FirstOrDefault(), pipe.children, paintMe ) );
+        Debug.LogError( $"{pipe.hash} count - {pipe.inner_dirs.Count}" ); 
+        IEnumerator cor = tweener.waitFrameAndDo( () => pipe.controller.paintConected( pipe, pipe.pipe_resource, pipe.inner_dirs.FirstOrDefault(), pipe.children, paintMe ) );
         runing_cors.Add( cor );
         cor.start();
       }
@@ -231,27 +225,10 @@ public class FieldManager : MonoBehaviourBase
     void stopCors()
     {
       foreach( IEnumerator cor in runing_cors )
-      cor?.stop();
+        cor?.stop();
 
       runing_cors.Clear();
-    }
-
-    void onWaterFall()
-    {
-      if ( cached_pipes == null )
-        return;
-
-      foreach ( Pipe pipe in cached_pipes )
-      {
-        int inner_dir = pipe.inner_dirs.FirstOrDefault();
-
-        foreach( int dir in pipe.quad.getLocalNextConections( inner_dir ) )
-        {
-          float angle = 90.0f * dir;
-          Vector3 rotation = new Vector3( 0.0f, angle, 0.0f );
-          pipe.controller.spawnWaterfall( Quaternion.Euler( rotation ) );
-        }
-      }
+      win_lose_manager.resumeLevel();
     }
   }
 

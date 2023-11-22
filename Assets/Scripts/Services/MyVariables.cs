@@ -6,6 +6,7 @@ public class MyVariables : MonoBehaviourService<MyVariables>
   [SerializeField] public float CAMERA_TELEPORT_TIME = 0.01f;
   [SerializeField] public float CAMERA_ROTATE_TIME = 0.6f;
   [SerializeField] public float CAMERA_CONFIG_APPLY_TIME = 0.6f;
+  [SerializeField] public float CAMERA_CONFIG_APPLY_FOG_TIME = 0.6f;
   [SerializeField] public float CAMERA_SECTOR_START_TELEPORT_DISTANCE = -10.0f;
   [SerializeField] public float CAMERA_LEVEL_START_TELEPORT_DISTANCE = -10.0f;
   [SerializeField] public float QUAD_DISTANCE = 1.15f;

@@ -147,7 +147,7 @@ public class PathFinder
         if ( next_pipe.inner_dirs.Contains( next_entity.getOriginDir( dir ) ) )
           continue;
 
-        curent_pipe.addChildren( next_pipe );
+        curent_pipe.addChildren( next_pipe, dir );
         if ( next_entity.connection_type == QuadConectionType.LONG_CORNER )
           moveNext( dir, vector_dir.x + x, vector_dir.y + y, resource_type );
         else if ( checked_entities.Add( next_entity ) )
@@ -211,7 +211,7 @@ public class PathFinder
         if ( next_pipe.inner_dirs.Contains( next_entity.getOriginDir( dir ) ) )
           continue;
 
-        curent_pipe.addChildren( next_pipe );
+        curent_pipe.addChildren( next_pipe, curent_quad_entity.getLocalDir( dir ) );
 
         if ( checked_entities.Add( next_entity ) )
           tree_executor.addAction( () => moveNext( dir, vector_dir.x + x, vector_dir.y + y, resource_type ) );
@@ -288,15 +288,19 @@ public class Pipe
   public bool is_pained = false;
   public QuadResourceType pipe_resource = QuadResourceType.NONE;
   public List<int> inner_dirs = new List<int>();
+  public Dictionary<int, Pipe> dir_children = new Dictionary<int, Pipe>();
+  public int hash = 0; 
   
   public Pipe( QuadEntity quad )
   {
     this.quad = quad;
+    hash = (1000 * (int)quad.connection_type)+ Random.Range(0, 999);
   }
 
-  public void addChildren( Pipe child )
+  public void addChildren( Pipe child, int dir )
   {
     children.Add( child );
     child.ancestors.Add( this );
+    dir_children.Add( dir, child );
   }
 }

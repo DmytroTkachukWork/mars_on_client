@@ -122,6 +122,12 @@ public class Tweener : MonoBehaviourService<Tweener>
     func?.Invoke();
   }
 
+  public IEnumerator doAndWaitFrame( Action func )
+  {
+    func?.Invoke();
+    yield return null;
+  }
+
   public IEnumerator waitNoneAndDo( Action func )
   {
     if ( false )

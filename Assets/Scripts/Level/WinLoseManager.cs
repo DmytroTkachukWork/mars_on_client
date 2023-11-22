@@ -42,8 +42,14 @@ public class WinLoseManager : MonoBehaviourBase
 
   public void resumeLevel()
   {
+    if ( level_quad_matrix == null )
+      return;
+
     if ( level_quad_matrix.lose_type == LevelLoseType.TIME_LEFT )
+    {
+      counter_cor.stop();
       countToZero();
+    }
   }
 
   public void onBeginRotate( bool is_reverse )

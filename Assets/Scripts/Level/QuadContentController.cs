@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class QuadContentController : MonoBehaviourPoolable
@@ -12,6 +13,7 @@ public class QuadContentController : MonoBehaviourPoolable
   #region Private Fields
   protected ConectorController conector_controller = null;
   protected List<WaterFallController> spawnedWaterfalls = new List<WaterFallController>();
+  protected Dictionary<int, WaterFallController> dir_waterfall = new Dictionary<int, WaterFallController>();
   #endregion
 
   #region Public Fields
@@ -62,7 +64,7 @@ public class QuadContentController : MonoBehaviourPoolable
     movement_controller.rotateOverTime( true );
   }
 
-  public virtual void paintConected( QuadResourceType resource_type = QuadResourceType.NONE, int origin_dir = 0, HashSet<Pipe> next_pipes = null, Action<HashSet<Pipe>> callback = null )
+  public virtual void paintConected( Pipe pipe = null, QuadResourceType resource_type = QuadResourceType.NONE, int origin_dir = 0, HashSet<Pipe> next_pipes = null, Action<HashSet<Pipe>> callback = null )
   {
     if ( resource_type == QuadResourceType.NONE )
       despawnWaterFalls();
@@ -70,15 +72,23 @@ public class QuadContentController : MonoBehaviourPoolable
     if ( next_pipes?.Count != 0 )
       despawnWaterFalls();
 
+    calcWaterfall( pipe );
+
     conector_controller.paintConected( resource_type, origin_dir, next_pipes, callback );
   }
 
-  public void spawnWaterfall( Quaternion rotation )
+  public void spawnWaterfall( int dir )
   {
-    if ( spawnedWaterfalls.Count > 0 )
-      return; //tmp
-    WaterFallController new_waterfall = spawnManager.spawnWaterFall( conectorRoot, rotation );
+    if ( dir_waterfall.ContainsKey( dir ) )
+      return;
+
+    float angle = 90.0f * dir;
+    Vector3 rotation = new Vector3( 0.0f, angle, 0.0f );
+
+    WaterFallController new_waterfall = spawnManager.spawnWaterFall( conectorRoot, Quaternion.Euler( rotation )  );
+
     spawnedWaterfalls.Add( new_waterfall );
+    dir_waterfall.Add( dir, new_waterfall );
   }
 
   public void despawnWaterFalls()
@@ -87,6 +97,7 @@ public class QuadContentController : MonoBehaviourPoolable
       waterfall.despawn();
 
     spawnedWaterfalls.Clear();
+    dir_waterfall.Clear();
   }
 
   public override void onDespawn()
@@ -107,6 +118,24 @@ public class QuadContentController : MonoBehaviourPoolable
   private void onRotateHandle()
   {
     onRotate.Invoke();
+  }
+
+  private void calcWaterfall( Pipe pipe )
+  {
+    if ( pipe == null )
+      return;
+
+    int inner_dir = pipe.inner_dirs.FirstOrDefault();
+
+    foreach( int dir in pipe.quad.getLocalNextConections( inner_dir ) )
+    {
+      if ( pipe.dir_children.ContainsKey( dir ) )
+        continue;
+
+      float angle = 90.0f * dir;
+      Vector3 rotation = new Vector3( 0.0f, angle, 0.0f );
+      spawnWaterfall( dir );
+    }
   }
   #endregion
 }

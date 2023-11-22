@@ -30,6 +30,7 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
     main_camera.transform.SetParent( curent_planet_controller.cameraContainer.cameraRoot );
     main_camera.transform.localPosition = Vector3.zero;
     main_camera.transform.localRotation = Quaternion.identity;
+    main_camera.depthTextureMode = DepthTextureMode.DepthNormals;
     applyCameraConfigs( LocationType.PLANET );
   }
 
@@ -331,18 +332,18 @@ public class GlobalCameraController : MonoBehaviourService<GlobalCameraControlle
         ( value ) => RenderSettings.fogStartDistance = value
       , RenderSettings.fogStartDistance
       , cached_configs.fogStartDistance
-      , my_variables.CAMERA_CONFIG_APPLY_TIME
+      , my_variables.CAMERA_CONFIG_APPLY_FOG_TIME
       , null
-      , CurveType.EASE_IN_OUT
+      , CurveType.EASE_OUT
     ).start();
 
     tweener.tweenFloat(
         ( value ) => RenderSettings.fogEndDistance = value
       , RenderSettings.fogEndDistance
       , cached_configs.fogEndDistance
-      , my_variables.CAMERA_CONFIG_APPLY_TIME
+      , my_variables.CAMERA_CONFIG_APPLY_FOG_TIME
       , null
-      , CurveType.EASE_IN_OUT
+      , CurveType.EASE_OUT
     ).start();
 
     tweener.tweenColor(

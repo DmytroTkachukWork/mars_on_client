@@ -39,6 +39,12 @@ public class QuadEntity
     return (((4 - count) % 4) + dir ) % 4;
   }
 
+  public int getLocalDir( int dir )
+  {
+    int count = (int)((Mathf.RoundToInt(curent_rotation) / 90)%4);
+    return (4 + (dir - count)) % 4;
+  }
+
   public List<int> getNextConections( int dir )
   {
     int[] conection_matrix = MatrixHelper.rotateQuadByAngle( MatrixHelper.getMatrix( connection_type ), curent_rotation );

@@ -9,7 +9,7 @@ PrefabInstance:
     m_TransformParent: {fileID: 3277623685345247638}
     m_Modifications:
     - target: {fileID: 101924165484975996, guid: 063460d98f4965a4daaf54a11630b4b0, type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 505dae49c347429478a775f24b37a9df, type: 2}
     - target: {fileID: 5971125705872271935, guid: 063460d98f4965a4daaf54a11630b4b0, type: 3}
@@ -176,15 +176,15 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 196453022154026440, guid: b374f2b252065ee4eaf397a5e70650dd, type: 3}
-      propertyPath: level_controllers.Array.data[0]
+      propertyPath: 'level_controllers.Array.data[0]'
       value: 
       objectReference: {fileID: 1776143294966345375}
     - target: {fileID: 196453022154026440, guid: b374f2b252065ee4eaf397a5e70650dd, type: 3}
-      propertyPath: level_controllers.Array.data[1]
+      propertyPath: 'level_controllers.Array.data[1]'
       value: 
       objectReference: {fileID: 1237803247838460061}
     - target: {fileID: 196453022154026440, guid: b374f2b252065ee4eaf397a5e70650dd, type: 3}
-      propertyPath: level_controllers.Array.data[2]
+      propertyPath: 'level_controllers.Array.data[2]'
       value: 
       objectReference: {fileID: 1504918315538578962}
     - target: {fileID: 6981804506913701034, guid: b374f2b252065ee4eaf397a5e70650dd, type: 3}
@@ -521,10 +521,6 @@ PrefabInstance:
     - target: {fileID: 6615770733895284030, guid: d6338d020b02da943ab54580ced9a9d6, type: 3}
       propertyPath: m_Name
       value: Level_1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7169914806124698073, guid: d6338d020b02da943ab54580ced9a9d6, type: 3}
-      propertyPath: m_RootOrder
-      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 7169914806124698073, guid: d6338d020b02da943ab54580ced9a9d6, type: 3}
       propertyPath: m_LocalPosition.x
